@@ -1,6 +1,6 @@
 package top.whitecola.promodule.utils;
 
-import static top.whitecola.kateclient.utils.MCWrapper.mc;
+import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class ServerInfoUtils {
     public static boolean checkHypixel(){

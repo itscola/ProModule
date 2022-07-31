@@ -1,4 +1,4 @@
-package top.whitecola.kateclient.injection.wrappers;
+package top.whitecola.promodule.injection.wrappers;
 
 import top.whitecola.animationlib.Animation;
 

@@ -5,7 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
-import static top.whitecola.kateclient.utils.MCWrapper.*;
+import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class ParticleUtils {
 

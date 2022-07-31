@@ -5,8 +5,7 @@ import net.minecraft.client.gui.GuiKeyBindingList;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
-
-import static top.whitecola.kateclient.utils.MCWrapper.mc;
+import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class PlayerSPUtils {
     public static boolean isMoving() {

@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
+import top.whitecola.promodule.fonts.FontUtil;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 
@@ -23,7 +24,9 @@ public class ProModule {
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        FontUtil.bootstrap();
         registerEvent();
+        registerKeyBinds();
     }
 
     public void registerEvent(){

@@ -1,4 +1,4 @@
-package top.whitecola.kateclient.injection.wrappers;
+package top.whitecola.promodule.injection.wrappers;
 
 import net.minecraft.client.gui.ChatLine;
 
