@@ -1,0 +1,239 @@
+package top.whitecola.promodule.modules;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.gui.widgets.AbstractWidget;
+import top.whitecola.promodule.utils.ClientUtils;
+
+import java.util.Vector;
+
+public class AbstractModule implements IModule{
+    Vector<ModuleOption> options = new Vector<ModuleOption>();
+    protected boolean enabled;
+    protected AbstractWidget widget;
+
+
+
+    @Override
+    public void onTick() {
+
+    }
+
+    @Override
+    public void onRender2D(RenderWorldLastEvent e) {
+
+    }
+
+    @Override
+    public void onRender(TickEvent.RenderTickEvent e) {
+
+    }
+
+    @Override
+    public void onRenderOverLay(RenderGameOverlayEvent event) {
+
+    }
+
+    @Override
+    public void onEntityJoinWorld(EntityJoinWorldEvent e) {
+
+    }
+
+
+    @Override
+    public void onEnable() {
+        ClientUtils.sendAClientMessage(this.getModuleName(),"");
+    }
+
+    @Override
+    public void onDisable() {
+        ClientUtils.sendAClientMessage(this.getModuleName(),"");
+    }
+
+    @Override
+    public void enable() {
+        this.enabled = true;
+        onEnable();
+    }
+
+    @Override
+    public void disable() {
+        this.enabled = false;
+        onDisable();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public void renderGameOverlayRETURN() {
+
+    }
+
+    @Override
+    public void addOption(ModuleOption option) {
+        options.add(option);
+    }
+
+    @Override
+    public void removeOption(ModuleOption option) {
+        options.remove(option);
+    }
+
+    @Override
+    public ModuleCategory getModuleType() {
+        return null;
+    }
+
+    @Override
+    public String getModuleName() {
+        return "";
+    }
+
+    @Override
+    public void optionEnable(String optionName) {
+//        getOptionByName(optionName).
+    }
+
+    @Override
+    public void optionDisable(String optionName) {
+
+    }
+
+
+
+
+
+    public ModuleOption getOptionByName(String optionName) {
+
+        return null;
+    }
+
+    @Override
+    public void onAttackEntity(AttackEntityEvent e) {
+
+    }
+
+    @Override
+    public void onWordRender(RenderWorldEvent e) {
+
+    }
+
+    @Override
+    public void onLoginIn(FMLNetworkEvent.ClientConnectedToServerEvent e) {
+
+    }
+
+    @Override
+    public void onLoginOut(FMLNetworkEvent.ClientDisconnectionFromServerEvent e) {
+
+    }
+
+    @Override
+    public void onChatReceive(ClientChatReceivedEvent e) {
+
+    }
+
+    @Override
+    public void removeWidget(AbstractWidget widget) {
+        ProModule.getProModule().getWidgetManager().removeWidget(widget);
+    }
+
+    @Override
+    public void addWidget(AbstractWidget widget) {
+        ProModule.getProModule().getWidgetManager().addWidget(widget);
+
+    }
+
+
+    @Override
+    public void onLivingHurt(LivingHurtEvent e) {
+
+    }
+
+    public void setWidget(AbstractWidget widget) {
+        this.widget = widget;
+    }
+
+    public AbstractWidget getWidget() {
+        return widget;
+    }
+
+    @Override
+    public String getDescription() {
+        return "";
+    }
+
+    @Override
+    public void onLivingAttack(LivingAttackEvent e) {
+
+    }
+
+
+
+    @Override
+    public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
+
+    }
+
+    @Override
+    public void onPlayerInteract(PlayerInteractEvent e) {
+
+    }
+
+    @Override
+    public void onPlayerClickBlock(BlockPos p_clickBlock_1_, EnumFacing p_clickBlock_2_) {
+
+    }
+
+    @Override
+    public void onRenderPlayer(RenderPlayerEvent.Post e) {
+
+    }
+
+    @Override
+    public void onRenderOverLayPre(RenderGameOverlayEvent.Pre event) {
+
+    }
+
+    @Override
+    public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
+
+    }
+
+
+    public Vector<ModuleOption> getOptions() {
+        return options;
+    }
+
+    public void setOptions(Vector<ModuleOption> options) {
+        this.options = options;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        if(enabled){
+            onEnable();
+        }else{
+            onDisable();
+        }
+    }
+
+
+}
