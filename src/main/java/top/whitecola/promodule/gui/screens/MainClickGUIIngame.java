@@ -1,11 +1,8 @@
 package top.whitecola.promodule.gui.screens;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
-import top.whitecola.promodule.fonts.font.CustomFont;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.UICache;
 import top.whitecola.promodule.utils.GUIUtils;
