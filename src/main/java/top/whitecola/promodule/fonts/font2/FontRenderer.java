@@ -816,37 +816,8 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
         if (text == null) {
             return 0;
         } else {
-//            float f = 0.0F;
-//            boolean flag = false;
-
             return this.stringCache.getStringWidth(text);
-//            for (int i = 0; i < text.length(); ++i) {
-//                char c0 = text.charAt(i);
-//                float f1 = this.getCharWidthFloat(c0);
-//
-//                if (f1 < 0.0F && i < text.length() - 1) {
-//                    ++i;
-//                    c0 = text.charAt(i);
-//
-//                    if (c0 != 108 && c0 != 76) {
-//                        if (c0 == 114 || c0 == 82) {
-//                            flag = false;
-//                        }
-//                    } else {
-//                        flag = true;
-//                    }
-//
-//                    f1 = 0.0F;
-//                }
-//
-//                f += f1;
-//
-//                if (flag && f1 > 0.0F) {
-//                    f += this.unicodeFlag ? 1.0F : this.offsetBold;
-//                }
-//            }
 
-//            return Math.round(f);
         }
     }
 

@@ -52,4 +52,9 @@ public class ProModule {
     public WidgetManager getWidgetManager() {
         return widgetManager;
     }
+
+
+    public ModuleManager getModuleManager() {
+        return moduleManager;
+    }
 }

@@ -1,0 +1,35 @@
+package top.whitecola.promodule.gui.components.clickables.buttons;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.client.gui.GuiButton;
+import top.whitecola.promodule.fonts.font2.FontLoaders;
+
+import java.awt.*;
+
+public class LabelButton extends GuiButton {
+    protected Color color;
+
+    private LabelButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText,Color color) {
+        super(buttonId, x, y, widthIn, heightIn, buttonText);
+        this.color = color;
+    }
+
+    public LabelButton(int buttonId, int x, int y, String buttonText,Color textColor){
+        this(buttonId, x, y,FontLoaders.msFont18.getStringWidth(buttonText), 20, buttonText,textColor);
+    }
+
+    @Override
+    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        FontLoaders.msFont18.drawString(displayString,xPosition, yPosition,color.getRGB(),false);
+        super.drawButton(mc, mouseX, mouseY);
+
+    }
+
+
+    @Override
+    public void playPressSound(SoundHandler p_playPressSound_1_) {
+        super.playPressSound(p_playPressSound_1_);
+    }
+
+}
