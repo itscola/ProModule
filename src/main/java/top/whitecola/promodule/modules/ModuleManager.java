@@ -39,6 +39,14 @@ public class ModuleManager {
         return modules;
     }
 
-
+    public Vector<AbstractModule> getModulesByType(ModuleCategory type){
+        Vector<AbstractModule> theModules = new Vector<AbstractModule>();
+        for(AbstractModule module : modules){
+            if(module.getModuleType().equals(type)){
+                theModules.add(module);
+            }
+        }
+        return theModules;
+    }
 
 }

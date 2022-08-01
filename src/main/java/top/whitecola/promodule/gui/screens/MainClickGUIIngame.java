@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 import top.whitecola.promodule.fonts.font.CustomFont;
+import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.UICache;
 import top.whitecola.promodule.utils.GUIUtils;
 import top.whitecola.promodule.utils.Render2DUtils;
@@ -32,6 +33,7 @@ public class MainClickGUIIngame extends GuiScreen {
     protected Color titleColor = new Color(0, 0, 0);
     protected Color barColor = new Color(189, 189, 189);
     protected Color githubColor = new Color(50, 50, 50);
+    protected Color textColor = new Color(64, 45, 45);
 
 
     public MainClickGUIIngame(){
@@ -73,14 +75,15 @@ public class MainClickGUIIngame extends GuiScreen {
         //title
 //        FontRenderer fontRenderer = mc.fontRendererObj;
 //        fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+7,titleColor.getRGB());
-        CustomFont.getCustomFont().fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB(),false);
+//        CustomFont.getCustomFont().fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB(),false);
+        FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB());
 
         //middle
         Render2DUtils.drawRoundedRect2(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20, 8,this.barColor.getRGB());
 
         //github
         Render2DUtils.drawRoundedRect2(this.xPosition, this.yPosition+height/1.3f+18, this.xPosition + (this.width)/4f, this.yPosition + this.height, round,this.githubColor.getRGB());
-        CustomFont.getCustomFont().fontRenderer.drawString("Github",this.xPosition+20, this.yPosition+height/1.3f+25,mainColor.getRGB(),false);
+        FontLoaders.msFont18.drawString("Github",this.xPosition+23, this.yPosition+height/1.3f+28,mainColor.getRGB(),false);
 
 
         //right
@@ -91,6 +94,9 @@ public class MainClickGUIIngame extends GuiScreen {
         for(int i=0;i<6;i++){
             float yRange = this.height/7 * i +26;
             Render2DUtils.drawRoundedRect2(this.xPosition + width/3.8f, this.yPosition+yRange, this.xPosition + (this.width)/1.39f-6, this.yPosition + 24+yRange, 3,this.mainColor.getRGB());
+//            FontRenderer fontRenderer = mc.fontRendererObj;
+//            fontRenderer.drawString("Reach",(int)(this.xPosition + width/3.8f)+19, (int)(this.yPosition+yRange)+8,textColor.getRGB());
+            FontLoaders.msFont18.drawString("Reach",(this.xPosition + width/3.8f)+9, (this.yPosition+yRange)+8,textColor.getRGB(),false);
         }
 
 

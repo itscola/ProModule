@@ -1,6 +1,5 @@
 package top.whitecola.promodule;
 
-import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -8,9 +7,9 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
-import top.whitecola.promodule.fonts.FontUtil;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
+import top.whitecola.promodule.modules.ModuleManager;
 
 @Mod(modid = ProModule.MODID, version = ProModule.VERSION)
 public class ProModule {
@@ -21,12 +20,13 @@ public class ProModule {
     }
     private EventManager eventManager;
     private WidgetManager widgetManager = new WidgetManager();
+    private ModuleManager moduleManager = new ModuleManager();
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        FontUtil.bootstrap();
         registerEvent();
         registerKeyBinds();
+        registerModules();
     }
 
     public void registerEvent(){
@@ -36,6 +36,10 @@ public class ProModule {
 
     public void registerKeyBinds(){
         ClientRegistry.registerKeyBinding(MainMenuInGameKeybind.getInstance());
+
+    }
+
+    public void registerModules(){
 
     }
 
