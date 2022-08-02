@@ -7,9 +7,11 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
+import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 import top.whitecola.promodule.modules.ModuleManager;
+import top.whitecola.promodule.modules.impls.render.*;
 
 @Mod(modid = ProModule.MODID, version = ProModule.VERSION)
 public class ProModule {
@@ -24,6 +26,7 @@ public class ProModule {
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        FontLoaders.loadAllFonts();
         registerEvent();
         registerKeyBinds();
         registerModules();
@@ -40,6 +43,16 @@ public class ProModule {
     }
 
     public void registerModules(){
+        //render
+        getModuleManager().addModule(new Chams());
+        getModuleManager().addModule(new FullBright());
+        getModuleManager().addModule(new OldAnimation());
+        getModuleManager().addModule(new DamageBlood());
+        getModuleManager().addModule(new NoFov());
+        getModuleManager().addModule(new ItemPhysic());
+        getModuleManager().addModule(new DamageColor());
+        getModuleManager().addModule(new TargetHud());
+
 
     }
 

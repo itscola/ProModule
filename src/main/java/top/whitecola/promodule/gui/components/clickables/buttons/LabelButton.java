@@ -8,7 +8,7 @@ import top.whitecola.promodule.fonts.font2.FontLoaders;
 import java.awt.*;
 
 public class LabelButton extends GuiButton {
-    protected Color color;
+    public Color color;
 
     private LabelButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText,Color color) {
         super(buttonId, x, y, widthIn, heightIn, buttonText);
@@ -16,13 +16,13 @@ public class LabelButton extends GuiButton {
     }
 
     public LabelButton(int buttonId, int x, int y, String buttonText,Color textColor){
-        this(buttonId, x, y,FontLoaders.msFont18.getStringWidth(buttonText), 20, buttonText,textColor);
+        this(buttonId, x, y,FontLoaders.msFont18.getStringWidth(buttonText), 8, buttonText,textColor);
     }
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         FontLoaders.msFont18.drawString(displayString,xPosition, yPosition,color.getRGB(),false);
-        super.drawButton(mc, mouseX, mouseY);
+//        super.drawButton(mc, mouseX, mouseY);
 
     }
 

@@ -20,12 +20,19 @@ public class FontLoaders {
 //    public static FontRenderer arial22 = getArial(22, true);
 //    public static FontRenderer arial24 = getArial(24, true);
 
-    public static FontRenderer msFont14 = getSyyh(18, true);
-    public static FontRenderer msFont18 = getSyyh(18, true);
-    public static FontRenderer msFont19 = getSyyh(19, true);
-    public static FontRenderer msFont36 = getSyyh(36, true);
-    public static FontRenderer msFont72 = getSyyh(72, true);
+    public static FontRenderer msFont14;
+    public static FontRenderer msFont18;
+    public static FontRenderer msFont19;
+    public static FontRenderer msFont36;
+    public static FontRenderer msFont72;
 
+    public static void loadAllFonts(){
+        msFont14 = getSyyh(18, true);
+        msFont18 = getSyyh(18, true);
+        msFont19 = getSyyh(19, true);
+        msFont36 = getSyyh(36, true);
+        msFont72 = getSyyh(72, true);
+    }
 
     public static FontRenderer getSyyh(int size, boolean antiAlias) {
         Font font;
