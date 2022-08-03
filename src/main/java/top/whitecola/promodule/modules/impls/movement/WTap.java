@@ -1,4 +1,6 @@
 package top.whitecola.promodule.modules.impls.movement;
 
-public class WTap {
+import top.whitecola.promodule.modules.AbstractModule;
+
+public class WTap extends AbstractModule {
 }

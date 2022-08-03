@@ -6,11 +6,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import top.whitecola.promodule.events.EventManager;
+import top.whitecola.promodule.events.impls.EventToInvokeModules;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 import top.whitecola.promodule.modules.ModuleManager;
+import top.whitecola.promodule.modules.impls.combat.*;
+import top.whitecola.promodule.modules.impls.movement.Eagle;
+import top.whitecola.promodule.modules.impls.movement.WTap;
 import top.whitecola.promodule.modules.impls.render.*;
 
 @Mod(modid = ProModule.MODID, version = ProModule.VERSION)
@@ -35,6 +39,7 @@ public class ProModule {
     public void registerEvent(){
         MinecraftForge.EVENT_BUS.register(eventManager = EventManager.getEventManager());
         EventManager.getEventManager().addEvent(new MainMenuEvent());
+        EventManager.getEventManager().addEvent(new EventToInvokeModules());
     }
 
     public void registerKeyBinds(){
@@ -52,6 +57,17 @@ public class ProModule {
         getModuleManager().addModule(new ItemPhysic());
         getModuleManager().addModule(new DamageColor());
         getModuleManager().addModule(new TargetHud());
+
+        //combat
+        getModuleManager().addModule(new AutoClicker());
+        getModuleManager().addModule(new Reach());
+        getModuleManager().addModule(new Velocity());
+        getModuleManager().addModule(new KeepSprint());
+        getModuleManager().addModule(new AntiBot());
+
+        //movement
+        getModuleManager().addModule(new Eagle());
+        getModuleManager().addModule(new WTap());
 
 
     }

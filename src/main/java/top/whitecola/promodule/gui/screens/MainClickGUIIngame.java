@@ -257,6 +257,9 @@ public class MainClickGUIIngame extends GuiScreen {
 
         for(ClickGUIEntry entry : entries){
             if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)){
+                if(mouseY<yPosition +24|| mouseY>yPosition+height){
+                    continue;
+                }
                 entry.toggle();
                 playButtonSound();
             }
@@ -283,14 +286,20 @@ public class MainClickGUIIngame extends GuiScreen {
 
         if(combatLabel.id==UICache.selectedSubtitle){
             combatLabel.color = subColor;
+            loadEntriesByCategory(ModuleCategory.COMBAT);
         }else if(movementLabel.id==UICache.selectedSubtitle){
             movementLabel.color = subColor;
+            loadEntriesByCategory(ModuleCategory.MOVEMENT);
         }else if(renderLabel.id==UICache.selectedSubtitle){
             renderLabel.color = subColor;
+            loadEntriesByCategory(ModuleCategory.RENDERS);
         }else if(worldLabel.id==UICache.selectedSubtitle){
             worldLabel.color = subColor;
+            loadEntriesByCategory(ModuleCategory.WORLD);
         }else if(miscLabel.id==UICache.selectedSubtitle){
             miscLabel.color = subColor;
+            loadEntriesByCategory(ModuleCategory.OTHER);
+
         }
     }
 

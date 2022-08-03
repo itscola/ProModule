@@ -1,5 +1,5 @@
 package top.whitecola.promodule.modules;
 
 public enum ModuleCategory {
-    GAME,MOVEMENT,RENDERS,SERVER,SOUND,VISUAL,DEBUG
+    COMBAT,MOVEMENT,RENDERS,WORLD,OTHER,DEBUG
 }
