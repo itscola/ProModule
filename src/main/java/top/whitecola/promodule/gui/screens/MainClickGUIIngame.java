@@ -320,13 +320,14 @@ public class MainClickGUIIngame extends GuiScreen {
 //        for(AbstractModule module: modules){
 //            addEntrie(new ClickGUIEntry().fromModule(module));
 //        }
-        loadEntriesByCategory(ModuleCategory.RENDERS);
+        loadEntriesByCategory(ModuleCategory.COMBAT);
     }
 
     public void loadEntriesByCategory(ModuleCategory category){
         clearEntries();
         Vector<AbstractModule> modules = ProModule.getProModule().getModuleManager().getModules();
         for(AbstractModule module: modules){
+            if(module==null) continue;
             if(module.getModuleType().equals(category)) {
                 addEntrie(new ClickGUIEntry().fromModule(module));
             }

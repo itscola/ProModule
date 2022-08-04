@@ -98,12 +98,12 @@ public class AbstractModule implements IModule{
 
     @Override
     public ModuleCategory getModuleType() {
-        return null;
+        return ModuleCategory.COMBAT;
     }
 
     @Override
     public String getModuleName() {
-        return "";
+        return "Null";
     }
 
     @Override
@@ -214,6 +214,11 @@ public class AbstractModule implements IModule{
 
     @Override
     public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
+
+    }
+
+    @Override
+    public void onModuleSettingChanged(String name) {
 
     }
 
