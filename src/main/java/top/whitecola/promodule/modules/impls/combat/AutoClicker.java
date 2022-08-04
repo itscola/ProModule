@@ -16,10 +16,10 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 public class AutoClicker extends AbstractModule {
 
     @ModuleSetting(name = "MinCPS")
-    public Float minCPS = 8f;
+    public Float minCPS = 10f;
 
     @ModuleSetting(name = "MaxCPS")
-    public Float maxCPS = 15f;
+    public Float maxCPS = 18f;
 
     @ModuleSetting(name = "OnlySwordAndTools")
     public Boolean onlySwordAndTools = false;
@@ -61,7 +61,7 @@ public class AutoClicker extends AbstractModule {
             }
 
             this.leftLastSwing = System.currentTimeMillis();
-            delay = (int) RandomUtils.nextFloat(1000f/minCPS,1000f/maxCPS);
+            delay = (int) RandomUtils.nextDouble(1000f/minCPS,1000f/maxCPS);
             if (mc.objectMouseOver.entityHit != null) {
                 sendLeftClick(true);
                 sendLeftClick(false);
@@ -73,6 +73,7 @@ public class AutoClicker extends AbstractModule {
         }
 
         super.onTick();
+
     }
 
     @Override

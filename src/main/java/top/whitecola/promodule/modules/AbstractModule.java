@@ -16,9 +16,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 import top.whitecola.promodule.utils.ClientUtils;
 
+import java.lang.reflect.Field;
 import java.util.Vector;
 
 public class AbstractModule implements IModule{
@@ -241,4 +243,19 @@ public class AbstractModule implements IModule{
     }
 
 
+    public Object getSetting(String name){
+        Field[] fields = this.getClass().getFields();
+        for(Field field : fields){
+            if(field.isAnnotationPresent(ModuleSetting.class)){
+                if(field.getAnnotation(ModuleSetting.class).name().equalsIgnoreCase(name)){
+                    try {
+                        return field.get(this);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

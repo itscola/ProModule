@@ -1,4 +1,4 @@
-package top.whitecola.kateclient.injection;
+package top.whitecola.promodule.injection;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixins;
 import java.util.Map;
 
 @IFMLLoadingPlugin.MCVersion(value = "1.8.9")
-@IFMLLoadingPlugin.Name("KateClient")
+@IFMLLoadingPlugin.Name("ProModule")
 public class MixinLoader implements IFMLLoadingPlugin {
 
     @Override
@@ -29,7 +29,7 @@ public class MixinLoader implements IFMLLoadingPlugin {
     @Override
     public void injectData(Map<String, Object> data) {
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.kateclient.json");
+        Mixins.addConfiguration("mixins.promodule.json");
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
     }
 

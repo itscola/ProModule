@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 public class RandomUtils {
     private static final SecureRandom random = new SecureRandom();
 
-    public static float nextFloat(float min,float max){
-        return min+ random.nextFloat()*(max-min+1);
+    public static double nextDouble(double min,double max){
+        return  max + (min - max) * random.nextDouble();
     }
 }

@@ -24,7 +24,7 @@ public class ProModule {
     private static ProModule proModule = null; {
         proModule = this;
     }
-    private EventManager eventManager;
+    private EventManager eventManager = EventManager.getEventManager();
     private WidgetManager widgetManager = new WidgetManager();
     private ModuleManager moduleManager = new ModuleManager();
     
@@ -37,7 +37,7 @@ public class ProModule {
     }
 
     public void registerEvent(){
-        MinecraftForge.EVENT_BUS.register(eventManager = EventManager.getEventManager());
+        MinecraftForge.EVENT_BUS.register(eventManager);
         EventManager.getEventManager().addEvent(new MainMenuEvent());
         EventManager.getEventManager().addEvent(new EventToInvokeModules());
     }
