@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.whitecola.promodule.events.impls.PacketReceivedEvent;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 
 public interface IModule {
@@ -89,4 +90,5 @@ public interface IModule {
     void onRender3D(int pass, float partialTicks, long finishTimeNano);
 
     void onModuleSettingChanged(String name);
+    void packetReceivedEvent(PacketReceivedEvent e);
 }

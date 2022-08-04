@@ -3,6 +3,8 @@ package top.whitecola.promodule.events;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
@@ -20,6 +22,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.whitecola.promodule.events.impls.PacketReceivedEvent;
 
 public abstract class EventAdapter {
     private final String id;
@@ -136,5 +139,10 @@ public abstract class EventAdapter {
     public void onRender3D(int pass, float partialTicks, long finishTimeNano){
 
     }
+
+    public void packetReceivedEvent(PacketReceivedEvent e){
+
+    }
+
 
 }

@@ -226,4 +226,14 @@ public class EventToInvokeModules extends EventAdapter {
 
         super.onRenderOverLayPre(e);
     }
+
+    @Override
+    public void packetReceivedEvent(PacketReceivedEvent e) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.packetReceivedEvent(e);
+        }
+        super.packetReceivedEvent(e);
+    }
 }

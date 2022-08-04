@@ -64,6 +64,8 @@ public class ProModule {
         getModuleManager().addModule(new Velocity());
         getModuleManager().addModule(new KeepSprint());
         getModuleManager().addModule(new AntiBot());
+        getModuleManager().addModule(new AimAssist());
+
 
         //movement
         getModuleManager().addModule(new Eagle());

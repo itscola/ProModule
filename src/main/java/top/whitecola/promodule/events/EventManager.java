@@ -24,6 +24,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.whitecola.promodule.events.impls.PacketReceivedEvent;
 
 import java.util.Vector;
 
@@ -201,6 +202,12 @@ public class EventManager {
     public void onRender3D(int pass, float partialTicks, long finishTimeNano){
         for (EventAdapter eventAdapter : events) {
             eventAdapter.onRender3D(pass,partialTicks,finishTimeNano);
+        }
+    }
+
+    public void packetReceivedEvent(PacketReceivedEvent e){
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.packetReceivedEvent(e);
         }
     }
 

@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
+import top.whitecola.promodule.events.impls.PacketReceivedEvent;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 import top.whitecola.promodule.utils.ClientUtils;
 
@@ -221,6 +222,11 @@ public class AbstractModule implements IModule{
 
     @Override
     public void onModuleSettingChanged(String name) {
+
+    }
+
+    @Override
+    public void packetReceivedEvent(PacketReceivedEvent e) {
 
     }
 
