@@ -159,6 +159,10 @@ public class AimAssist extends AbstractModule {
             return false;
         }
 
+        if(entity.isOnSameTeam(mc.thePlayer)){
+            return false;
+        }
+
         return true;
     }
 
@@ -167,5 +171,10 @@ public class AimAssist extends AbstractModule {
     public void onDisable() {
 
         super.onDisable();
+    }
+
+    @Override
+    public String getDisplayName() {
+        return super.getDisplayName() + " (G)";
     }
 }

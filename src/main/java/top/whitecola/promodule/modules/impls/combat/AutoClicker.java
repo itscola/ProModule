@@ -62,6 +62,11 @@ public class AutoClicker extends AbstractModule {
 
             this.leftLastSwing = System.currentTimeMillis();
             delay = (int) RandomUtils.nextDouble(1000f/minCPS,1000f/maxCPS);
+
+            if(mc==null || mc.objectMouseOver==null){
+                return;
+            }
+
             if (mc.objectMouseOver.entityHit != null) {
                 sendLeftClick(true);
                 sendLeftClick(false);
@@ -115,10 +120,14 @@ public class AutoClicker extends AbstractModule {
         this.rightLastSwing = 0;
         this.delay = 0;
 
-        this.minCPS = 7f;
-        this.maxCPS = 14f;
+        this.minCPS = 5f;
+        this.maxCPS = 11f;
         super.onEnable();
     }
 
+    @Override
+    public String getDisplayName() {
+        return super.getDisplayName() + " (G)";
+    }
 
 }

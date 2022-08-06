@@ -29,6 +29,8 @@ public class Velocity extends AbstractModule {
     @ModuleSetting(name = "WhenClicking",type = "select")
     public Boolean whenClicking = false;
 
+    @ModuleSetting(name = "DelayOnly",type = "select")
+    public Boolean delayOnly = true;
 
     @Override
     public void packetReceivedEvent(PacketReceivedEvent e) {

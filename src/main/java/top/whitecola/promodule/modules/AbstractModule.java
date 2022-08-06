@@ -267,5 +267,8 @@ public class AbstractModule implements IModule{
         return null;
     }
 
+    public String getDisplayName(){
+        return this.getModuleName();
+    }
 
 }

@@ -28,4 +28,10 @@ public class Reach extends AbstractModule {
         maxRange = 3.3f;
         super.onEnable();
     }
+
+
+    @Override
+    public String getDisplayName() {
+        return super.getDisplayName() + " (G)";
+    }
 }

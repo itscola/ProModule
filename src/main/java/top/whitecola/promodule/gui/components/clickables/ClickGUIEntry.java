@@ -24,7 +24,7 @@ public class ClickGUIEntry extends AbstractClickGUIEntry{
     }
 
     public ClickGUIEntry fromModule(AbstractModule module){
-        this.entryName = module.getModuleName();
+        this.entryName = module.getDisplayName();
         this.category = module.getModuleType();
         this.enabled = module.isEnabled();
         this.entryDescription = module.getDescription();

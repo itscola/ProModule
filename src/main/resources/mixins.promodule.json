@@ -8,6 +8,11 @@
     "MixinNetworkManager",
     "MixinS12PacketEntityVelocity",
     "MixinMinecraft",
-    "MixinEntity"
+    "MixinEntity",
+    "MixinNetHandlerPlayClient",
+    "MixinS0CPacketSpawnPlayer",
+    "MixinS3EPacketTeams",
+    "MixinScoreBoard",
+    "MixinC00Handshake"
   ]
 }

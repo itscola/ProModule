@@ -43,4 +43,9 @@ public class KeepSprint extends AbstractModule {
         super.onTick();
     }
 
+    @Override
+    public String getDisplayName() {
+        return super.getDisplayName() + " (G)";
+    }
+
 }
