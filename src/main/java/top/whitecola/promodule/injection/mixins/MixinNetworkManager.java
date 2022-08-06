@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import top.whitecola.promodule.events.EventManager;
-import top.whitecola.promodule.events.impls.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
 
 @Mixin(NetworkManager.class)
 public class MixinNetworkManager {

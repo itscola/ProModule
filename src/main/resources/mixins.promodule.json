@@ -6,6 +6,8 @@
   "mixins": [
     "MixinMixinEntityRenderer",
     "MixinNetworkManager",
-    "MixinS12PacketEntityVelocity"
+    "MixinS12PacketEntityVelocity",
+    "MixinMinecraft",
+    "MixinEntity"
   ]
 }

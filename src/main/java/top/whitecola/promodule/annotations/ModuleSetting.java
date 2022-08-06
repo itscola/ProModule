@@ -10,4 +10,6 @@ import java.lang.annotation.Target;
 public @interface ModuleSetting {
     String name() default "setting";
     String type() default "value";
+    float min() default 0;
+    float max() default 200;
 }

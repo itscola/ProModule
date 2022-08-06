@@ -16,7 +16,7 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 public class AutoClicker extends AbstractModule {
 
     @ModuleSetting(name = "MinCPS")
-    public Float minCPS = 10f;
+    public Float minCPS = 12f;
 
     @ModuleSetting(name = "MaxCPS")
     public Float maxCPS = 18f;
@@ -107,5 +107,18 @@ public class AutoClicker extends AbstractModule {
             KeyBinding.onTick(keycode);
         }
     }
+
+
+    @Override
+    public void onEnable() {
+        this.leftLastSwing = 0;
+        this.rightLastSwing = 0;
+        this.delay = 0;
+
+        this.minCPS = 7f;
+        this.maxCPS = 14f;
+        super.onEnable();
+    }
+
 
 }

@@ -1,8 +1,6 @@
 package top.whitecola.promodule.events.impls;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.event.*;
@@ -15,9 +13,10 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.events.EventAdapter;
+import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 import top.whitecola.promodule.modules.AbstractModule;
 
 import java.util.Vector;
@@ -235,5 +234,15 @@ public class EventToInvokeModules extends EventAdapter {
             module.packetReceivedEvent(e);
         }
         super.packetReceivedEvent(e);
+    }
+
+    @Override
+    public void worldRenderEvent(WorldRenderEvent e) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.worldRenderEvent(e);
+        }
+        super.worldRenderEvent(e);
     }
 }

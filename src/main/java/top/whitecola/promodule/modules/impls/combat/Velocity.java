@@ -3,7 +3,7 @@ package top.whitecola.promodule.modules.impls.combat;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 import top.whitecola.promodule.annotations.ModuleSetting;
-import top.whitecola.promodule.events.impls.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
 import top.whitecola.promodule.injection.wrappers.IMixinS12PacketEntityVelocity;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
@@ -12,13 +12,13 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class Velocity extends AbstractModule {
     @ModuleSetting(name = "minHorizontal")
-    public Float minHorizontal = 80f;
+    public Float minHorizontal = 90f;
 
     @ModuleSetting(name = "minHorizontal")
     public Float maxHorizontal = 100f;
 
     @ModuleSetting(name = "minVertical")
-    public Float minVertical = 80f;
+    public Float minVertical = 90f;
 
     @ModuleSetting(name = "maxVertical")
     public Float maxVertical = 100f;
@@ -37,6 +37,10 @@ public class Velocity extends AbstractModule {
                 S27PacketExplosion packet = (S27PacketExplosion) e.getPacket();
             }else if(e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID()== mc.thePlayer.getEntityId()){
 
+
+                if(whenSprinting && !mc.thePlayer.isSprinting()){
+                    return;
+                }
 
                 S12PacketEntityVelocity packet = (S12PacketEntityVelocity) e.getPacket();
 
@@ -74,5 +78,18 @@ public class Velocity extends AbstractModule {
     public String getModuleName() {
         return "Velocity";
 
+    }
+
+    @Override
+    public void onEnable() {
+        whenSprinting = true;
+
+        minHorizontal = 90f;
+        maxHorizontal = 100f;
+
+        minVertical = 90f;
+        maxVertical = 100f;
+
+        super.onEnable();
     }
 }

@@ -6,10 +6,10 @@ import top.whitecola.promodule.modules.ModuleCategory;
 
 public class Reach extends AbstractModule {
     @ModuleSetting(name = "MinRange")
-    public Float minRange = 3.2f;
+    public Float minRange = 3f;
 
     @ModuleSetting(name = "MaxRange")
-    public Float maxRange = 3.4f;
+    public Float maxRange = 3.3f;
 
     @Override
     public ModuleCategory getModuleType() {
@@ -20,5 +20,12 @@ public class Reach extends AbstractModule {
     public String getModuleName() {
         return "Reach";
 
+    }
+
+    @Override
+    public void onEnable() {
+        minRange = 3f;
+        maxRange = 3.3f;
+        super.onEnable();
     }
 }

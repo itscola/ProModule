@@ -1,9 +1,6 @@
 package top.whitecola.promodule.modules;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -14,9 +11,8 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import top.whitecola.promodule.events.impls.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 
 public interface IModule {
@@ -91,4 +87,6 @@ public interface IModule {
 
     void onModuleSettingChanged(String name);
     void packetReceivedEvent(PacketReceivedEvent e);
+
+    void worldRenderEvent(WorldRenderEvent e);
 }
