@@ -7,6 +7,8 @@ import top.whitecola.promodule.modules.ModuleCategory;
 
 public class ClickGUIEntry extends AbstractClickGUIEntry{
     protected String entryName;
+    protected String entryDisplayName;
+
     protected String entryDescription;
     protected ModuleCategory category;
     protected float xPosition;
@@ -24,7 +26,8 @@ public class ClickGUIEntry extends AbstractClickGUIEntry{
     }
 
     public ClickGUIEntry fromModule(AbstractModule module){
-        this.entryName = module.getDisplayName();
+        this.entryName = module.getModuleName();
+        this.entryDisplayName = module.getDisplayName();
         this.category = module.getModuleType();
         this.enabled = module.isEnabled();
         this.entryDescription = module.getDescription();
@@ -70,6 +73,9 @@ public class ClickGUIEntry extends AbstractClickGUIEntry{
         return entryName;
     }
 
+    public String getEntryDisplayName() {
+        return entryDisplayName;
+    }
 
     public boolean isEnabled() {
         return enabled;

@@ -207,7 +207,7 @@ public class MainClickGUIIngame extends GuiScreen {
                 if(y2-y1<20){
                     continue;
                 }
-                FontLoaders.msFont18.drawString(entry.getEntryName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,selectedEntryTextColor.getRGB(),false);
+                FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,selectedEntryTextColor.getRGB(),false);
             }else {
                 Render2DUtils.drawRoundedRect2(this.xPosition + width/3.8f, y1, this.xPosition + (this.width)/1.39f-6, y2, 3,this.mainColor.getRGB());
                 if(y2-y1<20){
