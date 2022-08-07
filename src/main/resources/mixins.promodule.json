@@ -13,6 +13,7 @@
     "MixinS0CPacketSpawnPlayer",
     "MixinS3EPacketTeams",
     "MixinScoreBoard",
-    "MixinC00Handshake"
+    "MixinC00Handshake",
+    "MixinRendererLivingEntity"
   ]
 }

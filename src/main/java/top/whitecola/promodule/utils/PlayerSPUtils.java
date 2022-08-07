@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiKeyBindingList;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
@@ -42,4 +43,8 @@ public class PlayerSPUtils {
 //    public static void sendClick(int keycode){
 //
 //    }
+
+    public static void sendMsgToSelf(String content){
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(content));
+    }
 }

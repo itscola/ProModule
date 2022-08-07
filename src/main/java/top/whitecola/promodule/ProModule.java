@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import top.whitecola.promodule.events.EventManager;
+import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.EventToInvokeModules;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
@@ -40,6 +41,8 @@ public class ProModule {
         MinecraftForge.EVENT_BUS.register(eventManager);
         EventManager.getEventManager().addEvent(new MainMenuEvent());
         EventManager.getEventManager().addEvent(new EventToInvokeModules());
+        EventManager.getEventManager().addEvent(new KeyEvent());
+
     }
 
     public void registerKeyBinds(){

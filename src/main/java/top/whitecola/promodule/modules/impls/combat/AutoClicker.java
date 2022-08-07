@@ -120,14 +120,14 @@ public class AutoClicker extends AbstractModule {
         this.rightLastSwing = 0;
         this.delay = 0;
 
-        this.minCPS = 5f;
+        this.minCPS = 6f;
         this.maxCPS = 11f;
         super.onEnable();
     }
 
     @Override
     public String getDisplayName() {
-        return super.getDisplayName() + " (G)";
+        return super.getDisplayName();
     }
 
 }

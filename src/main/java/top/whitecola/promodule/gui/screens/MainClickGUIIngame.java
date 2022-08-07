@@ -213,7 +213,7 @@ public class MainClickGUIIngame extends GuiScreen {
                 if(y2-y1<20){
                     continue;
                 }
-                FontLoaders.msFont18.drawString(entry.getEntryName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,textColor.getRGB(),false);
+                FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,textColor.getRGB(),false);
             }
 
 

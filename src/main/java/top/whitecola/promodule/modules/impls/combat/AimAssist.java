@@ -107,7 +107,7 @@ public class AimAssist extends AbstractModule {
 
         vertical = true;
         fieldOfView = 50f;
-        speed= 50f;
+        speed= 70f;
         super.onEnable();
     }
 
@@ -159,6 +159,14 @@ public class AimAssist extends AbstractModule {
             return false;
         }
 
+
+//         if(entity.getEquipmentInSlot(4)!=null && mc.thePlayer.getEquipmentInSlot(4)!=null){
+//             if(entity.getEquipmentInSlot(4).getItem().equals(mc.thePlayer.getEquipmentInSlot(4).getItem())){
+//                 System.out.println(entity.getEquipmentInSlot(4).getItem().getRegistryName()+" "+mc.thePlayer.getEquipmentInSlot(4).getItem().getRegistryName());
+//                 return false;
+//             }
+//         }
+
         if(entity.isOnSameTeam(mc.thePlayer)){
             return false;
         }
@@ -177,4 +185,6 @@ public class AimAssist extends AbstractModule {
     public String getDisplayName() {
         return super.getDisplayName() + " (G)";
     }
+
+
 }
