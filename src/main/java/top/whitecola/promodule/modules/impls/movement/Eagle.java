@@ -42,6 +42,8 @@ public class Eagle extends AbstractModule {
             return;
         }
 
+
+
         if (player.getEntityWorld().getBlockState(new BlockPos(player).add(0, -1, 0)).getBlock() == Blocks.air) {
             lastShift = true;
             time = System.currentTimeMillis();

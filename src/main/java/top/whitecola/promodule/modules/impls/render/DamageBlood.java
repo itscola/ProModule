@@ -15,8 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DamageBlood extends AbstractModule {
     public ConcurrentHashMap<EntityLivingBase,Float> map = new ConcurrentHashMap<EntityLivingBase, Float>();
 
-
-
     @Override
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
         EntityLivingBase entity = e.entityLiving;

@@ -21,13 +21,13 @@ public class AutoClicker extends AbstractModule {
     @ModuleSetting(name = "MaxCPS")
     public Float maxCPS = 18f;
 
-    @ModuleSetting(name = "OnlySwordAndTools")
+    @ModuleSetting(name = "OnlyTools" , type = "select")
     public Boolean onlySwordAndTools = false;
 
-    @ModuleSetting(name = "LeftClick")
+    @ModuleSetting(name = "LeftClick" ,type = "select" )
     public Boolean leftClick = true;
 
-    @ModuleSetting(name = "RightClick")
+    @ModuleSetting(name = "RightClick" ,type = "select")
     public Boolean rightClick  = true;
 
     protected long leftLastSwing;
@@ -120,8 +120,8 @@ public class AutoClicker extends AbstractModule {
         this.rightLastSwing = 0;
         this.delay = 0;
 
-        this.minCPS = 6f;
-        this.maxCPS = 11f;
+        this.minCPS = 7f;
+        this.maxCPS = 12f;
         super.onEnable();
     }
 
