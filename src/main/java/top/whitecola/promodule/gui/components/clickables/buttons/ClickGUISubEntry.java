@@ -54,4 +54,9 @@ public class ClickGUISubEntry extends AbstractClickGUIEntry {
     public void setCategory(SubEntryCategory category) {
         this.category = category;
     }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }

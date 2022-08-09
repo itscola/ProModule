@@ -294,11 +294,12 @@ public class MainClickGUIIngame extends GuiScreen {
                     FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, this.yPosition+4+8+ subRange*i + bigRange*bigSubEntriesNum+top,unSelectedSubEntryTextColor.getRGB(),false);
                 }
 
-//                entry.setxPosition(this.xPosition+(width/1.4f)+4);
-//                entry.setY2Position(this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum);
-//
-//                entry.setX2Position(this.xPosition + this.width-4);
-//                entry.setY2Position(this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum);
+                entry.setxPosition(this.xPosition+(width/1.4f)+4);
+                entry.setX2Position(this.xPosition + this.width-4);
+
+
+                entry.setyPosition(this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top);
+                entry.setY2Position(this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + top);
                 continue;
             }else if(entry.getCategory()== SubEntryCategory.Value){
 
@@ -307,11 +308,11 @@ public class MainClickGUIIngame extends GuiScreen {
                 FontLoaders.msFont18.drawString("- "+entry.getValue(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+10+ subRange*i + bigRange*bigSubEntriesNum + top,unSelectedSubEntryTextColor.getRGB(),false);
 
 
-//                entry.setxPosition(this.xPosition+(width/1.4f)+4);
-//                entry.setY2Position(this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum);
-//
-//                entry.setX2Position(this.xPosition + this.width-4);
-//                entry.setY2Position(this.yPosition + 28 + + 10 + subRange*i + bigRange*bigSubEntriesNum);
+                entry.setxPosition(this.xPosition+(width/1.4f)+4);
+                entry.setX2Position(this.xPosition + this.width-4);
+
+                entry.setyPosition(this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top);
+                entry.setY2Position(this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + 10 + top);
 
                 bigSubEntriesNum++;
 
@@ -336,16 +337,35 @@ public class MainClickGUIIngame extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        for(ClickGUIEntry entry : entries){
-            if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)){
-                if(mouseY<yPosition +24|| mouseY>yPosition+height){
-                    continue;
+        //left:0 right:1
+
+            for(ClickGUIEntry entry : entries){
+                if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)){
+                    if(mouseY<yPosition +24|| mouseY>yPosition+height){
+                        continue;
+                    }
+                    if(mouseButton==0) {
+                        entry.toggle();
+                        playButtonSound();
+                        loadSubEntries(entry.getEntryName());
+                    }else if(mouseButton==1){
+                        loadSubEntries(entry.getEntryName());
+                        playButtonSound();
+                    }
                 }
-                entry.toggle();
-                playButtonSound();
-                loadSubEntries(entry.getEntryName());
+            }
+
+
+
+        for(ClickGUISubEntry entry : subEntries){
+            if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)) {
+                if(entry.getCategory()==SubEntryCategory.Boolean){
+                    entry.getModule().toogleBooleanSetting(entry);
+                    playButtonSound();
+                }
             }
         }
+
 
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }

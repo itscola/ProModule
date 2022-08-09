@@ -15,6 +15,8 @@ import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
+import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntry;
+import top.whitecola.promodule.gui.components.clickables.wrapper.Setting;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 import top.whitecola.promodule.utils.ClientUtils;
 
@@ -25,7 +27,7 @@ public class AbstractModule implements IModule{
     Vector<ModuleOption> options = new Vector<ModuleOption>();
     protected boolean enabled;
     protected AbstractWidget widget;
-
+    private AbstractModule module;
 
 
     @Override
@@ -271,4 +273,36 @@ public class AbstractModule implements IModule{
         return this.getModuleName();
     }
 
+
+    public boolean toogleBooleanSetting(ClickGUISubEntry entry){
+        Setting setting = getSettingField(entry.getEntryName());
+        if(setting==null){
+            return false;
+        }
+        if(setting.getModuleSetting().type().equalsIgnoreCase("select")){
+
+            try {
+                setting.getField().set(this,!entry.isEnabled());
+                entry.setEnabled(!entry.isEnabled());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+
+        }
+        return false;
+    }
+
+    protected Setting getSettingField(String settingName) {
+        for (Field field : this.getClass().getFields()) {
+            if (field.isAnnotationPresent(ModuleSetting.class)) {
+                ModuleSetting moduleSetting = field.getAnnotation(ModuleSetting.class);
+                if (moduleSetting.name().equalsIgnoreCase(settingName)) {
+                    return new Setting(field,moduleSetting);
+                }
+            }
+        }
+        return null;
+    }
 }
