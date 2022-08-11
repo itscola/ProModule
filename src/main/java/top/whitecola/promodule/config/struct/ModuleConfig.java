@@ -1,8 +1,11 @@
 package top.whitecola.promodule.config.struct;
 
 import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.annotations.ModuleSetting;
+import top.whitecola.promodule.gui.components.clickables.wrapper.Setting;
 import top.whitecola.promodule.modules.AbstractModule;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -14,11 +17,20 @@ public class ModuleConfig {
     protected void modulesToConfig(List<AbstractModule> modules){
         for(AbstractModule module : modules){
             ModuleConfigStruct moduleConfigStruct = getModuleConfigByModule(module);
+
+            Vector<ModuleSettingStruct> settings = getModuleSettings(module);
+            if(settings==null){
+                continue;
+            }
+
             if(moduleConfigStruct==null) {
-                moduleConfigs.add(new ModuleConfigStruct(module.getModuleName(), module.isEnabled()/*, module.getOptions()*/));
+
+                moduleConfigs.add(new ModuleConfigStruct(module.getModuleName(), module.isEnabled(),settings));
                 continue;
             }
             moduleConfigStruct.enabled = module.isEnabled();
+            moduleConfigStruct.settings = settings;
+
 //            moduleConfigStruct.moduleOptions = module.getOptions();
         }
     }
@@ -26,7 +38,7 @@ public class ModuleConfig {
     public ModuleConfigStruct getModuleConfigByModule(AbstractModule module){
         for(ModuleConfigStruct moduleConfigStruct : moduleConfigs){
             if(moduleConfigStruct.moduleName.equalsIgnoreCase(module.getModuleName())){
-                return  moduleConfigStruct;
+                return moduleConfigStruct;
             }
         }
         return null;
@@ -48,9 +60,34 @@ public class ModuleConfig {
                 continue;
 
             module.setEnabled(moduleConfigStruct.isEnabled());
-//            module.setOptions(moduleConfigStruct.moduleOptions);
+            for(Field field : module.getClass().getFields()){
+                if (!field.isAnnotationPresent(ModuleSetting.class)) {
+                    continue;
+                }
+
+                ModuleSetting moduleSetting = field.getAnnotation(ModuleSetting.class);
+                for(ModuleSettingStruct struct : moduleConfigStruct.settings){
+                    if(!moduleSetting.name().equalsIgnoreCase(struct.getSettingName())){
+                        continue;
+                    }
+
+                    if(!moduleSetting.type().equalsIgnoreCase(struct.getType())){
+                        continue;
+                    }
+
+                    if(moduleSetting.type().equalsIgnoreCase("select")){
+                        module.setBooleanSetting(struct.getSettingName(),Boolean.valueOf(struct.getValue()));
+                        continue;
+                    }else if(moduleSetting.type().equalsIgnoreCase("value")){
+                        module.setFloatSetting(struct.getSettingName(),Float.valueOf(struct.getValue()));
+                    }
+
+                }
+            }
 
         }
+
+
     }
 
 
@@ -67,17 +104,18 @@ public class ModuleConfig {
     }
 
 
+
+
     class ModuleConfigStruct {
         public String moduleName;
         public boolean enabled;
         public Vector<ModuleSettingStruct> settings = new Vector<ModuleSettingStruct>();
-//        public Vector<ModuleOption> moduleOptions = new Vector<ModuleOption>();
 
 
-        public ModuleConfigStruct(String moduleName, boolean enabled/*,Vector<ModuleOption> moduleOptions*/){
+        public ModuleConfigStruct(String moduleName, boolean enabled,Vector<ModuleSettingStruct> settings){
             this.moduleName = moduleName;
             this.enabled = enabled;
-//            this.moduleOptions = moduleOptions;
+            this.settings = settings;
         }
 
         public String getModuleName() {
@@ -88,12 +126,53 @@ public class ModuleConfig {
             return enabled;
         }
 
-//        public Vector<ModuleOption> getModuleOptions() {
+        public Vector<ModuleSettingStruct> getSettings() {
+            return settings;
+        }
+
+        public void setSettings(Vector<ModuleSettingStruct> settings) {
+            this.settings = settings;
+        }
+
+        //        public Vector<ModuleOption> getModuleOptions() {
 //            return moduleOptions;
 //        }
 
 //        public void setModuleOptions(Vector<ModuleOption> moduleOptions) {
 //            this.moduleOptions = moduleOptions;
 //        }
+    }
+
+    protected Vector<ModuleSettingStruct> getModuleSettings(AbstractModule module){
+        Vector<Setting> settings = module.getSettings();
+        if(settings==null){
+            return null;
+        }
+
+        Vector<ModuleSettingStruct> structs = new Vector<ModuleSettingStruct>();
+
+        for(Setting setting : settings){
+            Object obj = null;
+            try {
+                obj = setting.getField().get(module);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                continue;
+            }
+            if(obj==null){
+                continue;
+            }
+
+            String value = "";
+            if(obj instanceof Boolean){
+                value = ((Boolean)obj).toString();
+            }else if(obj instanceof Float){
+                value = ((Float)obj).toString();
+            }
+
+
+            structs.add(new ModuleSettingStruct(setting.getModuleSetting().name(),value,setting.getModuleSetting().type()));
+        }
+        return structs;
     }
 }

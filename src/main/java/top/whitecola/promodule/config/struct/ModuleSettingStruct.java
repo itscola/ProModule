@@ -1,18 +1,15 @@
 package top.whitecola.promodule.config.struct;
 
-import java.lang.reflect.Field;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class ModuleSettingStruct {
     private String settingName;
     private String value;
-    private String category;
+    private String type;
 
 
-    public ModuleSettingStruct(String settingName,String value,String category){
+    public ModuleSettingStruct(String settingName,String value,String type){
         this.settingName = settingName;
         this.value = value;
-        this.category = category;
+        this.type = type;
     }
 
     public String getSettingName() {
@@ -31,11 +28,11 @@ public class ModuleSettingStruct {
         this.value = value;
     }
 
-    public String getCategory() {
-        return category;
+    public String getType() {
+        return type;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setType(String type) {
+        this.type = type;
     }
 }

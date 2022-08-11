@@ -77,6 +77,8 @@ public class MainClickGUIIngame extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
+        ProModule.getProModule().getModuleConfig().config.loadConfigForModules();
+
         combatLabel = new LabelButton(91,0,0,"Combat",titleColor);
         movementLabel = new LabelButton(92,0,0,"Movement",titleColor);
         renderLabel = new LabelButton(93,0,0,"Render",titleColor);
@@ -332,6 +334,8 @@ public class MainClickGUIIngame extends GuiScreen {
     @Override
     public void onGuiClosed() {
         UICache.selectedSubtitle = 0;
+        ProModule.getProModule().getModuleConfig().config.modulesToConfig();
+        ProModule.getProModule().getModuleConfig().saveConfig();
         super.onGuiClosed();
     }
 

@@ -295,7 +295,80 @@ public class AbstractModule implements IModule{
         return false;
     }
 
-    protected Setting getSettingField(String settingName) {
+    public void toogleBooleanSetting(String settingname){
+        Boolean value = getBooleanSetting(settingname);
+        if(value==null){
+            return;
+        }
+
+        setBooleanSetting(settingname,!value);
+    }
+
+
+    public Boolean getBooleanSetting(String settingname){
+        Setting setting = getSettingField(settingname);
+        if(setting==null){
+            return null;
+        }
+        if(setting.getModuleSetting().type().equalsIgnoreCase("select")){
+            try {
+                return (Boolean) setting.getField().get(this);
+            } catch (IllegalAccessException e) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+
+
+    public void setBooleanSetting(String settingname,Boolean value){
+        Setting setting = getSettingField(settingname);
+        if(setting==null){
+            return;
+        }
+        if(setting.getModuleSetting().type().equalsIgnoreCase("select")){
+            try {
+                setting.getField().set(this,value);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return;
+    }
+
+    public Float getFloatSetting(String settingname){
+        Setting setting = getSettingField(settingname);
+        if(setting==null){
+            return null;
+        }
+
+        try {
+            return (Float) setting.getField().get(this);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setFloatSetting(String settingname,Float value){
+        Setting setting = getSettingField(settingname);
+        if(setting==null){
+            return;
+        }
+
+        if(value==null){
+            return;
+        }
+
+        try {
+            setting.getField().set(this,value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Setting getSettingField(String settingName) {
         for (Field field : this.getClass().getFields()) {
             if (field.isAnnotationPresent(ModuleSetting.class)) {
                 ModuleSetting moduleSetting = field.getAnnotation(ModuleSetting.class);
@@ -305,6 +378,18 @@ public class AbstractModule implements IModule{
             }
         }
         return null;
+    }
+
+    public Vector<Setting> getSettings() {
+        Vector<Setting> settings = new Vector<Setting>();
+
+        for (Field field : this.getClass().getFields()) {
+            if (field.isAnnotationPresent(ModuleSetting.class)) {
+                ModuleSetting moduleSetting = field.getAnnotation(ModuleSetting.class);
+                settings.add(new Setting(field,moduleSetting));
+            }
+        }
+        return settings;
     }
 
 }
