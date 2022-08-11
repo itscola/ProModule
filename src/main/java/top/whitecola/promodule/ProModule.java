@@ -5,6 +5,8 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import top.whitecola.promodule.config.HiConfig;
+import top.whitecola.promodule.config.struct.ModuleConfig;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.EventToInvokeModules;
@@ -18,6 +20,8 @@ import top.whitecola.promodule.modules.impls.movement.Eagle;
 import top.whitecola.promodule.modules.impls.movement.WTap;
 import top.whitecola.promodule.modules.impls.render.*;
 
+import java.nio.charset.Charset;
+
 @Mod(modid = ProModule.MODID, version = ProModule.VERSION)
 public class ProModule {
     public static final String MODID = "promodule";
@@ -28,6 +32,8 @@ public class ProModule {
     private EventManager eventManager = EventManager.getEventManager();
     private WidgetManager widgetManager = new WidgetManager();
     private ModuleManager moduleManager = new ModuleManager();
+
+    private HiConfig<ModuleConfig> moduleConfig = new HiConfig<ModuleConfig>("./ProModule/Modules.json",ModuleConfig.class, Charset.forName("utf8"));
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -90,5 +96,9 @@ public class ProModule {
 
     public ModuleManager getModuleManager() {
         return moduleManager;
+    }
+
+    public HiConfig<ModuleConfig> getModuleConfig() {
+        return moduleConfig;
     }
 }

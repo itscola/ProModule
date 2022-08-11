@@ -89,4 +89,6 @@ public interface IModule {
     void packetReceivedEvent(PacketReceivedEvent e);
 
     void worldRenderEvent(WorldRenderEvent e);
+
+
 }

@@ -164,6 +164,7 @@ public class AbstractModule implements IModule{
     }
 
 
+    @Deprecated
     @Override
     public void onLivingHurt(LivingHurtEvent e) {
 
@@ -305,4 +306,5 @@ public class AbstractModule implements IModule{
         }
         return null;
     }
+
 }

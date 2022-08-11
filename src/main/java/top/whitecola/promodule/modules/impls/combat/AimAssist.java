@@ -4,10 +4,13 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemColored;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import top.whitecola.promodule.annotations.ModuleSetting;
@@ -284,6 +287,14 @@ public class AimAssist extends AbstractModule {
             return;
         }
 
+        if(!(e.target instanceof EntityLivingBase)){
+            return;
+        }
+
+        if(((EntityLivingBase)e.target).getHealth()<=1){
+            this.theTarget=null;
+            return;
+        }
 
 
         if(e.target instanceof EntityPlayer){
@@ -297,22 +308,6 @@ public class AimAssist extends AbstractModule {
         super.onAttackEntity(e);
     }
 
-    @Override
-    public void onLivingHurt(LivingHurtEvent e) {
-        if(!attackMode){
-            return;
-        }
-
-        if(e.entity.isDead){
-            if(e.entity instanceof EntityPlayer){
-                EntityPlayer player = (EntityPlayer) e.entity;
-                if(theTarget.getUniqueID().equals(player.getUniqueID())){
-                    theTarget = null;
-                }
-            }
-        }
-        super.onLivingHurt(e);
-    }
 
 
     @Override
@@ -345,4 +340,6 @@ public class AimAssist extends AbstractModule {
         }
         super.onTick();
     }
+
+
 }
