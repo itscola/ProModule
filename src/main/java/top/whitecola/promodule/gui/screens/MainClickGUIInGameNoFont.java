@@ -2,6 +2,7 @@ package top.whitecola.promodule.gui.screens;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,7 +15,6 @@ import top.whitecola.promodule.gui.components.clickables.ClickGUIEntry;
 import top.whitecola.promodule.gui.components.clickables.SubEntryCategory;
 import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntry;
 import top.whitecola.promodule.gui.components.clickables.buttons.LabelButton;
-import top.whitecola.promodule.gui.components.clickables.buttons.LabelButtonWithFont;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.GUIUtils;
@@ -25,7 +25,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Vector;
 
-public class MainClickGUIIngame extends GuiScreen {
+public class MainClickGUIInGameNoFont extends GuiScreen {
     protected float width = 300;
     protected float height = 200;
     protected float xPosition = 90;
@@ -58,11 +58,11 @@ public class MainClickGUIIngame extends GuiScreen {
     protected Color selectedSubEntryTextColor = new Color(255, 255, 255);
 
 
-    protected LabelButtonWithFont combatLabel;
-    protected LabelButtonWithFont movementLabel;
-    protected LabelButtonWithFont renderLabel;
-    protected LabelButtonWithFont worldLabel;
-    protected LabelButtonWithFont miscLabel;
+    protected LabelButton combatLabel;
+    protected LabelButton movementLabel;
+    protected LabelButton renderLabel;
+    protected LabelButton worldLabel;
+    protected LabelButton miscLabel;
 
     protected Vector<ClickGUIEntry> entries = new Vector<ClickGUIEntry>();
     protected Vector<ClickGUISubEntry> subEntries = new Vector<ClickGUISubEntry>();
@@ -72,19 +72,16 @@ public class MainClickGUIIngame extends GuiScreen {
 
 
 
-    public MainClickGUIIngame(){
-    }
-
     @Override
     public void initGui() {
         super.initGui();
         ProModule.getProModule().getModuleConfig().config.loadConfigForModules();
 
-        combatLabel = new LabelButtonWithFont(91,0,0,"Combat",titleColor);
-        movementLabel = new LabelButtonWithFont(92,0,0,"Movement",titleColor);
-        renderLabel = new LabelButtonWithFont(93,0,0,"Render",titleColor);
-        worldLabel = new LabelButtonWithFont(94,0,0,"World",titleColor);
-        miscLabel = new LabelButtonWithFont(95,0,0,"Other",titleColor);
+        combatLabel = new LabelButton(91,0,0,"Combat",titleColor);
+        movementLabel = new LabelButton(92,0,0,"Movement",titleColor);
+        renderLabel = new LabelButton(93,0,0,"Render",titleColor);
+        worldLabel = new LabelButton(94,0,0,"World",titleColor);
+        miscLabel = new LabelButton(95,0,0,"Other",titleColor);
 
         buttonList.add(combatLabel);
         buttonList.add(movementLabel);
@@ -99,6 +96,7 @@ public class MainClickGUIIngame extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        FontRenderer fontRenderer = mc.fontRendererObj;
 
         if(GUIUtils.isHovered(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20,mouseX,mouseY) && Mouse.isButtonDown(0)){
 
@@ -151,7 +149,7 @@ public class MainClickGUIIngame extends GuiScreen {
 //        FontRenderer fontRenderer = mc.fontRendererObj;
 //        fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+7,titleColor.getRGB());
 //        CustomFont.getCustomFont().fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB(),false);
-        FontLoaders.msFont19.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+8,titleColor.getRGB());
+        fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+8,titleColor.getRGB());
 
 
         int range = 22;
@@ -182,7 +180,7 @@ public class MainClickGUIIngame extends GuiScreen {
 
         //github
         Render2DUtils.drawRoundedRect2(this.xPosition, this.yPosition+height/1.3f+18, this.xPosition + (this.width)/4f, this.yPosition + this.height, round,this.githubColor.getRGB());
-        FontLoaders.msFont18.drawString("Github",this.xPosition+23, this.yPosition+height/1.3f+28,mainColor.getRGB(),false);
+        fontRenderer.drawString("Github",this.xPosition+23, this.yPosition+height/1.3f+28,mainColor.getRGB(),false);
 
 
         //right
@@ -222,13 +220,13 @@ public class MainClickGUIIngame extends GuiScreen {
                 if(y2-y1<20){
                     continue;
                 }
-                FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,selectedEntryTextColor.getRGB(),false);
+                fontRenderer.drawString(entry.getEntryDisplayName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,selectedEntryTextColor.getRGB(),false);
             }else {
                 Render2DUtils.drawRoundedRect2(this.xPosition + width/3.8f, y1, this.xPosition + (this.width)/1.39f-6, y2, 3,this.mainColor.getRGB());
                 if(y2-y1<20){
                     continue;
                 }
-                FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,textColor.getRGB(),false);
+                fontRenderer.drawString(entry.getEntryDisplayName(),(this.xPosition + width/3.8f)+13, (this.yPosition+yRange)+8+rollingValue,textColor.getRGB(),false);
             }
 
 
@@ -281,7 +279,7 @@ public class MainClickGUIIngame extends GuiScreen {
         for(int i=0;i<this.subEntries.size();i++){
             ClickGUISubEntry entry = subEntries.get(i);
 
-            FontLoaders.msFont18.drawString(subEntries.get(0).getModule().getModuleName(),this.xPosition+(width/1.4f)+4+1, this.yPosition+4+1 ,textColor.getRGB(),false);
+            fontRenderer.drawString(subEntries.get(0).getModule().getModuleName(),this.xPosition+(width/1.4f)+4+1, this.yPosition+4+1 ,textColor.getRGB(),false);
 
             if(entry==null){
                 continue;
@@ -291,10 +289,10 @@ public class MainClickGUIIngame extends GuiScreen {
 
                 if(entry.isEnabled()){
                     Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top, this.xPosition + this.width-4, this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + top, round,this.selectedSubEntryColor.getRGB());
-                    FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, this.yPosition+4+8+ subRange*i+ bigRange*bigSubEntriesNum +top,selectedSubEntryTextColor.getRGB(),false);
+                    fontRenderer.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, this.yPosition+4+8+ subRange*i+ bigRange*bigSubEntriesNum +top,selectedSubEntryTextColor.getRGB(),false);
                 }else{
                     Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top, this.xPosition + this.width-4, this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + top, round,this.unSelectedSubEntryColor.getRGB());
-                    FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, this.yPosition+4+8+ subRange*i + bigRange*bigSubEntriesNum+top,unSelectedSubEntryTextColor.getRGB(),false);
+                    fontRenderer.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, this.yPosition+4+8+ subRange*i + bigRange*bigSubEntriesNum+top,unSelectedSubEntryTextColor.getRGB(),false);
                 }
 
                 entry.setxPosition(this.xPosition+(width/1.4f)+4);
@@ -307,8 +305,8 @@ public class MainClickGUIIngame extends GuiScreen {
             }else if(entry.getCategory()== SubEntryCategory.Value){
 
                 Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top, this.xPosition + this.width-4, this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + 10 + top, round,this.unSelectedSubEntryColor.getRGB());
-                FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+ subRange*i + bigRange*bigSubEntriesNum + top,unSelectedSubEntryTextColor.getRGB(),false);
-                FontLoaders.msFont18.drawString("- "+entry.getValue(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+10+ subRange*i + bigRange*bigSubEntriesNum + top,unSelectedSubEntryTextColor.getRGB(),false);
+                fontRenderer.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+ subRange*i + bigRange*bigSubEntriesNum + top,unSelectedSubEntryTextColor.getRGB(),false);
+                fontRenderer.drawString("- "+entry.getValue(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+10+ subRange*i + bigRange*bigSubEntriesNum + top,unSelectedSubEntryTextColor.getRGB(),false);
 
 
                 entry.setxPosition(this.xPosition+(width/1.4f)+4);
@@ -344,21 +342,21 @@ public class MainClickGUIIngame extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         //left:0 right:1
 
-            for(ClickGUIEntry entry : entries){
-                if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)){
-                    if(mouseY<yPosition +24|| mouseY>yPosition+height){
-                        continue;
-                    }
-                    if(mouseButton==0) {
-                        entry.toggle();
-                        playButtonSound();
-                        loadSubEntries(entry.getEntryName());
-                    }else if(mouseButton==1){
-                        loadSubEntries(entry.getEntryName());
-                        playButtonSound();
-                    }
+        for(ClickGUIEntry entry : entries){
+            if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)){
+                if(mouseY<yPosition +24|| mouseY>yPosition+height){
+                    continue;
+                }
+                if(mouseButton==0) {
+                    entry.toggle();
+                    playButtonSound();
+                    loadSubEntries(entry.getEntryName());
+                }else if(mouseButton==1){
+                    loadSubEntries(entry.getEntryName());
+                    playButtonSound();
                 }
             }
+        }
 
 
 
