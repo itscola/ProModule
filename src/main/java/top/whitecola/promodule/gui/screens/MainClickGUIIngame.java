@@ -2,6 +2,7 @@ package top.whitecola.promodule.gui.screens;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
@@ -25,7 +26,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Vector;
 
-public class MainClickGUIIngame extends GuiScreen {
+public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame{
     protected float width = 300;
     protected float height = 200;
     protected float xPosition = 90;
@@ -70,6 +71,7 @@ public class MainClickGUIIngame extends GuiScreen {
 
     protected ModuleUtils moduleUtils = new ModuleUtils();
 
+    protected int subEntriesRollingValue = 0;
 
 
     public MainClickGUIIngame(){
@@ -99,6 +101,7 @@ public class MainClickGUIIngame extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        FontRenderer fontRenderer = mc.fontRendererObj;
 
         if(GUIUtils.isHovered(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20,mouseX,mouseY) && Mouse.isButtonDown(0)){
 
@@ -149,10 +152,10 @@ public class MainClickGUIIngame extends GuiScreen {
 
         //title
 //        FontRenderer fontRenderer = mc.fontRendererObj;
-//        fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+7,titleColor.getRGB());
-//        CustomFont.getCustomFont().fontRenderer.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB(),false);
-        FontLoaders.msFont19.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+8,titleColor.getRGB());
-
+//        FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+7,titleColor.getRGB());
+//        CustomFont.getCustomFont().FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB(),false);
+        FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+8,titleColor.getRGB());
+        
 
         int range = 22;
 
@@ -240,7 +243,7 @@ public class MainClickGUIIngame extends GuiScreen {
 //            float yRange = this.height/7 * i +26;
 //            Render2DUtils.drawRoundedRect2(this.xPosition + width/3.8f, this.yPosition+yRange, this.xPosition + (this.width)/1.39f-6, this.yPosition + 24+yRange, 3,this.mainColor.getRGB());
 ////            FontRenderer fontRenderer = mc.fontRendererObj;
-////            fontRenderer.drawString("Reach",(int)(this.xPosition + width/3.8f)+19, (int)(this.yPosition+yRange)+8,textColor.getRGB());
+////            FontLoaders.msFont18.drawString("Reach",(int)(this.xPosition + width/3.8f)+19, (int)(this.yPosition+yRange)+8,textColor.getRGB());
 ////            FontLoaders.msFont18.drawString("Reach",(this.xPosition + width/3.8f)+9, (this.yPosition+yRange)+8,textColor.getRGB(),false);
 //        }
 
@@ -278,50 +281,132 @@ public class MainClickGUIIngame extends GuiScreen {
         int bigSubEntriesNum = 0;
         int top = 15;
 
+
+        if(GUIUtils.isHovered(this.xPosition+(width/1.4f), this.yPosition, this.xPosition + this.width, this.yPosition + this.height,mouseX,mouseY)){
+            int dwheel = Mouse.getDWheel();
+
+            if(dwheel<0 && Math.abs(subEntriesRollingValue) +152 < (subEntries.size() * 28)){
+
+                subEntriesRollingValue -=10;
+
+                //down
+
+            }else if(dwheel>0&& subEntriesRollingValue<0){
+                subEntriesRollingValue +=10;
+                //up
+            }
+        }
+
+
+
+
         for(int i=0;i<this.subEntries.size();i++){
+            float theTop = this.yPosition + 14;
+            float theBottom = this.yPosition+this.height-6;
+
+
             ClickGUISubEntry entry = subEntries.get(i);
 
-            FontLoaders.msFont18.drawString(subEntries.get(0).getModule().getModuleName(),this.xPosition+(width/1.4f)+4+1, this.yPosition+4+1 ,textColor.getRGB(),false);
 
             if(entry==null){
                 continue;
             }
 
+            float theFirstY = this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top+subEntriesRollingValue;
+
             if(entry.getCategory()== SubEntryCategory.Boolean){
 
+                float theLastY =this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + top+subEntriesRollingValue ;
+
+                if(theLastY<=theTop){
+                    continue;
+                }
+
+                if(theFirstY>=theBottom){
+                    continue;
+                }
+
+                if(theFirstY<=theTop){
+                    theFirstY = theTop;
+                }
+
+                if(theLastY>=theBottom){
+                    theLastY = theBottom;
+                }
+
+                float theTextFristY = this.yPosition+4+8+ subRange*i+ bigRange*bigSubEntriesNum +top+subEntriesRollingValue;
+                float theTextLastY = theTextFristY + 8;
+
+
+                if(theTextFristY<=theTop || theTextLastY>=theBottom){
+                    theTextFristY = -20;
+                }
+
+
                 if(entry.isEnabled()){
-                    Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top, this.xPosition + this.width-4, this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + top, round,this.selectedSubEntryColor.getRGB());
-                    FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, this.yPosition+4+8+ subRange*i+ bigRange*bigSubEntriesNum +top,selectedSubEntryTextColor.getRGB(),false);
+                    Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, theFirstY, this.xPosition + this.width-4, theLastY, round,this.selectedSubEntryColor.getRGB());
+                    FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, theTextFristY,selectedSubEntryTextColor.getRGB(),false);
                 }else{
-                    Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top, this.xPosition + this.width-4, this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + top, round,this.unSelectedSubEntryColor.getRGB());
-                    FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, this.yPosition+4+8+ subRange*i + bigRange*bigSubEntriesNum+top,unSelectedSubEntryTextColor.getRGB(),false);
+                    Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, theFirstY, this.xPosition + this.width-4, theLastY, round,this.unSelectedSubEntryColor.getRGB());
+                    FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+4+10, theTextFristY,unSelectedSubEntryTextColor.getRGB(),false);
                 }
 
                 entry.setxPosition(this.xPosition+(width/1.4f)+4);
                 entry.setX2Position(this.xPosition + this.width-4);
 
 
-                entry.setyPosition(this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top);
-                entry.setY2Position(this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + top);
-                continue;
+                entry.setyPosition(theFirstY);
+                entry.setY2Position(theLastY);
             }else if(entry.getCategory()== SubEntryCategory.Value){
 
-                Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top, this.xPosition + this.width-4, this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + 10 + top, round,this.unSelectedSubEntryColor.getRGB());
-                FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+ subRange*i + bigRange*bigSubEntriesNum + top,unSelectedSubEntryTextColor.getRGB(),false);
-                FontLoaders.msFont18.drawString("- "+entry.getValue(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+10+ subRange*i + bigRange*bigSubEntriesNum + top,unSelectedSubEntryTextColor.getRGB(),false);
+                float theLastY =this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + 10 + top+subEntriesRollingValue;
+
+                if(theLastY<=theTop){
+                    continue;
+                }
+
+                if(theFirstY>=theBottom){
+                    continue;
+                }
+
+                if(theFirstY<=theTop){
+                    theFirstY = theTop;
+                }
+
+                if(theLastY>=theBottom){
+                    theLastY = theBottom;
+                }
+
+                float theTextFristY = this.yPosition+2+8+ subRange*i + bigRange*bigSubEntriesNum + top+subEntriesRollingValue;
+                float theTextLastY = theTextFristY + 8;
+
+
+
+                if(theTextFristY<=theTop || theTextLastY>=theBottom){
+                    theTextFristY = -20;
+                }
+
+
+
+                Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f)+4, theFirstY, this.xPosition + this.width-4, theLastY, round,this.unSelectedSubEntryColor.getRGB());
+                FontLoaders.msFont18.drawString(entry.getEntryDisplayName(),this.xPosition+(width/1.4f)+2+10, theTextFristY,unSelectedSubEntryTextColor.getRGB(),false);
+                FontLoaders.msFont18.drawString("- "+entry.getValue(),this.xPosition+(width/1.4f)+2+10, this.yPosition+2+8+10+ subRange*i + bigRange*bigSubEntriesNum + top+subEntriesRollingValue,unSelectedSubEntryTextColor.getRGB(),false);
 
 
                 entry.setxPosition(this.xPosition+(width/1.4f)+4);
                 entry.setX2Position(this.xPosition + this.width-4);
 
-                entry.setyPosition(this.yPosition+4 + subRange*i + bigRange*bigSubEntriesNum + top);
-                entry.setY2Position(this.yPosition + 28 + subRange*i + bigRange*bigSubEntriesNum + 10 + top);
+                entry.setyPosition(theFirstY);
+                entry.setY2Position(theLastY);
 
                 bigSubEntriesNum++;
 
-                continue;
             }
 
+            Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f), this.yPosition, this.xPosition + this.width, this.yPosition + 14,round,this.mainColor.getRGB());
+            Render2DUtils.drawRoundedRect2(this.xPosition+(width/1.4f), this.yPosition+this.height-8, this.xPosition + this.width, this.yPosition + this.height,round,this.mainColor.getRGB());
+
+            FontLoaders.msFont18.drawString(subEntries.get(0).getModule().getModuleName(),this.xPosition+(width/1.4f)+4+1, this.yPosition+4+1 ,textColor.getRGB(),false);
 
 
         }
@@ -472,4 +557,8 @@ public class MainClickGUIIngame extends GuiScreen {
         }
     }
 
+    @Override
+    public void drawString(String text, float x, int y, int color) {
+        
+    }
 }

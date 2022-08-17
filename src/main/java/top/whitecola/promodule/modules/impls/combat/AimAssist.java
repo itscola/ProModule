@@ -136,9 +136,9 @@ public class AimAssist extends AbstractModule {
     public void onEnable() {
         lastTime = 0;
         delta = 0;
-
+        this.grounded.clear();
         vertical = true;
-        fieldOfView = 50f;
+//        fieldOfView = 90f;
         speed= 70f;
         super.onEnable();
     }
@@ -179,9 +179,9 @@ public class AimAssist extends AbstractModule {
     }
 
     private boolean shouldAttack(EntityLivingBase entity){
-        if(AimUtils.getRotationsDelta(entity)[0]>fieldOfView && AimUtils.getRotationsDelta(entity)[1]>fieldOfView){
-            return false;
-        }
+//        if(AimUtils.getRotationsDelta(entity)[0]>fieldOfView && AimUtils.getRotationsDelta(entity)[1]>fieldOfView){
+//            return false;
+//        }
 
         if(entity.isInvisible()){
             return false;
@@ -301,6 +301,7 @@ public class AimAssist extends AbstractModule {
             EntityLivingBase target = (EntityLivingBase) e.target;
             if(shouldAttack(target)){
                 this.theTarget = target;
+
                 return;
             }
         }
@@ -341,5 +342,11 @@ public class AimAssist extends AbstractModule {
         super.onTick();
     }
 
+    public void clearTarget(){
+        this.theTarget = null;
+    }
 
+    public EntityLivingBase getTheTarget() {
+        return theTarget;
+    }
 }

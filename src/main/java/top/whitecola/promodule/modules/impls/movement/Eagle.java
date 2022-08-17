@@ -59,4 +59,18 @@ public class Eagle extends AbstractModule {
 
         super.onTick();
     }
+
+    @Override
+    public void onDisable() {
+        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        if (player == null || player.getEntityWorld() == null) {
+            return;
+        }
+
+        if(player.isSneaking()){
+            lastShift = false;
+            robot.keyRelease(16);
+        }
+        super.onDisable();
+    }
 }

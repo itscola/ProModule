@@ -13,6 +13,8 @@ import top.whitecola.promodule.events.impls.EventToInvokeModules;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
+import top.whitecola.promodule.keybinds.ClearTargetKeybind;
+import top.whitecola.promodule.keybinds.EagleKeyBind;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 import top.whitecola.promodule.modules.ModuleManager;
 import top.whitecola.promodule.modules.impls.combat.*;
@@ -53,6 +55,9 @@ public class ProModule {
 
     public void registerKeyBinds(){
         ClientRegistry.registerKeyBinding(MainMenuInGameKeybind.getInstance());
+        ClientRegistry.registerKeyBinding(EagleKeyBind.getInstance());
+        ClientRegistry.registerKeyBinding(ClearTargetKeybind.getInstance());
+
 
     }
 
