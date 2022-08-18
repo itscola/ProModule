@@ -9,6 +9,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
@@ -89,6 +90,8 @@ public interface IModule {
     void packetReceivedEvent(PacketReceivedEvent e);
 
     void worldRenderEvent(WorldRenderEvent e);
+
+    void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e);
 
 
 }

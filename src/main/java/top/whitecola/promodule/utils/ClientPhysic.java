@@ -36,8 +36,7 @@ public class ClientPhysic {
         item.setPosition(x, y, z);
     }
 
-    public static void doRender(Entity entity, double x, double y, double z) {
-        float rotationSpeed = (float) 0.2;
+    public static void doRender(Entity entity, double x, double y, double z,double rotationSpeed) {
         rotation = (double) (System.nanoTime() - tick) / 2500000 * rotationSpeed;
 //        rotation = 1;
         if (!mc.inGameHasFocus) rotation = 0;

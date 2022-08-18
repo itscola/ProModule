@@ -17,6 +17,7 @@
     "MixinRendererLivingEntity",
     "MixinAbstractClientPlayer",
     "MixinItemRenderer",
-    "MixinRenderEntityItem"
+    "MixinRenderEntityItem",
+    "MixinGuiNewChat"
   ]
 }

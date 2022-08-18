@@ -70,6 +70,7 @@ public class ProModule {
         getModuleManager().addModule(new NoFov());
         getModuleManager().addModule(new ItemPhysic());
         getModuleManager().addModule(new DamageColor());
+        getModuleManager().addModule(new BetterChatLine());
         getModuleManager().addModule(new TargetHud());
 
         //combat

@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.modules.impls.render.ItemPhysic;
 import top.whitecola.promodule.utils.ClientPhysic;
 
 import java.util.Random;
@@ -51,10 +52,10 @@ public abstract class MixinRenderEntityItem extends Render<EntityItem> {
             this.renderManager.renderEngine.getTexture(this.getEntityTexture(p_doRender_1_)).setBlurMipmap(false, false);
             flag = true;
         }
+        ItemPhysic itemPhysic = (ItemPhysic) ProModule.getProModule().getModuleManager().getModuleByName("ItemPhysic");
 
-
-        if(ProModule.getProModule().getModuleManager().getModuleByName("ItemPhysic").isEnabled()){
-            ClientPhysic.doRender(p_doRender_1_,p_doRender_2_,p_doRender_4_,p_doRender_6_);
+        if(itemPhysic!=null&&itemPhysic.isEnabled()){
+            ClientPhysic.doRender(p_doRender_1_,p_doRender_2_,p_doRender_4_,p_doRender_6_,itemPhysic.getRotationSpeed());
             return;
         }
 

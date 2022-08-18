@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.ProModule;
@@ -244,5 +245,15 @@ public class EventToInvokeModules extends EventAdapter {
             module.worldRenderEvent(e);
         }
         super.worldRenderEvent(e);
+    }
+
+    @Override
+    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.onPlayerRespawn(e);
+        }
+        super.onPlayerRespawn(e);
     }
 }

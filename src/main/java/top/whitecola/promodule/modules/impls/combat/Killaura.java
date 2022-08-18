@@ -4,7 +4,7 @@ import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 
 public class Killaura extends AbstractModule {
-    
+
 
     @Override
     public ModuleCategory getModuleType() {

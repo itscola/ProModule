@@ -75,6 +75,7 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
 
+
     @Override
     public void initGui() {
         super.initGui();
@@ -537,6 +538,7 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     }
 
     public void clearEntries(){
+        this.rollingValue = 0;
         this.entries.clear();
     }
 
@@ -551,7 +553,7 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
             if(subEntries == null){
                 return;
             }
-
+            this.subEntriesRollingValue = 0;
             this.subEntries = subEntries;
         } catch (Throwable throwable) {
             throwable.printStackTrace();

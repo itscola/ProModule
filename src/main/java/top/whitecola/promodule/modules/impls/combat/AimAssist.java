@@ -13,12 +13,15 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import org.lwjgl.Sys;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 import top.whitecola.promodule.injection.wrappers.IMixinEntity;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.AimUtils;
+import top.whitecola.promodule.utils.PlayerSPUtils;
 import top.whitecola.promodule.utils.ServerUtils;
 
 import java.util.Vector;
@@ -348,5 +351,19 @@ public class AimAssist extends AbstractModule {
 
     public EntityLivingBase getTheTarget() {
         return theTarget;
+    }
+
+    @Override
+    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e) {
+        if(e.player!=null){
+            if(!(e.player instanceof EntityPlayerSP)){
+                return;
+            }
+            if(this.theTarget!=null){
+                PlayerSPUtils.sendMsgToSelf("Clear Target: "+getTheTarget().getDisplayName().getFormattedText());
+                clearTarget();
+            }
+        }
+        super.onPlayerRespawn(e);
     }
 }

@@ -24,7 +24,8 @@ public class ModuleUtils {
         public Vector<ClickGUISubEntry> subEntriesfromModule(AbstractModule module) throws Throwable{
         Vector<ClickGUISubEntry> subEntries = new Vector<ClickGUISubEntry>();
 
-        for(Field field : module.getClass().getFields()){
+        for(Field field : module.getClass().getDeclaredFields()){
+            field.setAccessible(true);
             if(!field.isAnnotationPresent(ModuleSetting.class)){
                 continue;
             }

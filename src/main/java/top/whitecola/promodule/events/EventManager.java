@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
@@ -204,6 +205,13 @@ public class EventManager {
     public void worldRenderEvent(WorldRenderEvent e){
         for (EventAdapter eventAdapter : events) {
             eventAdapter.worldRenderEvent(e);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e){
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.onPlayerRespawn(e);
         }
     }
 }

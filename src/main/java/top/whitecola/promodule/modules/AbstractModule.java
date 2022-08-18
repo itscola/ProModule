@@ -9,6 +9,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.ProModule;
@@ -235,6 +236,11 @@ public class AbstractModule implements IModule{
 
     }
 
+    @Override
+    public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e) {
+
+    }
+
 
     public Vector<ModuleOption> getOptions() {
         return options;
@@ -369,7 +375,8 @@ public class AbstractModule implements IModule{
     }
 
     public Setting getSettingField(String settingName) {
-        for (Field field : this.getClass().getFields()) {
+        for (Field field : this.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
             if (field.isAnnotationPresent(ModuleSetting.class)) {
                 ModuleSetting moduleSetting = field.getAnnotation(ModuleSetting.class);
                 if (moduleSetting.name().equalsIgnoreCase(settingName)) {
