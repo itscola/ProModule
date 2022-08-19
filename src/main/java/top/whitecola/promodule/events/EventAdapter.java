@@ -1,5 +1,6 @@
 package top.whitecola.promodule.events;
 
+import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.event.*;
@@ -142,6 +143,10 @@ public abstract class EventAdapter {
     }
 
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e){
+
+    }
+
+    public void onRenderBlock(int x,int y,int z, Block block){
 
     }
 }

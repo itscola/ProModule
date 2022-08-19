@@ -39,7 +39,7 @@ public class ProModule {
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        FontLoaders.loadAllFonts();
+//        FontLoaders.loadAllFonts();
         registerEvent();
         registerKeyBinds();
         registerModules();
@@ -71,14 +71,20 @@ public class ProModule {
         getModuleManager().addModule(new ItemPhysic());
         getModuleManager().addModule(new DamageColor());
         getModuleManager().addModule(new BetterChatLine());
-        getModuleManager().addModule(new TargetHud());
+//        getModuleManager().addModule(new TargetHud());
+        getModuleManager().addModule(new ESP());
+        getModuleManager().addModule(new BedESP());
+        getModuleManager().addModule(new ChestESP());
+
+
+
 
         //combat
         getModuleManager().addModule(new AutoClicker());
         getModuleManager().addModule(new Reach());
         getModuleManager().addModule(new Velocity());
         getModuleManager().addModule(new KeepSprint());
-        getModuleManager().addModule(new AntiBot());
+//        getModuleManager().addModule(new AntiBot());
         getModuleManager().addModule(new AimAssist());
 
 

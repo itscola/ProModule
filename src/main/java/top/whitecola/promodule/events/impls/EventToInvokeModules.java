@@ -1,5 +1,6 @@
 package top.whitecola.promodule.events.impls;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -255,5 +256,26 @@ public class EventToInvokeModules extends EventAdapter {
             module.onPlayerRespawn(e);
         }
         super.onPlayerRespawn(e);
+    }
+
+    @Override
+    public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.onRender3D(pass, partialTicks, finishTimeNano);
+        }
+        super.onRender3D(pass, partialTicks, finishTimeNano);
+    }
+
+
+    @Override
+    public void onRenderBlock(int x, int y, int z, Block block) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.onRenderBlock(x, y, z, block);
+        }
+        super.onRenderBlock(x, y, z, block);
     }
 }

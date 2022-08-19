@@ -120,8 +120,8 @@ public class AutoClicker extends AbstractModule {
         this.rightLastSwing = 0;
         this.delay = 0;
 
-        this.minCPS = 4f;
-        this.maxCPS = 9f;
+        this.minCPS = 10f;
+        this.maxCPS = 11f;
         super.onEnable();
     }
 

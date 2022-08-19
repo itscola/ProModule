@@ -4,7 +4,7 @@
   "refmap": "mixins.promodule.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinMixinEntityRenderer",
+    "MixinEntityRenderer",
     "MixinNetworkManager",
     "MixinS12PacketEntityVelocity",
     "MixinMinecraft",
@@ -18,6 +18,8 @@
     "MixinAbstractClientPlayer",
     "MixinItemRenderer",
     "MixinRenderEntityItem",
-    "MixinGuiNewChat"
+    "MixinGuiNewChat",
+    "MixinRenderManager",
+    "MixinBlockRendererDispatcher"
   ]
 }

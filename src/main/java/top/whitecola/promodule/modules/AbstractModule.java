@@ -1,5 +1,6 @@
 package top.whitecola.promodule.modules;
 
+import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.event.*;
@@ -238,6 +239,11 @@ public class AbstractModule implements IModule{
 
     @Override
     public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e) {
+
+    }
+
+    @Override
+    public void onRenderBlock(int x, int y, int z, Block block) {
 
     }
 

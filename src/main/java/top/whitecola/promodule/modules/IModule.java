@@ -1,5 +1,6 @@
 package top.whitecola.promodule.modules;
 
+import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.event.*;
@@ -93,5 +94,5 @@ public interface IModule {
 
     void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e);
 
-
+    void onRenderBlock(int x,int y,int z, Block block);
 }

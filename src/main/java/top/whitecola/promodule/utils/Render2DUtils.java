@@ -348,4 +348,21 @@ public class Render2DUtils {
         float blue = (hex & 0xFF) / 255.0F;
         GL11.glColor4f(red, green, blue, alpha);
     }
+
+    public static void drawGradientRect(float x, float y, float x1, float y1, int topColor, int bottomColor) {
+        enableGL2D();
+        GL11.glShadeModel((int) 7425);
+        GL11.glBegin((int) 7);
+        glColor(topColor);
+        GL11.glVertex2f((float) x, (float) y1);
+        GL11.glVertex2f((float) x1, (float) y1);
+        glColor(bottomColor);
+        GL11.glVertex2f((float) x1, (float) y);
+        GL11.glVertex2f((float) x, (float) y);
+        GL11.glEnd();
+        GL11.glShadeModel((int) 7424);
+        disableGL2D();
+    }
+
+
 }

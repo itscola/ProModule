@@ -1,5 +1,6 @@
 package top.whitecola.promodule.modules.impls.movement;
 
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -14,10 +15,10 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class WTap extends AbstractModule {
     @ModuleSetting(name = "Delay_S")
-    protected Float delay = 0.3f;
+    protected Float delay = 1f;
 
     @ModuleSetting(name = "RecoverDelay")
-    protected Float recoverDelay = 0.1f;
+    protected Float recoverDelay = 0.3f;
 
     protected long last = 0;
 
@@ -46,21 +47,20 @@ public class WTap extends AbstractModule {
             return;
         }
 
-        if(!mc.thePlayer.isSprinting()&&System.currentTimeMillis()-last>=delay*1000){
-            mc.thePlayer.setSprinting(true);
-            return;
-        }
+//        if(!mc.thePlayer.isSprinting()&&System.currentTimeMillis()-last>=delay*1000){
+//            mc.thePlayer.setSprinting(true);
+//            return;
+//        }
 
-        AimAssist aimAssist = (AimAssist) ProModule.getProModule().getModuleManager().getModuleByName("AimAssist");
-        if(aimAssist!=null&aimAssist.isEnabled()&&aimAssist.getTheTarget()!=null){
-            if(aimAssist.getTheTarget().equals(e.target)){
-                if(System.currentTimeMillis()-last>=delay*1000){
+//        AimAssist aimAssist = (AimAssist) ProModule.getProModule().getModuleManager().getModuleByName("AimAssist");
+//        if(aimAssist!=null&aimAssist.isEnabled()&&aimAssist.getTheTarget()!=null){
+//            if(aimAssist.getTheTarget().equals(e.target)){
+                if(System.currentTimeMillis()-last<=delay){
                     last = System.currentTimeMillis();
-                    mc.thePlayer.setSprinting(false);
-//                    PlayerSPUtils.sendMsgToSelf("wtap!");
+                    KeyBinding.onTick(mc.gameSettings.keyBindBack.getKeyCode());
                 }
-            }
-        }
+//            }
+//        }
 
 
         super.onAttackEntity(e);

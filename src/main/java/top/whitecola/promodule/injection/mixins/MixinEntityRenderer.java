@@ -17,6 +17,7 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.*;
 import net.minecraftforge.client.ForgeHooksClient;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.Random;
 
 @Mixin(EntityRenderer.class)
-public abstract class MixinMixinEntityRenderer {
+public abstract class MixinEntityRenderer {
 
     @Shadow
     private Minecraft mc;
@@ -265,67 +266,67 @@ public abstract class MixinMixinEntityRenderer {
      * @reason For Render Event.
      */
     @Overwrite
-    private void renderWorldPass(int p_renderWorldPass_1_, float p_renderWorldPass_2_, long p_renderWorldPass_3_) {
+    private void renderWorldPass(int pass, float partialTicks, long finishTimeNano) {
         RenderGlobal renderglobal = this.mc.renderGlobal;
         EffectRenderer effectrenderer = this.mc.effectRenderer;
         boolean flag = this.isDrawBlockOutline();
         GlStateManager.enableCull();
         this.mc.mcProfiler.endStartSection("clear");
         GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-        this.updateFogColor(p_renderWorldPass_2_);
+        this.updateFogColor(partialTicks);
         GlStateManager.clear(16640);
         this.mc.mcProfiler.endStartSection("camera");
-        this.setupCameraTransform(p_renderWorldPass_2_, p_renderWorldPass_1_);
+        this.setupCameraTransform(partialTicks, pass);
         ActiveRenderInfo.updateRenderInfo(this.mc.thePlayer, this.mc.gameSettings.thirdPersonView == 2);
         this.mc.mcProfiler.endStartSection("frustum");
         ClippingHelperImpl.getInstance();
         this.mc.mcProfiler.endStartSection("culling");
         ICamera icamera = new Frustum();
         Entity entity = this.mc.getRenderViewEntity();
-        double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)p_renderWorldPass_2_;
-        double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)p_renderWorldPass_2_;
-        double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)p_renderWorldPass_2_;
+        double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)partialTicks;
+        double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks;
+        double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)partialTicks;
         icamera.setPosition(d0, d1, d2);
         if (this.mc.gameSettings.renderDistanceChunks >= 4) {
-            this.setupFog(-1, p_renderWorldPass_2_);
+            this.setupFog(-1, partialTicks);
             this.mc.mcProfiler.endStartSection("sky");
             GlStateManager.matrixMode(5889);
             GlStateManager.loadIdentity();
-            Project.gluPerspective(this.getFOVModifier(p_renderWorldPass_2_, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
+            Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.farPlaneDistance * 2.0F);
             GlStateManager.matrixMode(5888);
-            renderglobal.renderSky(p_renderWorldPass_2_, p_renderWorldPass_1_);
+            renderglobal.renderSky(partialTicks, pass);
             GlStateManager.matrixMode(5889);
             GlStateManager.loadIdentity();
-            Project.gluPerspective(this.getFOVModifier(p_renderWorldPass_2_, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.farPlaneDistance * MathHelper.SQRT_2);
+            Project.gluPerspective(this.getFOVModifier(partialTicks, true), (float)this.mc.displayWidth / (float)this.mc.displayHeight, 0.05F, this.farPlaneDistance * MathHelper.SQRT_2);
             GlStateManager.matrixMode(5888);
         }
 
-        this.setupFog(0, p_renderWorldPass_2_);
+        this.setupFog(0, partialTicks);
         GlStateManager.shadeModel(7425);
         if (entity.posY + (double)entity.getEyeHeight() < 128.0D) {
-            this.renderCloudsCheck(renderglobal, p_renderWorldPass_2_, p_renderWorldPass_1_);
+            this.renderCloudsCheck(renderglobal, partialTicks, pass);
         }
 
         this.mc.mcProfiler.endStartSection("prepareterrain");
-        this.setupFog(0, p_renderWorldPass_2_);
+        this.setupFog(0, partialTicks);
         this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         RenderHelper.disableStandardItemLighting();
         this.mc.mcProfiler.endStartSection("terrain_setup");
-        renderglobal.setupTerrain(entity, (double)p_renderWorldPass_2_, icamera, this.frameCount++, this.mc.thePlayer.isSpectator());
-        if (p_renderWorldPass_1_ == 0 || p_renderWorldPass_1_ == 2) {
+        renderglobal.setupTerrain(entity, (double)partialTicks, icamera, this.frameCount++, this.mc.thePlayer.isSpectator());
+        if (pass == 0 || pass == 2) {
             this.mc.mcProfiler.endStartSection("updatechunks");
-            this.mc.renderGlobal.updateChunks(p_renderWorldPass_3_);
+            this.mc.renderGlobal.updateChunks(finishTimeNano);
         }
 
         this.mc.mcProfiler.endStartSection("terrain");
         GlStateManager.matrixMode(5888);
         GlStateManager.pushMatrix();
         GlStateManager.disableAlpha();
-        renderglobal.renderBlockLayer(EnumWorldBlockLayer.SOLID, (double)p_renderWorldPass_2_, p_renderWorldPass_1_, entity);
+        renderglobal.renderBlockLayer(EnumWorldBlockLayer.SOLID, (double)partialTicks, pass, entity);
         GlStateManager.enableAlpha();
-        renderglobal.renderBlockLayer(EnumWorldBlockLayer.CUTOUT_MIPPED, (double)p_renderWorldPass_2_, p_renderWorldPass_1_, entity);
+        renderglobal.renderBlockLayer(EnumWorldBlockLayer.CUTOUT_MIPPED, (double)partialTicks, pass, entity);
         this.mc.getTextureManager().getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
-        renderglobal.renderBlockLayer(EnumWorldBlockLayer.CUTOUT, (double)p_renderWorldPass_2_, p_renderWorldPass_1_, entity);
+        renderglobal.renderBlockLayer(EnumWorldBlockLayer.CUTOUT, (double)partialTicks, pass, entity);
         this.mc.getTextureManager().getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
         GlStateManager.shadeModel(7424);
         GlStateManager.alphaFunc(516, 0.1F);
@@ -337,7 +338,7 @@ public abstract class MixinMixinEntityRenderer {
             RenderHelper.enableStandardItemLighting();
             this.mc.mcProfiler.endStartSection("entities");
             ForgeHooksClient.setRenderPass(0);
-            renderglobal.renderEntities(entity, icamera, p_renderWorldPass_2_);
+            renderglobal.renderEntities(entity, icamera, partialTicks);
             ForgeHooksClient.setRenderPass(0);
             RenderHelper.disableStandardItemLighting();
             this.disableLightmap();
@@ -348,8 +349,8 @@ public abstract class MixinMixinEntityRenderer {
                 entityplayer1 = (EntityPlayer)entity;
                 GlStateManager.disableAlpha();
                 this.mc.mcProfiler.endStartSection("outline");
-                if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer1, this.mc.objectMouseOver, 0, entityplayer1.getHeldItem(), p_renderWorldPass_2_)) {
-                    renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, p_renderWorldPass_2_);
+                if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer1, this.mc.objectMouseOver, 0, entityplayer1.getHeldItem(), partialTicks)) {
+                    renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
                 }
 
                 GlStateManager.enableAlpha();
@@ -362,8 +363,8 @@ public abstract class MixinMixinEntityRenderer {
             entityplayer1 = (EntityPlayer)entity;
             GlStateManager.disableAlpha();
             this.mc.mcProfiler.endStartSection("outline");
-            if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer1, this.mc.objectMouseOver, 0, entityplayer1.getHeldItem(), p_renderWorldPass_2_)) {
-                renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, p_renderWorldPass_2_);
+            if (!ForgeHooksClient.onDrawBlockHighlight(renderglobal, entityplayer1, this.mc.objectMouseOver, 0, entityplayer1.getHeldItem(), partialTicks)) {
+                renderglobal.drawSelectionBox(entityplayer1, this.mc.objectMouseOver, 0, partialTicks);
             }
 
             GlStateManager.enableAlpha();
@@ -373,42 +374,42 @@ public abstract class MixinMixinEntityRenderer {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 1, 1, 0);
         this.mc.getTextureManager().getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
-        renderglobal.drawBlockDamageTexture(Tessellator.getInstance(), Tessellator.getInstance().getWorldRenderer(), entity, p_renderWorldPass_2_);
+        renderglobal.drawBlockDamageTexture(Tessellator.getInstance(), Tessellator.getInstance().getWorldRenderer(), entity, partialTicks);
         this.mc.getTextureManager().getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
         GlStateManager.disableBlend();
         if (!this.debugView) {
             this.enableLightmap();
             this.mc.mcProfiler.endStartSection("litParticles");
-            effectrenderer.renderLitParticles(entity, p_renderWorldPass_2_);
+            effectrenderer.renderLitParticles(entity, partialTicks);
             RenderHelper.disableStandardItemLighting();
-            this.setupFog(0, p_renderWorldPass_2_);
+            this.setupFog(0, partialTicks);
             this.mc.mcProfiler.endStartSection("particles");
-            effectrenderer.renderParticles(entity, p_renderWorldPass_2_);
+            effectrenderer.renderParticles(entity, partialTicks);
             this.disableLightmap();
         }
 
         GlStateManager.depthMask(false);
         GlStateManager.enableCull();
         this.mc.mcProfiler.endStartSection("weather");
-        this.renderRainSnow(p_renderWorldPass_2_);
+        this.renderRainSnow(partialTicks);
         GlStateManager.depthMask(true);
-        renderglobal.renderWorldBorder(entity, p_renderWorldPass_2_);
+        renderglobal.renderWorldBorder(entity, partialTicks);
         GlStateManager.disableBlend();
         GlStateManager.enableCull();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.alphaFunc(516, 0.1F);
-        this.setupFog(0, p_renderWorldPass_2_);
+        this.setupFog(0, partialTicks);
         GlStateManager.enableBlend();
         GlStateManager.depthMask(false);
         this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         GlStateManager.shadeModel(7425);
         this.mc.mcProfiler.endStartSection("translucent");
-        renderglobal.renderBlockLayer(EnumWorldBlockLayer.TRANSLUCENT, (double)p_renderWorldPass_2_, p_renderWorldPass_1_, entity);
+        renderglobal.renderBlockLayer(EnumWorldBlockLayer.TRANSLUCENT, (double)partialTicks, pass, entity);
         if (!this.debugView) {
             RenderHelper.enableStandardItemLighting();
             this.mc.mcProfiler.endStartSection("entities");
             ForgeHooksClient.setRenderPass(1);
-            renderglobal.renderEntities(entity, icamera, p_renderWorldPass_2_);
+            renderglobal.renderEntities(entity, icamera, partialTicks);
             ForgeHooksClient.setRenderPass(-1);
             RenderHelper.disableStandardItemLighting();
         }
@@ -418,23 +419,39 @@ public abstract class MixinMixinEntityRenderer {
         GlStateManager.enableCull();
         GlStateManager.disableBlend();
         GlStateManager.disableFog();
+
+
+
+
+
+        EventManager.getEventManager().onRender3D(pass, partialTicks, finishTimeNano);
+        GL11.glColor3f(1.0F, 1.0F, 1.0F);
+
+
+
+
+
+
+
+
+
         if (entity.posY + (double)entity.getEyeHeight() >= 128.0D) {
             this.mc.mcProfiler.endStartSection("aboveClouds");
-            this.renderCloudsCheck(renderglobal, p_renderWorldPass_2_, p_renderWorldPass_1_);
+            this.renderCloudsCheck(renderglobal, partialTicks, pass);
         }
 
         this.mc.mcProfiler.endStartSection("forge_render_last");
-        ForgeHooksClient.dispatchRenderLast(renderglobal, p_renderWorldPass_2_);
+        ForgeHooksClient.dispatchRenderLast(renderglobal, partialTicks);
         this.mc.mcProfiler.endStartSection("hand");
 
 
-        WorldRenderEvent worldRenderEvent = new WorldRenderEvent(p_renderWorldPass_2_);
+        WorldRenderEvent worldRenderEvent = new WorldRenderEvent(partialTicks);
         EventManager.getEventManager().worldRenderEvent(worldRenderEvent);
 
-        if (!ForgeHooksClient.renderFirstPersonHand(renderglobal, p_renderWorldPass_2_, p_renderWorldPass_1_) && this.renderHand) {
+        if (!ForgeHooksClient.renderFirstPersonHand(renderglobal, partialTicks, pass) && this.renderHand) {
             GlStateManager.clear(256);
-            this.renderHand(p_renderWorldPass_2_, p_renderWorldPass_1_);
-            this.renderWorldDirections(p_renderWorldPass_2_);
+            this.renderHand(partialTicks, pass);
+            this.renderWorldDirections(partialTicks);
         }
 
     }
