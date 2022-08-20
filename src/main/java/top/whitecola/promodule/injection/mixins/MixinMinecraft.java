@@ -8,6 +8,7 @@ import top.whitecola.promodule.injection.wrappers.IMixinMinecraft;
 
 @Mixin(Minecraft.class)
 public class MixinMinecraft implements IMixinMinecraft {
+    @Shadow private int rightClickDelayTimer;
 
     @Shadow private Timer timer;
 
@@ -15,4 +16,15 @@ public class MixinMinecraft implements IMixinMinecraft {
     public Timer getTimer() {
         return timer;
     }
+
+    @Override
+    public void setRightClickDelayTimer(int value) {
+        this.rightClickDelayTimer = value;
+    }
+
+    @Override
+    public int getRightClickDelayTimer() {
+        return this.rightClickDelayTimer;
+    }
+
 }

@@ -21,6 +21,7 @@ import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntr
 import top.whitecola.promodule.gui.components.clickables.wrapper.Setting;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 import top.whitecola.promodule.utils.ClientUtils;
+import static top.whitecola.promodule.utils.MCWrapper.*;
 
 import java.lang.reflect.Field;
 import java.util.Vector;

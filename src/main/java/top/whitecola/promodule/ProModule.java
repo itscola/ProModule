@@ -21,6 +21,7 @@ import top.whitecola.promodule.modules.impls.combat.*;
 import top.whitecola.promodule.modules.impls.movement.Eagle;
 import top.whitecola.promodule.modules.impls.movement.WTap;
 import top.whitecola.promodule.modules.impls.render.*;
+import top.whitecola.promodule.modules.impls.world.FastPlace;
 
 import java.nio.charset.Charset;
 
@@ -84,13 +85,16 @@ public class ProModule {
         getModuleManager().addModule(new Reach());
         getModuleManager().addModule(new Velocity());
         getModuleManager().addModule(new KeepSprint());
-//        getModuleManager().addModule(new AntiBot());
+        getModuleManager().addModule(new AntiBot());
         getModuleManager().addModule(new AimAssist());
 
 
         //movement
         getModuleManager().addModule(new Eagle());
         getModuleManager().addModule(new WTap());
+
+        //world
+        getModuleManager().addModule(new FastPlace());
 
 
     }
