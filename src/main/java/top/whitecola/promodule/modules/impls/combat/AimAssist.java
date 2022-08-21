@@ -51,11 +51,17 @@ public class AimAssist extends AbstractModule {
     @ModuleSetting(name = "Color4Team",type = "select")
     public Boolean checkHatColor = false;
 
+    @ModuleSetting(name = "CheckDead",type = "select")
+    public Boolean checkDead = false;
+
     public long delta, lastTime;
 
     private EntityLivingBase theTarget;
 
     private Vector<Integer> grounded = new Vector<Integer>();
+    private Vector<Integer> attackted = new Vector<Integer>();
+
+
 
     @Override
     public ModuleCategory getModuleType() {
@@ -67,6 +73,7 @@ public class AimAssist extends AbstractModule {
         return "AimAssist";
 
     }
+
 
     @Override
     public void worldRenderEvent(WorldRenderEvent e) {
@@ -95,10 +102,12 @@ public class AimAssist extends AbstractModule {
         }
 
         if(attackMode && theTarget!=null){
-            if(mc.thePlayer.getDistanceToEntity(theTarget)>6){
+            if(mc.thePlayer.getDistanceToEntity(theTarget)>=6){
                 return;
             }
         }
+
+
 
 
 
@@ -300,11 +309,15 @@ public class AimAssist extends AbstractModule {
         }
 
 
+
+
         if(e.target instanceof EntityPlayer){
             EntityLivingBase target = (EntityLivingBase) e.target;
             if(shouldAttack(target)){
                 this.theTarget = target;
-
+                if(checkDead) {
+                    this.attackted.add(target.getEntityId());
+                }
                 return;
             }
         }
@@ -341,6 +354,17 @@ public class AimAssist extends AbstractModule {
                     grounded.add(entity.getEntityId());
                 }
             }
+
+            if(checkDead && entity.isDead){
+                if(attackted.contains(entity.getEntityId())){
+                    attackted.remove(entity.getEntityId());
+                    if(this.theTarget!=null&&this.theTarget.equals(entity)){
+                        PlayerSPUtils.sendMsgToSelf("Clear dead target: "+getTheTarget().getDisplayName().getFormattedText());
+                        clearTarget();
+                    }
+                }
+            }
+
         }
         super.onTick();
     }
