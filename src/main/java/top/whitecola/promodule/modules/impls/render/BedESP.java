@@ -12,6 +12,7 @@ import top.whitecola.promodule.utils.Render3DUtils;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 import java.awt.*;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class BedESP extends AbstractModule {
@@ -21,7 +22,9 @@ public class BedESP extends AbstractModule {
 
     @Override
     public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
-        for(BlockPos blockPos : bedBlocks){
+        Iterator<BlockPos> it = bedBlocks.iterator();
+        while(it.hasNext()){
+            BlockPos blockPos = it.next();
             Render3DUtils.drawSolidBlockESP(
                     blockPos.getX() - ((IMixinRenderManager) mc.getRenderManager()).getRenderPosX(),
                     blockPos.getY() - ((IMixinRenderManager) mc.getRenderManager()).getRenderPosY(),

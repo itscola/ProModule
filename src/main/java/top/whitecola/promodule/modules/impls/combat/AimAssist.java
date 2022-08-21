@@ -309,8 +309,6 @@ public class AimAssist extends AbstractModule {
         }
 
 
-
-
         if(e.target instanceof EntityPlayer){
             EntityLivingBase target = (EntityLivingBase) e.target;
             if(shouldAttack(target)){
@@ -332,6 +330,7 @@ public class AimAssist extends AbstractModule {
         if(e.entity instanceof EntityPlayerSP){
             this.theTarget = null;
             this.grounded.clear();
+            this.attackted.clear();
         }
 
 
@@ -356,12 +355,10 @@ public class AimAssist extends AbstractModule {
             }
 
             if(checkDead && entity.isDead){
-                if(attackted.contains(entity.getEntityId())){
-                    attackted.remove(entity.getEntityId());
-                    if(this.theTarget!=null&&this.theTarget.equals(entity)){
-                        PlayerSPUtils.sendMsgToSelf("Clear dead target: "+getTheTarget().getDisplayName().getFormattedText());
-                        clearTarget();
-                    }
+                attackted.remove(entity.getEntityId());
+                if(this.theTarget!=null&&this.theTarget.getEntityId()==entity.getEntityId()){
+                    PlayerSPUtils.sendMsgToSelf("Clear dead target: "+getTheTarget().getDisplayName().getFormattedText());
+                    clearTarget();
                 }
             }
 

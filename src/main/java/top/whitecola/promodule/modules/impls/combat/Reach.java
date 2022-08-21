@@ -25,7 +25,7 @@ public class Reach extends AbstractModule {
     @Override
     public void onEnable() {
         minRange = 3.1f;
-        maxRange = 3.4f;
+        maxRange = 3.3f;
         super.onEnable();
     }
 
