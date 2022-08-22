@@ -23,6 +23,15 @@ public class Velocity extends AbstractModule {
     @ModuleSetting(name = "maxVertical")
     public Float maxVertical = 100f;
 
+    @ModuleSetting(name = "UseChance",type = "select")
+    public Boolean useChance = true;
+
+    @ModuleSetting(name = "Chance")
+    public Float chance = 90f;
+
+    @ModuleSetting(name = "NoRandom",type = "select")
+    public Boolean noRandom = true;
+
     @ModuleSetting(name = "WhenSprinting",type = "select")
     public Boolean whenSprinting = true;
 
@@ -46,12 +55,33 @@ public class Velocity extends AbstractModule {
 
                 S12PacketEntityVelocity packet = (S12PacketEntityVelocity) e.getPacket();
 
-                double randomHorizontal = RandomUtils.nextDouble(minHorizontal,maxHorizontal);
-                double randomVertical = RandomUtils.nextDouble(minVertical,maxVertical);
+                double randomHorizontal;
+                double randomVertical;
+
+                if(noRandom){
+                    randomHorizontal = maxHorizontal;
+                    randomVertical = maxVertical;
+
+                }else {
+                    randomHorizontal = RandomUtils.nextDouble(minHorizontal,maxHorizontal);
+                    randomVertical = RandomUtils.nextDouble(minVertical,maxVertical);
+
+                }
 
 //                System.out.println(randomHorizontal);
 
 //                System.out.println(packet.getMotionX()+" "+packet.getMotionY()+" "+ packet.getMotionZ());
+
+                if(useChance){
+                    double value = RandomUtils.nextDouble(1,100);
+                    if(value>chance){
+                        ((IMixinS12PacketEntityVelocity)packet).setMotionX((packet.getMotionX()));
+                        ((IMixinS12PacketEntityVelocity)packet).setMotionY((packet.getMotionY()));
+                        ((IMixinS12PacketEntityVelocity)packet).setMotionZ((packet.getMotionZ()));
+                        return;
+                    }
+                }
+
 
 
                 ((IMixinS12PacketEntityVelocity)packet).setMotionX((int)(packet.getMotionX() * randomHorizontal / 100.0));
@@ -83,14 +113,22 @@ public class Velocity extends AbstractModule {
     }
 
     @Override
+    public String getDisplayName() {
+        return super.getDisplayName()+" (AG)";
+    }
+
+    @Override
     public void onEnable() {
-        whenSprinting = true;
+//        whenSprinting = true;
 
         minHorizontal = 90f;
-        maxHorizontal = 100f;
+        maxHorizontal = 90f;
 
-        minVertical = 90f;
+        minVertical = 100f;
         maxVertical = 100f;
+
+        noRandom = true;
+        useChance = true;
 
         super.onEnable();
     }

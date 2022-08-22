@@ -54,6 +54,9 @@ public class AimAssist extends AbstractModule {
     @ModuleSetting(name = "CheckDead",type = "select")
     public Boolean checkDead = false;
 
+    @ModuleSetting(name = "CheckTeam",type = "select")
+    public Boolean checkTeam = true;
+
     public long delta, lastTime;
 
     private EntityLivingBase theTarget;
@@ -205,7 +208,7 @@ public class AimAssist extends AbstractModule {
 
 
         if(checkHatColor){
-            if(entity.getEquipmentInSlot(4)==null||entity.getEquipmentInSlot(4).getTagCompound().getCompoundTag("display").getInteger("color")==0){
+            if(entity.getEquipmentInSlot(4)==null||entity.getEquipmentInSlot(4).getTagCompound()==null||entity.getEquipmentInSlot(4).getTagCompound().getCompoundTag("display")==null||entity.getEquipmentInSlot(4).getTagCompound().getCompoundTag("display").getInteger("color")==0){
                 return false;
             }
 
@@ -223,7 +226,7 @@ public class AimAssist extends AbstractModule {
         }
 
 
-        if(entity.isOnSameTeam(mc.thePlayer)){
+        if(checkTeam&&entity.isOnSameTeam(mc.thePlayer)){
             return false;
         }
 

@@ -3,7 +3,12 @@ package top.whitecola.promodule.injection.mixins;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.injection.wrappers.IMixinEntity;
+import top.whitecola.promodule.modules.impls.combat.HitBox;
 
 @Mixin(Entity.class)
 public class MixinEntity implements IMixinEntity {
@@ -58,5 +63,14 @@ public class MixinEntity implements IMixinEntity {
         return this.rotationYaw;
     }
 
+
+    @Inject(method = "getCollisionBorderSize", at = { @At("HEAD") }, cancellable = true)
+    public void getCollisionBorderSize(CallbackInfoReturnable<Float> cir){
+        HitBox hitBox = (HitBox) ProModule.getProModule().getModuleManager().getModuleByName("HitBox");
+        if(hitBox!=null&&hitBox.isEnabled()){
+            cir.setReturnValue(hitBox.getValue());
+            cir.cancel();
+        }
+    }
 
 }
