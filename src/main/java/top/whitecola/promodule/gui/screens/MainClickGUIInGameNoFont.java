@@ -19,6 +19,7 @@ import top.whitecola.promodule.gui.components.clickables.buttons.LabelButton;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
+import top.whitecola.promodule.utils.BlurUtils;
 import top.whitecola.promodule.utils.GUIUtils;
 import top.whitecola.promodule.utils.ModuleUtils;
 import top.whitecola.promodule.utils.Render2DUtils;
@@ -106,6 +107,9 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        BlurUtils.doBlur(6);
+
+
         FontRenderer fontRenderer = mc.fontRendererObj;
 
         if(GUIUtils.isHovered(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20,mouseX,mouseY) && Mouse.isButtonDown(0)){
@@ -133,7 +137,7 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
         if(GUIUtils.isHovered(this.xPosition + (this.width)/4f, this.yPosition, this.xPosition+(width/1.4f), this.yPosition +this.height,mouseX,mouseY)){
             int dwheel = Mouse.getDWheel();
 
-            if(dwheel<0 && Math.abs(rollingValue) +152 < (entries.size() * 26)){
+            if(dwheel<0 && Math.abs(rollingValue) +152 < (entries.size() * 26)+4){
 
                 rollingValue -=10;
 

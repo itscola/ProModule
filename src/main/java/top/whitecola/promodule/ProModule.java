@@ -1,5 +1,6 @@
 package top.whitecola.promodule;
 
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -44,7 +45,10 @@ public class ProModule {
         registerEvent();
         registerKeyBinds();
         registerModules();
+        ProModule.getProModule().getModuleConfig().config.loadConfigForModules();
+
     }
+
 
     public void registerEvent(){
         MinecraftForge.EVENT_BUS.register(eventManager);
@@ -76,6 +80,7 @@ public class ProModule {
         getModuleManager().addModule(new ESP());
         getModuleManager().addModule(new BedESP());
         getModuleManager().addModule(new ChestESP());
+        getModuleManager().addModule(new ScoreBoardGUI());
 
 
 

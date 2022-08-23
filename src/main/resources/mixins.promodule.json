@@ -20,6 +20,9 @@
     "MixinRenderEntityItem",
     "MixinGuiNewChat",
     "MixinRenderManager",
-    "MixinBlockRendererDispatcher"
+    "MixinBlockRendererDispatcher",
+    "MixinGuiInGame",
+    "MixinShaderGroup",
+    "MixinGuiScreen"
   ]
 }
