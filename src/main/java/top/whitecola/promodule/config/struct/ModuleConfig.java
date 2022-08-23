@@ -1,11 +1,13 @@
 package top.whitecola.promodule.config.struct;
 
+import org.lwjgl.Sys;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.gui.components.clickables.wrapper.Setting;
 import top.whitecola.promodule.modules.AbstractModule;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -30,6 +32,7 @@ public class ModuleConfig {
             }
             moduleConfigStruct.enabled = module.isEnabled();
             moduleConfigStruct.settings = settings;
+
 
 //            moduleConfigStruct.moduleOptions = module.getOptions();
         }
@@ -167,6 +170,7 @@ public class ModuleConfig {
             if(obj instanceof Boolean){
                 value = ((Boolean)obj).toString();
             }else if(obj instanceof Float){
+//                System.out.println(new BigDecimal(obj.toString()).floatValue());
                 value = ((Float)obj).toString();
             }
 

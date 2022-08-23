@@ -45,6 +45,7 @@ public class ClickGUISubEntry extends AbstractClickGUIEntry {
 
     public void setValue(Float value) {
         this.value = value;
+
     }
 
     public SubEntryCategory getCategory() {

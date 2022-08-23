@@ -3,7 +3,9 @@ package top.whitecola.promodule.gui.components.clickables.buttons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
+import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
+import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
 
 import java.awt.*;
 
@@ -30,6 +32,10 @@ public class LabelButton extends GuiButton {
 
     @Override
     public void playPressSound(SoundHandler p_playPressSound_1_) {
+        NoClickGUISound noClickGUISound = (NoClickGUISound) ProModule.getProModule().getModuleManager().getModuleByName("NoClickGUISound");
+        if(noClickGUISound!=null&& noClickGUISound.isEnabled()){
+            return;
+        }
         super.playPressSound(p_playPressSound_1_);
     }
 

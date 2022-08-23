@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
@@ -17,12 +18,14 @@ import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntr
 import top.whitecola.promodule.gui.components.clickables.buttons.LabelButton;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
 import top.whitecola.promodule.utils.GUIUtils;
 import top.whitecola.promodule.utils.ModuleUtils;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.awt.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Vector;
 
 public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUIIngame{
@@ -454,6 +457,17 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
                 if(entry.getCategory()==SubEntryCategory.Boolean){
                     entry.getModule().toogleBooleanSetting(entry);
                     playButtonSound();
+                }else if(entry.getCategory()==SubEntryCategory.Value) {
+                    if (mouseButton == 0) {
+                        float value = absoluteAdd(entry.getValue(),0.1f);
+                        entry.getModule().setFloatSetting(entry.getEntryName(),value);
+                        entry.setValue(value);
+                    }else if(mouseButton == 1){
+                        float value = absoluteAdd(entry.getValue(),-0.1f);
+                        entry.getModule().setFloatSetting(entry.getEntryName(),value);
+                        entry.setValue(value);
+                    }
+                    playButtonSound();
                 }
             }
         }
@@ -543,6 +557,10 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     }
 
     private void playButtonSound(){
+        NoClickGUISound noClickGUISound = (NoClickGUISound) ProModule.getProModule().getModuleManager().getModuleByName("NoClickGUISound");
+        if(noClickGUISound!=null&& noClickGUISound.isEnabled()){
+            return;
+        }
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
     }
 
@@ -563,5 +581,11 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     @Override
     public void drawString(String text, float x, int y, int color) {
 
+    }
+
+
+    private float absoluteAdd(float a,float b){
+        BigDecimal a1 = new BigDecimal(a+"");
+        return a1.add(new BigDecimal(b+"")).floatValue();
     }
 }

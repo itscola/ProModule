@@ -62,7 +62,7 @@ public class AimAssist extends AbstractModule {
     private EntityLivingBase theTarget;
 
     private Vector<Integer> grounded = new Vector<Integer>();
-    private Vector<Integer> attackted = new Vector<Integer>();
+    private Vector<EntityLivingBase> attackted = new Vector<EntityLivingBase>();
 
 
 
@@ -294,9 +294,15 @@ public class AimAssist extends AbstractModule {
             return;
         }
 
+
         if(e.target==null){
             return;
         }
+
+        if(e.target.equals(mc.thePlayer)){
+            return;
+        }
+
 
         if(e.target.isDead){
             return;
@@ -317,7 +323,7 @@ public class AimAssist extends AbstractModule {
             if(shouldAttack(target)){
                 this.theTarget = target;
                 if(checkDead) {
-                    this.attackted.add(target.getEntityId());
+                    this.attackted.add(target);
                 }
                 return;
             }
@@ -358,11 +364,16 @@ public class AimAssist extends AbstractModule {
             }
 
             if(checkDead && entity.isDead){
-                attackted.remove(entity.getEntityId());
-                if(this.theTarget!=null&&this.theTarget.getEntityId()==entity.getEntityId()){
+                if(attackted.contains(entity)) {
+                    attackted.remove(entity);
+                }
+
+                if(this.theTarget!=null&&this.theTarget.equals(entity)){
                     PlayerSPUtils.sendMsgToSelf("Clear dead target: "+getTheTarget().getDisplayName().getFormattedText());
                     clearTarget();
                 }
+
+                
             }
 
         }

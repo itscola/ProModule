@@ -11,7 +11,6 @@ import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.EventToInvokeModules;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
-import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.ClearTargetKeybind;
 import top.whitecola.promodule.keybinds.EagleKeyBind;
@@ -20,6 +19,7 @@ import top.whitecola.promodule.modules.ModuleManager;
 import top.whitecola.promodule.modules.impls.combat.*;
 import top.whitecola.promodule.modules.impls.movement.Eagle;
 import top.whitecola.promodule.modules.impls.movement.WTap;
+import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
 import top.whitecola.promodule.modules.impls.render.*;
 import top.whitecola.promodule.modules.impls.world.FastPlace;
 
@@ -88,6 +88,7 @@ public class ProModule {
         getModuleManager().addModule(new AntiBot());
         getModuleManager().addModule(new AimAssist());
         getModuleManager().addModule(new HitBox());
+        getModuleManager().addModule(new NoClickDelay());
 
 
 
@@ -98,6 +99,8 @@ public class ProModule {
         //world
         getModuleManager().addModule(new FastPlace());
 
+        //other
+        getModuleManager().addModule(new NoClickGUISound());
 
     }
 

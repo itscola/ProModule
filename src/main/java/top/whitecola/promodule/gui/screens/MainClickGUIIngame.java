@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
@@ -155,7 +156,7 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
 //        FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+7,titleColor.getRGB());
 //        CustomFont.getCustomFont().FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB(),false);
         FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+8,titleColor.getRGB());
-        
+
 
         int range = 22;
 
@@ -429,28 +430,38 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         //left:0 right:1
 
-            for(ClickGUIEntry entry : entries){
-                if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)){
-                    if(mouseY<yPosition +24|| mouseY>yPosition+height){
-                        continue;
-                    }
-                    if(mouseButton==0) {
-                        entry.toggle();
-                        playButtonSound();
-                        loadSubEntries(entry.getEntryName());
-                    }else if(mouseButton==1){
-                        loadSubEntries(entry.getEntryName());
-                        playButtonSound();
-                    }
+        for(ClickGUIEntry entry : entries){
+            if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)){
+                if(mouseY<yPosition +24|| mouseY>yPosition+height){
+                    continue;
+                }
+                if(mouseButton==0) {
+                    entry.toggle();
+                    playButtonSound();
+                    loadSubEntries(entry.getEntryName());
+                }else if(mouseButton==1){
+                    loadSubEntries(entry.getEntryName());
+                    playButtonSound();
                 }
             }
+        }
 
 
 
         for(ClickGUISubEntry entry : subEntries){
+
+
+
             if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)) {
                 if(entry.getCategory()==SubEntryCategory.Boolean){
                     entry.getModule().toogleBooleanSetting(entry);
+                    playButtonSound();
+                }else if(entry.getCategory()==SubEntryCategory.Value) {
+                    if (mouseButton == 0) {
+                        entry.getModule().setFloatSetting(entry.getEntryName(),entry.getValue()+0.1f);
+                    }else if(mouseButton == 1){
+                        entry.getModule().setFloatSetting(entry.getEntryName(),entry.getValue()-0.1f);
+                    }
                     playButtonSound();
                 }
             }
@@ -559,6 +570,6 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
 
     @Override
     public void drawString(String text, float x, int y, int color) {
-        
+
     }
 }
