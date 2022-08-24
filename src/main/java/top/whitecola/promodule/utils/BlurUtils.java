@@ -18,7 +18,7 @@ public class BlurUtils {
     private static int lastScale;
     private static int lastScaleWidth;
     private static int lastScaleHeight;
-    private static final ResourceLocation shader = new ResourceLocation("shaders/post/blur.json");
+    private static final ResourceLocation shader = new ResourceLocation("promodule","shaders/blur.json");
 
 
     public static void doBlur(float intensity) {

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
@@ -18,6 +19,7 @@ import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntr
 import top.whitecola.promodule.gui.components.clickables.buttons.LabelButton;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.modules.impls.other.GUIBlur;
 import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
 import top.whitecola.promodule.utils.BlurUtils;
 import top.whitecola.promodule.utils.GUIUtils;
@@ -108,6 +110,11 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        BlurUtils.doBlur(6);
+
+        GUIBlur guiBlur = (GUIBlur) ProModule.getProModule().getModuleManager().getModuleByName("GUIBlur");
+        if(guiBlur!=null&& guiBlur.isEnabled()){
+            BlurUtils.doBlur(7);
+        }
 
 
         FontRenderer fontRenderer = mc.fontRendererObj;

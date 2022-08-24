@@ -20,6 +20,7 @@ import top.whitecola.promodule.modules.ModuleManager;
 import top.whitecola.promodule.modules.impls.combat.*;
 import top.whitecola.promodule.modules.impls.movement.Eagle;
 import top.whitecola.promodule.modules.impls.movement.WTap;
+import top.whitecola.promodule.modules.impls.other.GUIBlur;
 import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
 import top.whitecola.promodule.modules.impls.render.*;
 import top.whitecola.promodule.modules.impls.world.FastPlace;
@@ -106,6 +107,7 @@ public class ProModule {
 
         //other
         getModuleManager().addModule(new NoClickGUISound());
+        getModuleManager().addModule(new GUIBlur());
 
     }
 
