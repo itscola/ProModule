@@ -107,7 +107,7 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        BlurUtils.doBlur(6);
+//        BlurUtils.doBlur(6);
 
 
         FontRenderer fontRenderer = mc.fontRendererObj;

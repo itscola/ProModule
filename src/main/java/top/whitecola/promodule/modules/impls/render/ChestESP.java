@@ -23,15 +23,20 @@ public class ChestESP extends AbstractModule {
 
     @Override
     public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
-        for(BlockPos blockPos : chestBlocks){
-            Render3DUtils.drawSolidBlockESP(
-                    blockPos.getX() - ((IMixinRenderManager) mc.getRenderManager()).getRenderPosX(),
-                    blockPos.getY() - ((IMixinRenderManager) mc.getRenderManager()).getRenderPosY(),
-                    blockPos.getZ()- ((IMixinRenderManager) mc.getRenderManager()).getRenderPosZ(),
-                    color.getRed(),color.getGreen(),color.getBlue(),0.2f
-            );
+        try {
+            for(BlockPos blockPos : chestBlocks){
+                Render3DUtils.drawSolidBlockESP(
+                        blockPos.getX() - ((IMixinRenderManager) mc.getRenderManager()).getRenderPosX(),
+                        blockPos.getY() - ((IMixinRenderManager) mc.getRenderManager()).getRenderPosY(),
+                        blockPos.getZ()- ((IMixinRenderManager) mc.getRenderManager()).getRenderPosZ(),
+                        color.getRed(),color.getGreen(),color.getBlue(),0.2f
+                );
+
+            }
+        }catch (Throwable e){
 
         }
+
         super.onRender3D(pass, partialTicks, finishTimeNano);
     }
 

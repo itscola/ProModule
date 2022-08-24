@@ -22,7 +22,6 @@ public class BlurUtils {
 
 
     public static void doBlur(float intensity) {
-        GL11.glPushMatrix();
 
         ScaledResolution scale = new ScaledResolution(mc);
         int factor = scale.getScaleFactor();
@@ -40,7 +39,6 @@ public class BlurUtils {
         blurShader.loadShaderGroup(((IMixinMinecraft)mc).getTimer().renderPartialTicks);
         mc.getFramebuffer().bindFramebuffer(true);
 
-        GL11.glPopMatrix();
     }
 
     public static void doBlur(float x, float y, float width, float height, float intensity, float blurWidth, float blurHeight) {
