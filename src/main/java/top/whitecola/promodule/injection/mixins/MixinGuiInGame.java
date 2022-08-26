@@ -112,8 +112,13 @@ public abstract class MixinGuiInGame {
 //            }
 
 
+
             this.getFontRenderer().drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 553648127);
-            this.getFontRenderer().drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 553648127);
+
+            if(scoreBoardGUI==null||(scoreBoardGUI.isEnabled()&&!scoreBoardGUI.isNoScore())) {
+                this.getFontRenderer().drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 553648127);
+            }
+
 
             if (lvt_11_1_ == lvt_4_1_.size()) {
                 String lvt_20_1_ = p_renderScoreboard_1_.getDisplayName();

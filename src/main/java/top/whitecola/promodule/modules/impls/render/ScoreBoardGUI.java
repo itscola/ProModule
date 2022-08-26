@@ -9,6 +9,9 @@ public class ScoreBoardGUI extends AbstractModule {
     @ModuleSetting(name = "NoBlack",type = "select")
     protected Boolean noBlackBackground = false;
 
+    @ModuleSetting(name = "NoScore",type = "select")
+    protected Boolean noScore = true;
+
 //    @ModuleSetting(name = "RoundRect",type = "select")
 //    protected Boolean roundRect = true;
 
@@ -28,5 +31,7 @@ public class ScoreBoardGUI extends AbstractModule {
         return noBlackBackground;
     }
 
-
+    public Boolean isNoScore() {
+        return noScore;
+    }
 }

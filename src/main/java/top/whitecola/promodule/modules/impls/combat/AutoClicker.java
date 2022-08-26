@@ -16,10 +16,10 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 public class AutoClicker extends AbstractModule {
 
     @ModuleSetting(name = "MinCPS")
-    public Float minCPS = 12f;
+    public Float minCPS = 10f;
 
     @ModuleSetting(name = "MaxCPS")
-    public Float maxCPS = 18f;
+    public Float maxCPS = 11f;
 
     @ModuleSetting(name = "OnlyTools" , type = "select")
     public Boolean onlySwordAndTools = false;
@@ -120,14 +120,13 @@ public class AutoClicker extends AbstractModule {
         this.rightLastSwing = 0;
         this.delay = 0;
 
-        this.minCPS = 10f;
-        this.maxCPS = 11f;
         super.onEnable();
     }
 
     @Override
     public String getDisplayName() {
-        return super.getDisplayName();
+        return super.getDisplayName() + " (AG)";
+
     }
 
 }
