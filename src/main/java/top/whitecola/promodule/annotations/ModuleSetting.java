@@ -12,4 +12,6 @@ public @interface ModuleSetting {
     String type() default "value";
     float min() default 0;
     float max() default 200;
+    float addValue() default 0.1f;
+
 }

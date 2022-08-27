@@ -15,10 +15,10 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class AutoClicker extends AbstractModule {
 
-    @ModuleSetting(name = "MinCPS")
+    @ModuleSetting(name = "MinCPS",addValue = 1f)
     public Float minCPS = 10f;
 
-    @ModuleSetting(name = "MaxCPS")
+    @ModuleSetting(name = "MaxCPS",addValue = 1f)
     public Float maxCPS = 11f;
 
     @ModuleSetting(name = "OnlyTools" , type = "select")

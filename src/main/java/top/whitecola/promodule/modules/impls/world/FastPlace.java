@@ -20,7 +20,7 @@ public class FastPlace extends AbstractModule {
     private Float minValue = 0f;
 
     @ModuleSetting(name = "minValue",min = 0,max = 4)
-    private Float maxValue = 2f;
+    private Float maxValue = 1f;
 
     @ModuleSetting(name = "OnlyBlock",type = "select")
     private Boolean onlyBlock = true;

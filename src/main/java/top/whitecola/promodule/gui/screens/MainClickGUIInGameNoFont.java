@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
+import top.whitecola.animationlib.Animation;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.UICache;
@@ -78,6 +79,9 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
     protected int subEntriesRollingValue = 0;
 
+    protected Animation enableAnimation = new Animation();
+    protected Animation closeAnimation = new Animation();
+
 
 
 
@@ -110,6 +114,8 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        BlurUtils.doBlur(6);
+
+
 
         GUIBlur guiBlur = (GUIBlur) ProModule.getProModule().getModuleManager().getModuleByName("GUIBlur");
         if(guiBlur!=null&& guiBlur.isEnabled()){
