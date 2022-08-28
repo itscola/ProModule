@@ -1,5 +1,7 @@
 package top.whitecola.promodule.gui.notification;
 
+import top.whitecola.promodule.gui.notification.beans.NotificationRenderEvent;
+
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -20,6 +22,8 @@ public class NotificationManager implements INotificationManager{
                 notifications.get(i).setNeedLeave(true);
             }
         }
+
+
     }
 
     @Override
@@ -30,7 +34,7 @@ public class NotificationManager implements INotificationManager{
             if(notification.getFinish()){
                 iterator.remove();
             }
-            notification.render();
+            notification.render(new NotificationRenderEvent(notifications.indexOf(notification),line));
         }
     }
 }

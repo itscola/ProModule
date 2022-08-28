@@ -1,38 +1,79 @@
 package top.whitecola.promodule.modules.impls.other;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import org.lwjgl.input.Mouse;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.utils.PlayerSPUtils;
 
 import java.util.Vector;
 
+import static top.whitecola.promodule.utils.MCWrapper.mc;
+
 public class MiddleClick extends AbstractModule {
 
-    @ModuleSetting(name = "Whitelist")
-    protected Boolean whitelist = true;
+    @ModuleSetting(name = "AddFriend",type = "select")
+    protected Boolean addFriend = true;
 
-    @ModuleSetting(name = "Only1World")
+    @ModuleSetting(name = "Only1World",type = "select")
     protected Boolean only1World = true;
 
-    @ModuleSetting(name = "Only1")
-    protected Boolean only1 = true;
+    @ModuleSetting(name = "Only1",type = "select")
+    protected Boolean only1 = false;
 
     protected Vector<EntityLivingBase> entities = new Vector<EntityLivingBase>();
+    protected boolean wasClick;
 
-//    @Override
-//    public void onTick() {
-//        if(){
-//
-//        }
-//        super.onTick();
-//    }
+    @Override
+    public void onTick() {
+        if(Minecraft.getMinecraft()==null||Minecraft.getMinecraft().theWorld==null || mc.thePlayer==null){
+            return;
+        }
+
+        if(!addFriend){
+            return;
+        }
+
+        if(!wasClick&&Mouse.isButtonDown(2)){
+            Entity entity = mc.objectMouseOver.entityHit;
+
+            if(entity==null){
+                return;
+            }
+
+            if(!(entity instanceof EntityLivingBase)){
+                return;
+            }
+
+            if(!(entity instanceof EntityPlayer)){
+                return;
+            }
+            if(entities.contains((EntityLivingBase)entity)){
+                this.entities.remove((EntityLivingBase) entity);
+                PlayerSPUtils.sendMsgToSelf("remove friend: "+entity.getDisplayName().getFormattedText());
+
+            }else{
+                this.entities.add((EntityLivingBase) entity);
+                PlayerSPUtils.sendMsgToSelf("Added new friend: "+entity.getDisplayName().getFormattedText());
+
+            }
+
+        }
+
+        wasClick = Mouse.isButtonDown(2);
+
+        super.onTick();
+    }
 
     @Override
     public void onEntityJoinWorld(EntityJoinWorldEvent e) {
-        if(e.entity instanceof EntityPlayerSP){
+        if(only1World && e.entity instanceof EntityPlayerSP){
             entities.clear();
         }
 
@@ -50,4 +91,7 @@ public class MiddleClick extends AbstractModule {
 
     }
 
+    public Vector<EntityLivingBase> getFriends() {
+        return entities;
+    }
 }

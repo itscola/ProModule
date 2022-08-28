@@ -47,4 +47,10 @@ public class PlayerSPUtils {
     public static void sendMsgToSelf(String content){
         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(content));
     }
+
+
+
+
+    
+
 }

@@ -1,14 +1,21 @@
 package top.whitecola.promodule.gui.notification;
 
 
+import top.whitecola.promodule.common.Position;
+
 public abstract class AbstractNotification implements INotificationPos, INotificationStyle, INotificationControl {
-    protected float x;
-    protected float y;
-    protected float x2;
-    protected float y2;
+    protected Position pos;
+    protected Position toPos;
+
 
     protected boolean isFinish;
     protected boolean needLeave;
+    protected boolean Entered;
+
+    protected int level;
+
+    protected long lastTime;
+
 
 
 //    @Override
@@ -37,47 +44,42 @@ public abstract class AbstractNotification implements INotificationPos, INotific
         return false;
     }
 
-
-
     @Override
-    public void setX(float x) {
-        this.x = x;
+    public int getLevel() {
+        return level;
     }
 
     @Override
-    public void setY(float y) {
-        this.y = y;
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+
+    @Override
+    public Position getPos() {
+        return pos;
     }
 
     @Override
-    public void setX2(float x2) {
-        this.x2 = x2;
+    public Position getToPos() {
+        return toPos;
     }
 
     @Override
-    public void setY2(float y2) {
-        this.y2 = y2;
+    public void setPos(Position pos) {
+        this.pos = pos;
     }
 
     @Override
-    public float getY2() {
-        return y2;
+    public void setToPos(Position toPos) {
+        this.toPos = toPos;
     }
 
-    @Override
-    public float getX2() {
-        return x2;
+    public boolean isEntered() {
+        return Entered;
     }
 
-    @Override
-    public float getX() {
-        return x;
+    public void setEntered(boolean entered) {
+        Entered = entered;
     }
-
-    @Override
-    public float getY() {
-        return y;
-    }
-
-
 }

@@ -15,11 +15,13 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.lwjgl.Sys;
+import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 import top.whitecola.promodule.injection.wrappers.IMixinEntity;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.modules.impls.other.MiddleClick;
 import top.whitecola.promodule.utils.AimUtils;
 import top.whitecola.promodule.utils.PlayerSPUtils;
 import top.whitecola.promodule.utils.ServerUtils;
@@ -56,6 +58,9 @@ public class AimAssist extends AbstractModule {
 
     @ModuleSetting(name = "CheckTeam",type = "select")
     public Boolean checkTeam = true;
+
+    @ModuleSetting(name = "CheckFriend",type = "select")
+    public Boolean checkFriend = true;
 
     public long delta, lastTime;
 
@@ -194,9 +199,19 @@ public class AimAssist extends AbstractModule {
     }
 
     private boolean shouldAttack(EntityLivingBase entity){
-//        if(AimUtils.getRotationsDelta(entity)[0]>fieldOfView && AimUtils.getRotationsDelta(entity)[1]>fieldOfView){
-//            return false;
-//        }
+
+        if(checkFriend){
+            MiddleClick middleClick = (MiddleClick) ProModule.getProModule().getModuleManager().getModuleByName("MiddleClick");
+            if(middleClick!=null&&middleClick.isEnabled()){
+                if(middleClick.getFriends().contains(entity)){
+                    return false;
+                }
+            }
+        }
+
+        if(AimUtils.getRotationsDelta(entity)[0]>fieldOfView || AimUtils.getRotationsDelta(entity)[1]>fieldOfView){
+            return false;
+        }
 
         if(entity.isInvisible()){
             return false;

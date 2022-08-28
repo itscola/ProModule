@@ -19,6 +19,8 @@ import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 import top.whitecola.promodule.modules.ModuleManager;
 import top.whitecola.promodule.modules.impls.combat.*;
 import top.whitecola.promodule.modules.impls.movement.Eagle;
+import top.whitecola.promodule.modules.impls.movement.EagleJump;
+import top.whitecola.promodule.modules.impls.movement.LegitSafeWalk;
 import top.whitecola.promodule.modules.impls.movement.WTap;
 import top.whitecola.promodule.modules.impls.other.*;
 import top.whitecola.promodule.modules.impls.render.*;
@@ -100,6 +102,10 @@ public class ProModule {
         //movement
         getModuleManager().addModule(new Eagle());
         getModuleManager().addModule(new WTap());
+//        getModuleManager().addModule(new EagleJump());
+
+//        getModuleManager().addModule(new LegitSafeWalk());
+
 
         //world
         getModuleManager().addModule(new FastPlace());
@@ -109,7 +115,7 @@ public class ProModule {
         getModuleManager().addModule(new GUIBlur());
         getModuleManager().addModule(new Notification());
 //        getModuleManager().addModule(new Hud());
-//        getModuleManager().addModule(new MiddleClick());
+        getModuleManager().addModule(new MiddleClick());
 
 
     }

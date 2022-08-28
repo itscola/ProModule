@@ -7,4 +7,7 @@ public interface INotificationControl {
     void setNeedLeave(boolean needLeave);
     boolean getNeedLeave();
 
+    void setLevel(int isFinish);
+    int getLevel();
+
 }
