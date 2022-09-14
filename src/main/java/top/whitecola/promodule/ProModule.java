@@ -118,6 +118,7 @@ public class ProModule {
         getModuleManager().addModule(new MiddleClick());
         getModuleManager().addModule(new Disabler());
         getModuleManager().addModule(new AntiForge());
+        getModuleManager().addModule(new GUICloser());
         getModuleManager().getModuleByName("AntiForge").setEnabled(true);
 
 

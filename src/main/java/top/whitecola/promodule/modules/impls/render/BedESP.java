@@ -54,6 +54,8 @@ public class BedESP extends AbstractModule {
 
     @Override
     public void onEntityJoinWorld(EntityJoinWorldEvent e) {
+
+
         if(e.entity instanceof EntityPlayerSP){
             bedBlocks.clear();
         }
