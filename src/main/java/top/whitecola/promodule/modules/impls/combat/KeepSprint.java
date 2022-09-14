@@ -1,11 +1,13 @@
 package top.whitecola.promodule.modules.impls.combat;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.potion.Potion;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.PlayerSPUtils;
+import top.whitecola.promodule.utils.RandomUtils;
 
 import java.awt.*;
 
@@ -15,6 +17,9 @@ public class KeepSprint extends AbstractModule {
 
     @ModuleSetting(name = "VanillaSprint" , type = "select")
     public Boolean vanillaSprint = false;
+
+    @ModuleSetting(name = "VanillaChance" )
+    public Float vanillaChance = 70f;
 
 
     public KeepSprint(){
@@ -48,6 +53,12 @@ public class KeepSprint extends AbstractModule {
 //        if(mc.thePlayer.movementInput.moveForward >= 0.8F){
         if(mc.gameSettings.keyBindForward.isKeyDown()){
             if(!mc.thePlayer.isSprinting()) {
+                boolean boo = RandomUtils.nextDouble(0,100)<vanillaChance;
+                if(boo&&vanillaSprint){
+                    int keycode = mc.gameSettings.keyBindSprint.getKeyCode();
+                    KeyBinding.setKeyBindState(keycode,true);
+                    return;
+                }
                 mc.thePlayer.setSprinting(true);
             }
             return;

@@ -83,8 +83,13 @@ public abstract class MixinEntityRenderer {
         if (entity != null && this.mc.theWorld != null) {
 
             double reach = 3.0;
+            Reach reach1 = (Reach) ProModule.getProModule().getModuleManager().getModuleByName("Reach");
 
-            if(ProModule.getProModule().getModuleManager().getModuleByName("Reach").isEnabled()){
+            boolean boo = reach1.useChance&&(RandomUtils.nextDouble(0,100)<=reach1.chance);
+
+            reach1.use = boo;
+
+            if(boo && ProModule.getProModule().getModuleManager().getModuleByName("Reach").isEnabled()){
                 double minRange = ((Reach)ProModule.getProModule().getModuleManager().getModuleByName("Reach")).minRange;
                 double maxRange = ((Reach)ProModule.getProModule().getModuleManager().getModuleByName("Reach")).maxRange;
                 reach = RandomUtils.nextDouble(minRange,maxRange);

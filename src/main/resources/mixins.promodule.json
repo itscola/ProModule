@@ -23,6 +23,9 @@
     "MixinBlockRendererDispatcher",
     "MixinGuiInGame",
     "MixinShaderGroup",
-    "MixinGuiScreen"
+    "MixinGuiScreen",
+    "MixinEntityPlayerSP",
+    "MixinEntityLivingBase",
+    "MixinC03PacketPlayer"
   ]
 }

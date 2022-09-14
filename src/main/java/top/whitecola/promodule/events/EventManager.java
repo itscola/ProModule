@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.PacketSendEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 
 import java.util.Vector;
@@ -29,7 +30,6 @@ public class EventManager {
 
     }
 
-    @Deprecated
     public static EventManager getEventManager() {
         return eventManager;
     }
@@ -219,6 +219,12 @@ public class EventManager {
     public void onRenderBlock(int x,int y,int z, Block block){
         for (EventAdapter eventAdapter : events) {
             eventAdapter.onRenderBlock(x,y,z,block);
+        }
+    }
+
+    public void onPacketSend(PacketSendEvent event){
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.onSendPacket(event);
         }
     }
 }

@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.PacketSendEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 
 public abstract class EventAdapter {
@@ -149,4 +150,9 @@ public abstract class EventAdapter {
     public void onRenderBlock(int x,int y,int z, Block block){
 
     }
+
+    public void onSendPacket(PacketSendEvent packetSendEvent){
+
+    }
+
 }

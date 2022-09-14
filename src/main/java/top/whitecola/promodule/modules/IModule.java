@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.PacketSendEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 
@@ -95,4 +96,6 @@ public interface IModule {
     void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent e);
 
     void onRenderBlock(int x,int y,int z, Block block);
+
+    void onSendPacket(PacketSendEvent packetSendEvent);
 }

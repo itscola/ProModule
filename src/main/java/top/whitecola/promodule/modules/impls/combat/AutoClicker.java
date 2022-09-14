@@ -4,6 +4,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import top.whitecola.promodule.annotations.ModuleSetting;
+import top.whitecola.promodule.injection.wrappers.IMixinEntityLivingBase;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.RandomUtils;
@@ -29,6 +30,12 @@ public class AutoClicker extends AbstractModule {
 
     @ModuleSetting(name = "RightClick" ,type = "select")
     public Boolean rightClick  = true;
+
+    @ModuleSetting(name = "DelayRandomer" ,type = "select")
+    public Boolean randomDelay = true;
+
+    @ModuleSetting(name = "OnlyPointed" ,type = "select")
+    public Boolean onlyPointed = true;
 
     protected long leftLastSwing;
     protected long rightLastSwing;
@@ -63,6 +70,10 @@ public class AutoClicker extends AbstractModule {
             this.leftLastSwing = System.currentTimeMillis();
             delay = (int) RandomUtils.nextDouble(1000f/minCPS,1000f/maxCPS);
 
+            if(randomDelay){
+                delay = delay - (int) RandomUtils.nextDouble(1,25);
+            }
+
             if(mc==null || mc.objectMouseOver==null){
                 return;
             }
@@ -71,6 +82,10 @@ public class AutoClicker extends AbstractModule {
                 sendLeftClick(true);
                 sendLeftClick(false);
             }else {
+                if(onlyPointed) {
+                    swingItemNoPacket();
+                    return;
+                }
                 mc.thePlayer.swingItem();
             }
             return;
@@ -102,6 +117,8 @@ public class AutoClicker extends AbstractModule {
 
         if (state) {
             KeyBinding.onTick(keycode);
+
+            
         }
     }
 
@@ -113,6 +130,12 @@ public class AutoClicker extends AbstractModule {
         }
     }
 
+    public void swingItemNoPacket() {
+        if (!mc.thePlayer.isSwingInProgress ||mc.thePlayer.swingProgressInt < 0|| mc.thePlayer.swingProgressInt >= ((IMixinEntityLivingBase) mc.thePlayer).runGetArmSwingAnimationEnd() / 2) {
+            mc.thePlayer.swingProgressInt = -1;
+            mc.thePlayer.isSwingInProgress = true;
+        }
+    }
 
     @Override
     public void onEnable() {

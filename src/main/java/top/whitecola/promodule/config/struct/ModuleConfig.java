@@ -14,6 +14,7 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ModuleConfig {
+    protected String ConfigName = "NewConfig";
     protected ArrayList<ModuleConfigStruct> moduleConfigs = new ArrayList<ModuleConfigStruct>();
 
     protected void modulesToConfig(List<AbstractModule> modules){

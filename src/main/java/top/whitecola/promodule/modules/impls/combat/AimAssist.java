@@ -53,6 +53,9 @@ public class AimAssist extends AbstractModule {
     @ModuleSetting(name = "Color4Team",type = "select")
     public Boolean checkHatColor = false;
 
+    @ModuleSetting(name = "Equipment",type = "select")
+    public Boolean equipment = true;
+
     @ModuleSetting(name = "CheckDead",type = "select")
     public Boolean checkDead = false;
 
@@ -61,6 +64,9 @@ public class AimAssist extends AbstractModule {
 
     @ModuleSetting(name = "CheckFriend",type = "select")
     public Boolean checkFriend = true;
+
+    @ModuleSetting(name = "1v1Mode",type = "select")
+    public Boolean oneV1Mode = false;
 
     public long delta, lastTime;
 
@@ -221,6 +227,16 @@ public class AimAssist extends AbstractModule {
             return false;
         }
 
+        if (equipment) {
+            if(entity.getEquipmentInSlot(4)==null&&
+                entity.getEquipmentInSlot(3)==null&&
+                    entity.getEquipmentInSlot(2)==null&&
+                    entity.getEquipmentInSlot(1)==null
+            ){
+                return false;
+            }
+        }
+
 
         if(checkHatColor){
             if(entity.getEquipmentInSlot(4)==null||entity.getEquipmentInSlot(4).getTagCompound()==null||entity.getEquipmentInSlot(4).getTagCompound().getCompoundTag("display")==null||entity.getEquipmentInSlot(4).getTagCompound().getCompoundTag("display").getInteger("color")==0){
@@ -314,18 +330,27 @@ public class AimAssist extends AbstractModule {
             return;
         }
 
+
         if(e.target.equals(mc.thePlayer)){
             return;
         }
+
 
 
         if(e.target.isDead){
             return;
         }
 
+
+
         if(!(e.target instanceof EntityLivingBase)){
             return;
         }
+
+        if(oneV1Mode && this.theTarget!=null){
+            return;
+        }
+
 
         if(((EntityLivingBase)e.target).getHealth()<=1){
             this.theTarget=null;

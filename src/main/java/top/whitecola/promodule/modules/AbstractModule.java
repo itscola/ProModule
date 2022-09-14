@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
+import top.whitecola.promodule.events.impls.event.PacketSendEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntry;
 import top.whitecola.promodule.gui.components.clickables.wrapper.Setting;
@@ -406,4 +407,8 @@ public class AbstractModule implements IModule{
         return settings;
     }
 
+    @Override
+    public void onSendPacket(PacketSendEvent packetSendEvent) {
+
+    }
 }

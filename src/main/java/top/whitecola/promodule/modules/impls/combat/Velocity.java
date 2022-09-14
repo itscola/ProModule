@@ -41,6 +41,9 @@ public class Velocity extends AbstractModule {
     @ModuleSetting(name = "DelayOnly",type = "select")
     public Boolean delayOnly = true;
 
+    @ModuleSetting(name = "onlyAir",type = "select")
+    public Boolean onlyAir = true;
+
     @Override
     public void packetReceivedEvent(PacketReceivedEvent e) {
         if(!e.isCanceled() ){
@@ -48,6 +51,9 @@ public class Velocity extends AbstractModule {
                 S27PacketExplosion packet = (S27PacketExplosion) e.getPacket();
             }else if(e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID()== mc.thePlayer.getEntityId()){
 
+                if(mc.thePlayer.onGround && onlyAir){
+                    return;
+                }
 
                 if(whenSprinting && !mc.thePlayer.isSprinting()){
                     return;

@@ -27,6 +27,9 @@ public class MiddleClick extends AbstractModule {
     @ModuleSetting(name = "Only1",type = "select")
     protected Boolean only1 = false;
 
+    @ModuleSetting(name = "OnlyFriend",type = "select")
+    protected Boolean onlyFriend = false;
+
     protected Vector<EntityLivingBase> entities = new Vector<EntityLivingBase>();
     protected boolean wasClick;
 
