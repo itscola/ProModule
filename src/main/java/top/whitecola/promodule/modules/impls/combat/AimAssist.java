@@ -123,6 +123,17 @@ public class AimAssist extends AbstractModule {
 
 
 
+        if (equipment&&this.theTarget!=null) {
+            if(this.theTarget.getEquipmentInSlot(4)==null&&
+                    this.theTarget.getEquipmentInSlot(3)==null&&
+                    this.theTarget.getEquipmentInSlot(2)==null&&
+                    this.theTarget.getEquipmentInSlot(1)==null
+            ){
+                return;
+            }
+        }
+
+
 
 
 //        System.out.println(closest.getName());
