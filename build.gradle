@@ -1,0 +1,146 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+
+        maven {
+            url "http://files.minecraftforge.net/maven"
+        }
+
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+//        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+    }
+	
+	repositories {
+        mavenCentral()
+
+        maven {
+			url 'https://repo.spongepowered.org/maven'
+		}
+    }
+
+    
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+//        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+    }
+	
+	
+	
+	
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
+//apply plugin: 'com.github.johnrengelman.shadow'
+
+
+version = "1.0"
+group= "top.whitecola.promodule"
+archivesBaseName = "promodule"
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+    mappings = "stable_20"
+    clientJvmArgs += '-Dfml.coreMods.load=top.whitecola.promodule.injection.MixinLoader'
+
+}
+
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.spongepowered.org/maven'
+    }
+
+}
+
+
+
+mixin {
+
+    defaultObfuscationEnv searge
+   
+    sourceSets {
+        main {
+            ext.refMap = 'mixins.promodule.refmap.json'
+        }
+    }
+}
+
+
+configurations {
+    embedded
+    compile.extendsFrom embedded
+}
+
+
+
+
+
+dependencies {
+    embedded('org.spongepowered:mixin:0.6.5-SNAPSHOT') {
+        exclude module: 'gson'
+        exclude module: 'guava'
+        exclude module: 'jarjar'
+        exclude module: 'commons-codec'
+        exclude module: 'commons-io'
+        exclude module: 'launchwrapper'
+        exclude module: 'asm-commons'
+        exclude module: 'slf4j-api'
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+//shadowJar {
+//
+//}
+
+processResources
+        {
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
+
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                expand 'version':project.version, 'mcversion':project.minecraft.version
+            }
+
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
+
+jar{
+    from(configurations.embedded.collect {
+        it.isDirectory() ? it : zipTree(it)
+    }) {
+        exclude 'dummyThing',
+                'LICENSE.txt'
+    }
+
+
+    manifest.attributes(
+            'MixinConfigs': 'mixins.promodule.json',
+            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+            'TweakOrder': 1,
+            'FMLCorePluginContainsFMLMod': 'false',
+            'FMLCorePlugin': 'top.whitecola.promodule.injection.MixinLoader',
+            'ForceLoadAsMod': 'true'
+    )
+}
+
