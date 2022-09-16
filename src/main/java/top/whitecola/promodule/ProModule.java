@@ -92,10 +92,11 @@ public class ProModule {
         getModuleManager().addModule(new Reach());
         getModuleManager().addModule(new Velocity());
         getModuleManager().addModule(new KeepSprint());
-        getModuleManager().addModule(new AntiBot());
+//        getModuleManager().addModule(new AntiBot());
         getModuleManager().addModule(new AimAssist());
         getModuleManager().addModule(new HitBox());
         getModuleManager().addModule(new NoClickDelay());
+        getModuleManager().addModule(new ComboOneHit());
 
 
 
