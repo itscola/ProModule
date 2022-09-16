@@ -30,6 +30,10 @@ public class ComboOneHit extends AbstractModule {
             return;
         }
 
+        if(e.target==null){
+            return;
+        }
+
         if(chance&&RandomUtils.nextDouble(0,100)>chanceValue){
             return;
         }
@@ -37,7 +41,7 @@ public class ComboOneHit extends AbstractModule {
         double packets = RandomUtils.nextDouble(minPacket,maxPacket);
 
         for (int i = 0; i < (int) packets; i++) {
-            PacketUtils.sendPacketWithoutEvent(new C02PacketUseEntity(e.target, C02PacketUseEntity.Action.ATTACK));
+            PacketUtils.sendPacket(new C02PacketUseEntity(e.target, C02PacketUseEntity.Action.ATTACK));
         }
 
 
