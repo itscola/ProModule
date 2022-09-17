@@ -27,6 +27,7 @@
     "MixinEntityPlayerSP",
     "MixinEntityLivingBase",
     "MixinC03PacketPlayer",
-    "MixinGuiMainMenu"
+    "MixinGuiMainMenu",
+    "MixinGUI"
   ]
 }

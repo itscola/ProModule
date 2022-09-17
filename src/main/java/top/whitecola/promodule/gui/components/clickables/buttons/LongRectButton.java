@@ -5,6 +5,7 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import top.whitecola.animationlib.Animation;
+import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.awt.*;
@@ -17,7 +18,8 @@ public class LongRectButton extends AbstractButton {
     protected Color textColor2 = new Color(255, 255, 255);
     protected Color presentTextColor = textColor;
 
-    protected Animation upAnimation = new Animation();
+    protected Animation upAnimation = new Animation()
+            .setMin(0).setMax(-3).setTotalTime(400).setFunction(new CubicOutFunction());
     protected long animationTime;
 
 

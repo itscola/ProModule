@@ -11,7 +11,11 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.gui.components.clickables.buttons.LongRectButton;
+import top.whitecola.promodule.utils.Common;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.util.Calendar;
@@ -59,6 +63,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen {
     @Shadow @Final private static ResourceLocation minecraftTitleTextures;
     protected ResourceLocation background = new ResourceLocation("promodule","background/bg1.jpg");
     protected ResourceLocation mcLogo = new ResourceLocation("promodule","uis/minecraft.png");
+    protected ResourceLocation logo = new ResourceLocation("promodule","uis/ProModule.png");
 
     /**
      * @author White_cola
@@ -92,6 +97,11 @@ public abstract class MixinGuiMainMenu extends GuiScreen {
         this.buttonList.add(new LongRectButton(4, this.width / 2 + 2 +3, j + 72 + 12, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new LongRectButton(6, this.width / 2 - 100, j + 24 * 2, 98, 20, I18n.format("fml.menu.mods", new Object[0])));
 
+    }
+
+    @Inject(method = "drawScreen", at = { @At("RETURN") }, cancellable = true)
+    public void drawScren(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_, CallbackInfo ci){
+        Common.drawLogo(width,logo);
     }
 
 }
