@@ -2,7 +2,11 @@ package top.whitecola.promodule.injection.mixins;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Timer;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.PixelFormat;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,12 +16,16 @@ import top.whitecola.promodule.injection.wrappers.IMixinMinecraft;
 import top.whitecola.promodule.modules.impls.combat.NoClickDelay;
 
 @Mixin(Minecraft.class)
-public class MixinMinecraft implements IMixinMinecraft {
+public abstract class MixinMinecraft implements IMixinMinecraft {
     @Shadow private int rightClickDelayTimer;
 
     @Shadow private Timer timer;
 
     @Shadow private int leftClickCounter;
+
+    @Shadow private boolean fullscreen;
+
+    @Shadow protected abstract void updateDisplayMode() throws LWJGLException;
 
     @Override
     public Timer getTimer() {
@@ -42,5 +50,33 @@ public class MixinMinecraft implements IMixinMinecraft {
         }
     }
 
+
+    /**
+     * @author White_cola
+     * @reason title
+     */
+    @Overwrite
+    private void createDisplay() throws LWJGLException {
+        Display.setResizable(true);
+        Display.setTitle("ProModule Ver. 1.1 [1.8.9] - Powered by White_cola");
+
+        try {
+            Display.create((new PixelFormat()).withDepthBits(24));
+        } catch (LWJGLException var4) {
+
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException var3) {
+            }
+
+            if (this.fullscreen) {
+                this.updateDisplayMode();
+            }
+
+
+            Display.create();
+        }
+
+    }
 
 }
