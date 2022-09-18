@@ -16,10 +16,10 @@ public class FastPlace extends AbstractModule {
     @ModuleSetting(name = "RandomValue",type = "select")
     private Boolean randomValue = true;
 
-    @ModuleSetting(name = "minValue",min = 0,max = 4)
+    @ModuleSetting(name = "minValue",min = 0,max = 4,addValue = 1)
     private Float minValue = 0f;
 
-    @ModuleSetting(name = "minValue",min = 0,max = 4)
+    @ModuleSetting(name = "minValue",min = 0,max = 4,addValue = 1)
     private Float maxValue = 1f;
 
     @ModuleSetting(name = "OnlyBlock",type = "select")

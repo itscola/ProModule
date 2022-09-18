@@ -32,13 +32,13 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class AimAssist extends AbstractModule {
 
-    @ModuleSetting(name = "FOV" ,min= 1,max = 180)
+    @ModuleSetting(name = "FOV" ,min= 1,max = 180,addValue = 1)
     public Float fieldOfView = 90f;
 
-    @ModuleSetting(name = "Range" ,min= 1,max = 6)
+    @ModuleSetting(name = "Range" ,min= 1,max = 6,addValue = 1)
     public Float range = 4f;
 
-    @ModuleSetting(name = "Speed" ,min= 1,max = 100)
+    @ModuleSetting(name = "Speed" ,min= 1,max = 100,addValue = 1)
     public Float speed = 50f;
 
     @ModuleSetting(name = "WhileAttack",type = "select")

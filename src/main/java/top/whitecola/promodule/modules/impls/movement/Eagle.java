@@ -22,10 +22,10 @@ public class Eagle extends AbstractModule {
 //    @ModuleSetting(name = "PacketSneak" ,type = "select")
 //    public Boolean packetSneak = true;
 
-    @ModuleSetting(name = "MinDelay" ,type = "value")
+    @ModuleSetting(name = "MinDelay" ,type = "value",addValue = 1)
     public Float minDelay =75f;
 
-    @ModuleSetting(name = "MaxDelay" ,type = "value")
+    @ModuleSetting(name = "MaxDelay" ,type = "value",addValue = 1)
     public Float maxDelay =90f;
 
     @ModuleSetting(name = "MoreRandom" ,type = "select")

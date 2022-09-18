@@ -7,7 +7,7 @@ import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.ClientPhysic;
 
 public class ItemPhysic extends AbstractModule {
-    @ModuleSetting(name = "RotationSpeed",max = 0,min = 255)
+    @ModuleSetting(name = "RotationSpeed",max = 0,min = 255,addValue = 1)
     protected Float rotationSpeed = 0.2f;
 
     @Override
