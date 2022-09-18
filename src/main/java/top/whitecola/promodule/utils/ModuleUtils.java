@@ -36,6 +36,7 @@ public class ModuleUtils {
             Float value = 0f;
             Float max = 0f;
             Float min = 0f;
+            float addValue = 1f;
 
             if(moduleSetting.type().equalsIgnoreCase("select")){
                 category = SubEntryCategory.Boolean;
@@ -44,6 +45,7 @@ public class ModuleUtils {
                 category = SubEntryCategory.Value;
                     max = moduleSetting.max();
                     min = moduleSetting.min();
+                    addValue = moduleSetting.addValue();
 
             }else {
                 continue;
@@ -65,6 +67,7 @@ public class ModuleUtils {
                     entry.setMax(max);
                     entry.setMin(min);
                     entry.setCategory(SubEntryCategory.Value);
+                    entry.setAddValue(addValue);
                 }
             }catch (ClassCastException e){
                 System.out.println("Warn: the category of "+name+" is not "+category+" from module: "+module.getModuleName());

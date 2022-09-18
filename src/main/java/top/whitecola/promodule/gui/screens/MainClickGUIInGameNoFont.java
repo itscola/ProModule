@@ -475,12 +475,13 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
                     entry.getModule().toogleBooleanSetting(entry);
                     playButtonSound();
                 }else if(entry.getCategory()==SubEntryCategory.Value) {
+                    System.out.println(entry.getAddValue());
                     if (mouseButton == 0) {
-                        float value = absoluteAdd(entry.getValue(),0.1f);
+                        float value = absoluteAdd(entry.getValue(),entry.getAddValue());
                         entry.getModule().setFloatSetting(entry.getEntryName(),value);
                         entry.setValue(value);
                     }else if(mouseButton == 1){
-                        float value = absoluteAdd(entry.getValue(),-0.1f);
+                        float value = absoluteAdd(entry.getValue(),-entry.getAddValue());
                         entry.getModule().setFloatSetting(entry.getEntryName(),value);
                         entry.setValue(value);
                     }

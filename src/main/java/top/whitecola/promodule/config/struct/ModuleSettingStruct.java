@@ -4,6 +4,7 @@ public class ModuleSettingStruct {
     private String settingName;
     private String value;
     private String type;
+    private float addValue = 0.1f;
 
 
     public ModuleSettingStruct(String settingName,String value,String type){
@@ -34,5 +35,14 @@ public class ModuleSettingStruct {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public ModuleSettingStruct setAddValue(float addValue) {
+        this.addValue = addValue;
+        return this;
+    }
+
+    public float getAddValue() {
+        return addValue;
     }
 }

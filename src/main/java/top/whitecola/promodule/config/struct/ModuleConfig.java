@@ -84,6 +84,7 @@ public class ModuleConfig {
                         continue;
                     }else if(moduleSetting.type().equalsIgnoreCase("value")){
                         module.setFloatSetting(struct.getSettingName(),Float.valueOf(struct.getValue()));
+//                        module.setFloatSetting(struct.getSettingName(),Float.valueOf(struct.getAddValue()));
                     }
 
                 }
@@ -176,7 +177,8 @@ public class ModuleConfig {
             }
 
 
-            structs.add(new ModuleSettingStruct(setting.getModuleSetting().name(),value,setting.getModuleSetting().type()));
+
+            structs.add(new ModuleSettingStruct(setting.getModuleSetting().name(),value,setting.getModuleSetting().type()).setAddValue(setting.getModuleSetting().addValue()));
         }
         return structs;
     }

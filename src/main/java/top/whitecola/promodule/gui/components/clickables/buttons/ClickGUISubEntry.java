@@ -14,13 +14,23 @@ public class ClickGUISubEntry extends AbstractClickGUIEntry {
     protected Float value;
 
     protected SubEntryCategory category;
+    protected float addValue;
 
     public ClickGUISubEntry fromModule(AbstractModule module){
         this.entryName = module.getModuleName();
         this.entryDisplayName = module.getDisplayName();
         this.enabled = module.isEnabled();
         this.entryDescription = module.getDescription();
+
         return this;
+    }
+
+    public float getAddValue() {
+        return addValue;
+    }
+
+    public void setAddValue(float addValue) {
+        this.addValue = addValue;
     }
 
     public Float getMax() {

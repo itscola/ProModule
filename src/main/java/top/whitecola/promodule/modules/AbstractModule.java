@@ -411,4 +411,8 @@ public class AbstractModule implements IModule{
     public void onSendPacket(PacketSendEvent packetSendEvent) {
 
     }
+
+//    public Integer getAddValue(){
+//
+//    }
 }
