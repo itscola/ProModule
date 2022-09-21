@@ -6,6 +6,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import top.whitecola.promodule.config.HiConfig;
 import top.whitecola.promodule.config.struct.ModuleConfig;
 import top.whitecola.promodule.events.EventManager;
@@ -25,6 +26,7 @@ import top.whitecola.promodule.modules.impls.movement.WTap;
 import top.whitecola.promodule.modules.impls.other.*;
 import top.whitecola.promodule.modules.impls.render.*;
 import top.whitecola.promodule.modules.impls.world.FastPlace;
+import top.whitecola.promodule.utils.AntiDump;
 
 import java.nio.charset.Charset;
 
@@ -127,6 +129,11 @@ public class ProModule {
 
 
 
+    }
+
+    @Mod.EventHandler
+    public void init(FMLPostInitializationEvent e){
+        AntiDump.check();
     }
 
 
