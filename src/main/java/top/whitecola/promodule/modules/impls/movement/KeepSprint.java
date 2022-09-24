@@ -1,4 +1,4 @@
-package top.whitecola.promodule.modules.impls.combat;
+package top.whitecola.promodule.modules.impls.movement;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -28,7 +28,7 @@ public class KeepSprint extends AbstractModule {
 
     @Override
     public ModuleCategory getModuleType() {
-        return ModuleCategory.COMBAT;
+        return ModuleCategory.MOVEMENT;
     }
 
     @Override

@@ -4,16 +4,11 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.injection.wrappers.IMixinEntityPlayerSP;
-import top.whitecola.promodule.modules.impls.combat.KeepSprint;
 
 @Mixin(EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP  extends AbstractClientPlayer implements IMixinEntityPlayerSP {

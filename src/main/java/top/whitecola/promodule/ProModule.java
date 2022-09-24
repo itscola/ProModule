@@ -1,6 +1,5 @@
 package top.whitecola.promodule;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -19,10 +18,7 @@ import top.whitecola.promodule.keybinds.EagleKeyBind;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 import top.whitecola.promodule.modules.ModuleManager;
 import top.whitecola.promodule.modules.impls.combat.*;
-import top.whitecola.promodule.modules.impls.movement.Eagle;
-import top.whitecola.promodule.modules.impls.movement.EagleJump;
-import top.whitecola.promodule.modules.impls.movement.LegitSafeWalk;
-import top.whitecola.promodule.modules.impls.movement.WTap;
+import top.whitecola.promodule.modules.impls.movement.*;
 import top.whitecola.promodule.modules.impls.other.*;
 import top.whitecola.promodule.modules.impls.render.*;
 import top.whitecola.promodule.modules.impls.world.FastPlace;
@@ -99,6 +95,7 @@ public class ProModule {
         getModuleManager().addModule(new HitBox());
         getModuleManager().addModule(new NoClickDelay());
         getModuleManager().addModule(new ComboOneHit());
+        getModuleManager().addModule(new AutoTool());
 
 
 

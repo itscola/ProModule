@@ -108,7 +108,7 @@ public class AntiDump {
         ClassNode classNode = new ClassNode();
         classNode.name = name.replace('.', '/');
         classNode.access = ACC_PUBLIC;
-        classNode.version = V1_8;
+        classNode.version = V1_6;
         classNode.superName = "java/lang/Object";
 
         List<MethodNode> methods = new ArrayList<MethodNode>();
