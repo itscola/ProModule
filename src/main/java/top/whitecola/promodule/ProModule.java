@@ -114,7 +114,7 @@ public class ProModule {
         getModuleManager().addModule(new NoClickGUISound());
         getModuleManager().addModule(new GUIBlur());
         getModuleManager().addModule(new Notification());
-//        getModuleManager().addModule(new Hud());
+        getModuleManager().addModule(new Hud());
         getModuleManager().addModule(new MiddleClick());
         getModuleManager().addModule(new Disabler());
         getModuleManager().addModule(new AntiForge());
