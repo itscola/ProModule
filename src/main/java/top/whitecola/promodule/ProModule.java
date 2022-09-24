@@ -94,7 +94,7 @@ public class ProModule {
         getModuleManager().addModule(new AimAssist());
         getModuleManager().addModule(new HitBox());
         getModuleManager().addModule(new NoClickDelay());
-        getModuleManager().addModule(new ComboOneHit());
+//        getModuleManager().addModule(new ComboOneHit());
         getModuleManager().addModule(new AutoTool());
 
 

@@ -33,7 +33,7 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 public class AimAssist extends AbstractModule {
 
     @ModuleSetting(name = "FOV" ,min= 1,max = 180,addValue = 1)
-    public Float fieldOfView = 90f;
+    public Float fieldOfView = 40f;
 
     @ModuleSetting(name = "Range" ,min= 1,max = 6,addValue = 1)
     public Float range = 4f;

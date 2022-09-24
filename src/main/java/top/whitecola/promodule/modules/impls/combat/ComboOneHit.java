@@ -58,4 +58,10 @@ public class ComboOneHit extends AbstractModule {
     public String getDisplayName() {
         return super.getDisplayName();
     }
+
+    @Override
+    public void onEnable() {
+//        maxPacket = 6f;
+        super.onEnable();
+    }
 }
