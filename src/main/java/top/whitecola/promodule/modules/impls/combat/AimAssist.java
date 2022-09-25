@@ -201,6 +201,10 @@ public class AimAssist extends AbstractModule {
 
             EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
 
+            if(entityLivingBase==null){
+                continue;
+            }
+
             if(!shouldAttack(entityLivingBase)){
                 continue;
             }

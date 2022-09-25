@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import top.whitecola.animationlib.Animation;
+import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.UICache;
@@ -106,6 +107,9 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
         loadDefaultEntries();
 
         highlightSubtitle(UICache.selectedSubtitle);
+
+
+        enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
     }
 
 
@@ -114,6 +118,12 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        BlurUtils.doBlur(6);
+
+        float value = enableAnimation.update();
+        if(!enableAnimation.isFinish()){
+            yPosition = 16 + value;
+        }
+
 
 
 

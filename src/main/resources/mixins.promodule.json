@@ -28,6 +28,7 @@
     "MixinEntityLivingBase",
     "MixinC03PacketPlayer",
     "MixinGuiMainMenu",
-    "MixinGUI"
+    "MixinGUI",
+    "MixinSplashProgress"
   ]
 }
