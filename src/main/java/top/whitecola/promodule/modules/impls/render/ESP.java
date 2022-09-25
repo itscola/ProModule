@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
@@ -19,6 +20,7 @@ import top.whitecola.promodule.modules.impls.combat.AimAssist;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.awt.*;
+import java.util.Vector;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
@@ -30,10 +32,11 @@ public class ESP extends AbstractModule {
     @ModuleSetting(name = "InvPlayer" ,type="select")
     Boolean invPlayer = true;
 
-    private Color color = new Color(64, 64, 64);
+    private Color color = new Color(140, 213, 114);
     private Color hurtColor = new Color(156, 60, 60);
     private Color invColor = new Color(66, 150, 210);
 
+//    private Vector<EntityLivingBase> inv = new Vector<EntityLivingBase>();
 
 
     @Override
@@ -57,6 +60,15 @@ public class ESP extends AbstractModule {
             doRenderESP(entity);
 
         }
+
+//        if(invPlayer){
+//            for(EntityPlayer player : mc.theWorld.playerEntities){
+//                if(){
+//
+//                }
+//            }
+//        }
+
 
 
 //        if(invPlayer){

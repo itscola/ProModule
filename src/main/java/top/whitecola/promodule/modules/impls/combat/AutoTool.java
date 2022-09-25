@@ -26,7 +26,7 @@ public class AutoTool extends AbstractModule {
         }
 
 
-        if(onlyTools&&!isBreakingBlockTool(mc.thePlayer.inventory.getCurrentItem())){
+        if(!isBreakingBlockTool(mc.thePlayer.inventory.getCurrentItem())){
             return;
         }
 

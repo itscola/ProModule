@@ -1,6 +1,7 @@
 package top.whitecola.promodule.modules.impls.combat;
 
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import top.whitecola.promodule.annotations.ModuleSetting;
@@ -56,7 +57,7 @@ public class AutoClicker extends AbstractModule {
             return;
         }
 
-        if(onlySwordAndTools && (mc.thePlayer.getHeldItem()==null || !((mc.thePlayer.getHeldItem().getItem() instanceof ItemSword)||(mc.thePlayer.getHeldItem().getItem() instanceof ItemTool)))){
+        if(onlySwordAndTools && (mc.thePlayer.getHeldItem()==null || !((mc.thePlayer.getHeldItem().getItem() instanceof ItemSword)||(mc.thePlayer.getHeldItem().getItem() instanceof ItemTool))||(mc.thePlayer.getHeldItem().getItem() instanceof ItemFishingRod))){
             return;
         }
 
