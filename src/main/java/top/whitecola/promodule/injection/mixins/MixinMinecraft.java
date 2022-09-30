@@ -222,10 +222,10 @@ public abstract class MixinMinecraft implements IMixinMinecraft {
 //        GlStateManager.enableAlpha();
 //        GlStateManager.alphaFunc(516, 0.1F);
 //        System.out.println(1111111111111111L);
-//        Render2DUtils.drawCustomImage(0,0,this.displayWidth,this.displayHeight,background);
+        Render2DUtils.drawCustomImage(0,0,this.displayWidth,this.displayHeight,background);
 
-        Render2DUtils.drawFullscreenImage(background);
-
+//        Render2DUtils.drawFullscreenImage(background);
+//        Gui
         this.updateDisplay();
     }
 

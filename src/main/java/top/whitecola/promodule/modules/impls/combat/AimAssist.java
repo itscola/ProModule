@@ -316,7 +316,12 @@ public class AimAssist extends AbstractModule {
             return true;
         }
 
-
+        AntiBot antiBot = (AntiBot) ProModule.getProModule().getModuleManager().getModuleByName("AntiBot");
+        if(antiBot!=null&&antiBot.isEnabled()){
+            if(antiBot.entities.contains(entity)){
+                return true;
+            };
+        }
 
         return false;
     }

@@ -29,6 +29,7 @@
     "MixinC03PacketPlayer",
     "MixinGuiMainMenu",
     "MixinGUI",
-    "MixinSplashProgress"
+    "MixinSplashProgress",
+    "MixinFontRenderer"
   ]
 }

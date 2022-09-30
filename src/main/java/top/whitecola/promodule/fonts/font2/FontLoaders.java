@@ -49,7 +49,11 @@ public class FontLoaders {
         return new FontRenderer(font,size,antiAlias);
     }
 
-
-
+    public synchronized static FontRenderer getMsFont14() {
+        if(msFont14==null){
+            msFont14 = getSyyh(18, true);
+        }
+        return msFont14;
+    }
 }
 

@@ -14,9 +14,10 @@ import top.whitecola.animationlib.functions.AbstractAnimationFunction;
 import top.whitecola.animationlib.functions.type.BounceOutFunction;
 import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.injection.wrappers.ChatLineInfo;
 import top.whitecola.promodule.injection.wrappers.ChatLineManager;
-import top.whitecola.promodule.modules.impls.render.BetterChatLine;
+import top.whitecola.promodule.modules.impls.other.BetterChatLine;
 
 import static net.minecraft.client.gui.GuiNewChat.calculateChatboxHeight;
 import static net.minecraft.client.gui.GuiNewChat.calculateChatboxWidth;
@@ -110,7 +111,18 @@ public class MixinGuiNewChat extends Gui {
                                 drawRect(lvt_15_1_, lvt_16_1_ - 9, lvt_15_1_ + lvt_8_1_ + 4, lvt_16_1_, lvt_14_1_ / 2 << 24);
                                 String lvt_17_1_ = lvt_10_1_.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
-                                mc.fontRendererObj.drawStringWithShadow(lvt_17_1_, (float)lvt_15_1_, (float)(lvt_16_1_ - 8), 16777215 + (lvt_14_1_ << 24));
+
+                                BetterChatLine betterChatLine = (BetterChatLine) ProModule.getProModule().getModuleManager().getModuleByName("BetterChatLine");
+                                if(betterChatLine!=null&&betterChatLine.isEnabled()&&betterChatLine.font){
+                                    FontLoaders.msFont14.drawStringWithShadow(lvt_17_1_, (float)lvt_15_1_, (float)(lvt_16_1_ - 8), 16777215 + (lvt_14_1_ << 24));
+                                }else {
+                                    mc.fontRendererObj.drawStringWithShadow(lvt_17_1_, (float)lvt_15_1_, (float)(lvt_16_1_ - 8), 16777215 + (lvt_14_1_ << 24));
+
+                                }
+
+
+
+
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }
@@ -220,7 +232,15 @@ public class MixinGuiNewChat extends Gui {
                                 }
 
 
-                                mc.fontRendererObj.drawStringWithShadow(textString, (float)lvt_15_1_ + chatLineInfo.x-width, (float)(lvt_16_1_ - 8), 16777215 + (shadow << 24));
+
+                                if(betterChatLine!=null&&betterChatLine.isEnabled()&&betterChatLine.font) {
+                                    FontLoaders.msFont14.drawStringWithShadow(textString, (float)lvt_15_1_ + chatLineInfo.x-width, (float)(lvt_16_1_ - 8), 16777215 + (shadow << 24));
+
+                                }else {
+                                    mc.fontRendererObj.drawStringWithShadow(textString, (float)lvt_15_1_ + chatLineInfo.x-width, (float)(lvt_16_1_ - 8), 16777215 + (shadow << 24));
+
+                                }
+
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }

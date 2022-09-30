@@ -17,6 +17,7 @@ import top.whitecola.promodule.injection.wrappers.IMixinRenderManager;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.combat.AimAssist;
+import top.whitecola.promodule.modules.impls.combat.AntiBot;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.awt.*;
@@ -32,7 +33,10 @@ public class ESP extends AbstractModule {
     @ModuleSetting(name = "InvPlayer" ,type="select")
     Boolean invPlayer = true;
 
-    private Color color = new Color(140, 213, 114);
+    @ModuleSetting(name = "AllPlaer" ,type="select")
+    Boolean allPlayer = true;
+
+    private Color color = new Color(255, 255, 255);
     private Color hurtColor = new Color(156, 60, 60);
     private Color invColor = new Color(66, 150, 210);
 
@@ -47,20 +51,34 @@ public class ESP extends AbstractModule {
 
         if(aimTarget){
             AimAssist aimAssist = (AimAssist) ProModule.getProModule().getModuleManager().getModuleByName("AimAssist");
-            if(aimAssist==null || !aimAssist.isEnabled()){
-                return;
+            if(!(aimAssist==null || !aimAssist.isEnabled())){
+                EntityLivingBase entity = aimAssist.getTheTarget();
+
+                if(!(entity==null || entity.isDead)){
+                    doRenderESP(entity);
+                }
             }
 
-            EntityLivingBase entity = aimAssist.getTheTarget();
 
-            if(entity==null || entity.isDead){
-                return;
-            }
 
-            doRenderESP(entity);
 
         }
 
+        if(allPlayer){
+            for (final EntityPlayer player : mc.theWorld.playerEntities) {
+                if (player != mc.thePlayer) {
+                    AntiBot antiBot = (AntiBot) ProModule.getProModule().getModuleManager().getModuleByName("AntiBot");
+//                    System.out.println(11111);
+
+                    if(antiBot!=null&&antiBot.isEnabled()){
+                        if(antiBot.entities.contains(player)){
+                            return;
+                        };
+                    }
+                    doRenderESP(player);
+                }
+            }
+        }
 //        if(invPlayer){
 //            for(EntityPlayer player : mc.theWorld.playerEntities){
 //                if(){

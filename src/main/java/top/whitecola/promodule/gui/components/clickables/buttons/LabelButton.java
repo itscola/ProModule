@@ -24,7 +24,7 @@ public class LabelButton extends GuiButton {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        mc.fontRendererObj.drawString(displayString,xPosition, yPosition,color.getRGB(),false);
+        FontLoaders.msFont18.drawString(displayString,xPosition, yPosition,color.getRGB(),false);
 //        super.drawButton(mc, mouseX, mouseY);
 
     }

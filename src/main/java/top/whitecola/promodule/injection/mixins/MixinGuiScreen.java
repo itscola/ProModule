@@ -35,7 +35,7 @@ public abstract class MixinGuiScreen extends Gui {
         if (mc.theWorld != null) {
             GUIBlur guiBlur = (GUIBlur) ProModule.getProModule().getModuleManager().getModuleByName("GUIBlur");
             if(guiBlur!=null&& guiBlur.isEnabled()){
-                BlurUtils.doBlur(7);
+                BlurUtils.doBlur(guiBlur.blur);
                 GlStateManager.enableBlend();
                 GlStateManager.enableDepth();
             }else {

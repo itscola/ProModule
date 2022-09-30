@@ -1,5 +1,6 @@
 package top.whitecola.promodule;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -12,6 +13,8 @@ import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.EventToInvokeModules;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
+import top.whitecola.promodule.fonts.font2.FontLoaders;
+import top.whitecola.promodule.fonts.font2.FontRenderer;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.ClearTargetKeybind;
 import top.whitecola.promodule.keybinds.EagleKeyBind;
@@ -41,7 +44,7 @@ public class ProModule {
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
-//        FontLoaders.loadAllFonts();
+        FontLoaders.loadAllFonts();
         registerEvent();
         registerKeyBinds();
         registerModules();
@@ -81,6 +84,7 @@ public class ProModule {
         getModuleManager().addModule(new BedESP());
         getModuleManager().addModule(new ChestESP());
         getModuleManager().addModule(new ScoreBoardGUI());
+        getModuleManager().addModule(new TargetHud());
 
 
 
@@ -121,9 +125,9 @@ public class ProModule {
         getModuleManager().addModule(new GUICloser());
         getModuleManager().getModuleByName("AntiForge").setEnabled(true);
 
-        getModuleManager().addModule(new DarkMode());
-
-
+        getModuleManager().addModule(new BetterFont());
+        BetterFont betterFont = (BetterFont) ProModule.getProModule().getModuleManager().getModuleByName("BetterFont");
+        betterFont.enable();
 
 
     }

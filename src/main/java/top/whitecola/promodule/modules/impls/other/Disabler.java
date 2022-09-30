@@ -20,8 +20,8 @@ public class Disabler extends AbstractModule {
     @ModuleSetting(name = "SneakBypass" ,type = "select")
     public Boolean sneakBypass = true;
 
-    @ModuleSetting(name = "PosBypass" ,type = "select")
-    public Boolean posBypass = true;
+//    @ModuleSetting(name = "PosBypass" ,type = "select")
+//    public Boolean posBypass = true;
 
     @Override
     public void onSendPacket(PacketSendEvent packetSendEvent) {
@@ -63,10 +63,10 @@ public class Disabler extends AbstractModule {
         }
 
 
-        if (posBypass && packet instanceof C03PacketPlayer) {
-            final C03PacketPlayer c03 = (C03PacketPlayer) packet;
-            ((IMixinC03PacketPlayer)(c03)).setY(c03.getPositionY() + 0.015625);
-        }
+//        if (posBypass && packet instanceof C03PacketPlayer) {
+//            final C03PacketPlayer c03 = (C03PacketPlayer) packet;
+//            ((IMixinC03PacketPlayer)(c03)).setY(c03.getPositionY() + 0.015625);
+//        }
 
 
 

@@ -68,4 +68,11 @@ public class ChestESP extends AbstractModule {
     public String getModuleName() {
         return "ChestESP";
     }
+
+    @Override
+    public void onEnable() {
+        mc.renderGlobal.loadRenderers();
+        chestBlocks.clear();
+        super.onEnable();
+    }
 }

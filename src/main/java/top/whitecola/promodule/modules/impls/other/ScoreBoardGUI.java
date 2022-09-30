@@ -1,4 +1,4 @@
-package top.whitecola.promodule.modules.impls.render;
+package top.whitecola.promodule.modules.impls.other;
 
 import net.minecraft.client.gui.GuiIngame;
 import top.whitecola.promodule.annotations.ModuleSetting;
@@ -12,13 +12,16 @@ public class ScoreBoardGUI extends AbstractModule {
     @ModuleSetting(name = "NoScore",type = "select")
     protected Boolean noScore = true;
 
+    @ModuleSetting(name = "Font",type = "select")
+    public Boolean font = false;
+
 //    @ModuleSetting(name = "RoundRect",type = "select")
 //    protected Boolean roundRect = true;
 
 
     @Override
     public ModuleCategory getModuleType() {
-        return ModuleCategory.RENDERS;
+        return ModuleCategory.OTHER;
     }
 
     @Override
@@ -34,4 +37,5 @@ public class ScoreBoardGUI extends AbstractModule {
     public Boolean isNoScore() {
         return noScore;
     }
+
 }

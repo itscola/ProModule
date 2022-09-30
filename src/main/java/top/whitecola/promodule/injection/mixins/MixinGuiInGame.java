@@ -1,13 +1,11 @@
 package top.whitecola.promodule.injection.mixins;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -16,17 +14,13 @@ import net.minecraft.util.EnumChatFormatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.injection.wrappers.HasNameTag;
-import top.whitecola.promodule.modules.impls.render.ScoreBoardGUI;
-import top.whitecola.promodule.utils.BlurUtils;
-import top.whitecola.promodule.utils.ColorUtils;
+import top.whitecola.promodule.modules.impls.other.ScoreBoardGUI;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -92,6 +86,7 @@ public abstract class MixinGuiInGame {
 
 
         Gui.drawRect(-100, -100, -100, -100, 1342177280);
+        FontLoaders.msFont14.drawString("", -100, -100, 1342177280);
 
 
 
@@ -111,12 +106,24 @@ public abstract class MixinGuiInGame {
 //                Gui.drawRect(lvt_10_2_ - 2, lvt_18_1_, lvt_19_1_, lvt_18_1_ + this.getFontRenderer().FONT_HEIGHT, 1342177280);
 //            }
 
+            if(scoreBoardGUI.isEnabled()&&scoreBoardGUI.font){
+                FontLoaders.msFont14.drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 553648127);
+            }else {
+                this.getFontRenderer().drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 553648127);
 
+            }
 
-            this.getFontRenderer().drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 553648127);
 
             if(scoreBoardGUI==null||(scoreBoardGUI.isEnabled()&&!scoreBoardGUI.isNoScore())) {
-                this.getFontRenderer().drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 553648127);
+
+                if(scoreBoardGUI.isEnabled()&&scoreBoardGUI.font) {
+                    FontLoaders.msFont14.drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 553648127);
+
+                }else {
+                    this.getFontRenderer().drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 553648127);
+
+                }
+
             }
 
 

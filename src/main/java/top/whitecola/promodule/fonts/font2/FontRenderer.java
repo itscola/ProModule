@@ -779,7 +779,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
     /**
      * Render single line string by setting GL color, current (posX,posY), and calling renderStringAtPos()
      */
-    private int renderString(String text, float x, float y, int color, boolean dropShadow) {
+    public int renderString(String text, float x, float y, int color, boolean dropShadow) {
         if (text == null) {
             return 0;
         } else {

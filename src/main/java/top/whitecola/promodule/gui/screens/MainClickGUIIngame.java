@@ -6,9 +6,12 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
+import top.whitecola.animationlib.Animation;
+import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.UICache;
@@ -19,12 +22,16 @@ import top.whitecola.promodule.gui.components.clickables.buttons.LabelButton;
 import top.whitecola.promodule.gui.components.clickables.buttons.LabelButtonWithFont;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.modules.impls.other.GUIBlur;
+import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
+import top.whitecola.promodule.utils.BlurUtils;
 import top.whitecola.promodule.utils.GUIUtils;
 import top.whitecola.promodule.utils.ModuleUtils;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.awt.*;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Vector;
 
 public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame{
@@ -60,7 +67,7 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
     protected Color selectedSubEntryTextColor = new Color(255, 255, 255);
 
 
-    protected LabelButtonWithFont combatLabel;
+    protected LabelButtonWithFont  combatLabel;
     protected LabelButtonWithFont movementLabel;
     protected LabelButtonWithFont renderLabel;
     protected LabelButtonWithFont worldLabel;
@@ -74,9 +81,12 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
 
     protected int subEntriesRollingValue = 0;
 
+    protected Animation enableAnimation = new Animation();
+    protected Animation closeAnimation = new Animation();
 
-    public MainClickGUIIngame(){
-    }
+
+
+
 
     @Override
     public void initGui() {
@@ -98,10 +108,32 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
         loadDefaultEntries();
 
         highlightSubtitle(UICache.selectedSubtitle);
+
+
+        enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
     }
+
+
+
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+//        BlurUtils.doBlur(6);
+
+        float value = enableAnimation.update();
+        if(!enableAnimation.isFinish()){
+            yPosition = 16 + value;
+        }
+
+
+
+
+        GUIBlur guiBlur = (GUIBlur) ProModule.getProModule().getModuleManager().getModuleByName("GUIBlur");
+        if(guiBlur!=null&& guiBlur.isEnabled()){
+            BlurUtils.doBlur(7);
+        }
+
+
         FontRenderer fontRenderer = mc.fontRendererObj;
 
         if(GUIUtils.isHovered(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20,mouseX,mouseY) && Mouse.isButtonDown(0)){
@@ -129,7 +161,7 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
         if(GUIUtils.isHovered(this.xPosition + (this.width)/4f, this.yPosition, this.xPosition+(width/1.4f), this.yPosition +this.height,mouseX,mouseY)){
             int dwheel = Mouse.getDWheel();
 
-            if(dwheel<0 && Math.abs(rollingValue) +152 < (entries.size() * 26)){
+            if(dwheel<0 && Math.abs(rollingValue) +152 < (entries.size() * 26)+4){
 
                 rollingValue -=10;
 
@@ -156,7 +188,6 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
 //        FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+7,titleColor.getRGB());
 //        CustomFont.getCustomFont().FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+6,titleColor.getRGB(),false);
         FontLoaders.msFont18.drawString("ProModule",(int)this.xPosition+8 ,(int)this.yPosition+8,titleColor.getRGB());
-
 
         int range = 22;
 
@@ -449,18 +480,20 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
 
 
         for(ClickGUISubEntry entry : subEntries){
-
-
-
             if(GUIUtils.isHovered(entry.getxPosition(),entry.getyPosition(),entry.getX2Position(),entry.getY2Position(),mouseX,mouseY)) {
                 if(entry.getCategory()==SubEntryCategory.Boolean){
                     entry.getModule().toogleBooleanSetting(entry);
                     playButtonSound();
                 }else if(entry.getCategory()==SubEntryCategory.Value) {
+                    System.out.println(entry.getAddValue());
                     if (mouseButton == 0) {
-                        entry.getModule().setFloatSetting(entry.getEntryName(),entry.getValue()+0.1f);
+                        float value = absoluteAdd(entry.getValue(),entry.getAddValue());
+                        entry.getModule().setFloatSetting(entry.getEntryName(),value);
+                        entry.setValue(value);
                     }else if(mouseButton == 1){
-                        entry.getModule().setFloatSetting(entry.getEntryName(),entry.getValue()-0.1f);
+                        float value = absoluteAdd(entry.getValue(),-entry.getAddValue());
+                        entry.getModule().setFloatSetting(entry.getEntryName(),value);
+                        entry.setValue(value);
                     }
                     playButtonSound();
                 }
@@ -547,10 +580,15 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
     }
 
     public void clearEntries(){
+        this.rollingValue = 0;
         this.entries.clear();
     }
 
     private void playButtonSound(){
+        NoClickGUISound noClickGUISound = (NoClickGUISound) ProModule.getProModule().getModuleManager().getModuleByName("NoClickGUISound");
+        if(noClickGUISound!=null&& noClickGUISound.isEnabled()){
+            return;
+        }
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
     }
 
@@ -561,7 +599,7 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
             if(subEntries == null){
                 return;
             }
-
+            this.subEntriesRollingValue = 0;
             this.subEntries = subEntries;
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -571,5 +609,11 @@ public class MainClickGUIIngame extends GuiScreen implements IMainClickGUIIngame
     @Override
     public void drawString(String text, float x, int y, int color) {
 
+    }
+
+
+    private float absoluteAdd(float a,float b){
+        BigDecimal a1 = new BigDecimal(a+"");
+        return a1.add(new BigDecimal(b+"")).floatValue();
     }
 }

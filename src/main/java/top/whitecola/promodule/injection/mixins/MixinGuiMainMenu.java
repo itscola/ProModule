@@ -88,7 +88,6 @@ public abstract class MixinGuiMainMenu extends GuiScreen {
 
         int j = this.height / 4 + 48;
 
-
         this.buttonList.add(new LongRectButton(1, this.width / 2 - 100, j, I18n.format("menu.singleplayer", new Object[0])));
         this.buttonList.add(new LongRectButton(2, this.width / 2 - 100, j + 24 * 1, I18n.format("menu.multiplayer", new Object[0])));
 

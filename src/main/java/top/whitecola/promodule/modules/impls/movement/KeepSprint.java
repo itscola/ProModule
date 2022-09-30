@@ -18,8 +18,11 @@ public class KeepSprint extends AbstractModule {
     @ModuleSetting(name = "VanillaSprint" , type = "select")
     public Boolean vanillaSprint = false;
 
+    @ModuleSetting(name = "NoChance" , type = "select")
+    public Boolean noChance = false;
+
     @ModuleSetting(name = "VanillaChance" )
-    public Float vanillaChance = 70f;
+    public Float vanillaChance = 100f;
 
 
     public KeepSprint(){
@@ -54,7 +57,7 @@ public class KeepSprint extends AbstractModule {
         if(mc.gameSettings.keyBindForward.isKeyDown()){
             if(!mc.thePlayer.isSprinting()) {
                 boolean boo = RandomUtils.nextDouble(0,100)<vanillaChance;
-                if(boo&&vanillaSprint){
+                if(noChance||boo&&vanillaSprint){
                     int keycode = mc.gameSettings.keyBindSprint.getKeyCode();
                     KeyBinding.setKeyBindState(keycode,true);
                     return;
