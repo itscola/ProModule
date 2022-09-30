@@ -1,6 +1,7 @@
 package top.whitecola.promodule.utils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -362,6 +363,21 @@ public class Render2DUtils {
         GL11.glEnd();
         GL11.glShadeModel((int) 7424);
         disableGL2D();
+    }
+
+    public static void drawFullscreenImage(ResourceLocation image) {
+        ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+        GL11.glDisable(2929);
+        GL11.glDepthMask(false);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glDisable(3008);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(image);
+        Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), (float) scaledResolution.getScaledWidth(), (float) scaledResolution.getScaledHeight());
+        GL11.glDepthMask(true);
+        GL11.glEnable(2929);
+        GL11.glEnable(3008);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
 
