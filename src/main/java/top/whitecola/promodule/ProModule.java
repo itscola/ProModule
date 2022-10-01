@@ -76,6 +76,7 @@ public class ProModule {
         getModuleManager().addModule(new OldAnimation());
         getModuleManager().addModule(new DamageBlood());
         getModuleManager().addModule(new NoFov());
+        getModuleManager().addModule(new BlockOverlay());
         getModuleManager().addModule(new ItemPhysic());
         getModuleManager().addModule(new DamageColor());
         getModuleManager().addModule(new BetterChatLine());
@@ -84,7 +85,9 @@ public class ProModule {
         getModuleManager().addModule(new BedESP());
         getModuleManager().addModule(new ChestESP());
         getModuleManager().addModule(new ScoreBoardGUI());
-        getModuleManager().addModule(new TargetHud());
+        getModuleManager().addModule(new Keystroke());
+
+//        getModuleManager().addModule(new TargetHud());
 
 
 
