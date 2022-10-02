@@ -16,7 +16,8 @@ import java.awt.*;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class BlockOverlay extends AbstractModule {
-    private Color color = new Color(128, 248, 252);
+//    private Color color = new Color(128, 248, 252);
+    private Color color = new Color(219, 219, 219);
 
     @Override
     public void onRender3D(int pass, float partialTicks, long finishTimeNano) {

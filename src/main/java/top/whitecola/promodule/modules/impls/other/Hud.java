@@ -1,5 +1,6 @@
 package top.whitecola.promodule.modules.impls.other;
 
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
@@ -27,41 +28,50 @@ public class Hud extends AbstractModule {
     @ModuleSetting(name = "OtherList", type = "select")
     protected Boolean othrList = false;
 
+
+    @ModuleSetting(name = "ToolTip", type = "select")
+    protected Boolean toolTip = false;
+
     protected Color color = new Color(236, 236, 236);
+    protected Color toolBarColor = new Color(0, 0, 0);
+
+
 
     @Override
     public void onRenderOverLay(RenderGameOverlayEvent event) {
-        if(!list){
-            return;
-        }
-        int gap = 8;
-        Vector<AbstractModule> modules = ProModule.getProModule().getModuleManager().getModules();
 
-        Vector<AbstractModule> displays = new Vector<AbstractModule>();
+        ScaledResolution sc = new ScaledResolution(mc);
 
-        if(combatList){
-            for(AbstractModule module : modules){
-                if(module.getModuleType() == ModuleCategory.COMBAT&&module.isEnabled()){
-                    displays.add(module);
+        if(list){
+
+            int gap = 8;
+            Vector<AbstractModule> modules = ProModule.getProModule().getModuleManager().getModules();
+
+            Vector<AbstractModule> displays = new Vector<AbstractModule>();
+
+            if(combatList){
+                for(AbstractModule module : modules){
+                    if(module.getModuleType() == ModuleCategory.COMBAT&&module.isEnabled()){
+                        displays.add(module);
+                    }
                 }
             }
-        }
 
-        if(movementList){
-            for(AbstractModule module : modules){
-                if(module.getModuleType() == ModuleCategory.MOVEMENT&&module.isEnabled()){
-                    displays.add(module);
+            if(movementList){
+                for(AbstractModule module : modules){
+                    if(module.getModuleType() == ModuleCategory.MOVEMENT&&module.isEnabled()){
+                        displays.add(module);
+                    }
                 }
             }
-        }
 
-        if(renderList){
-            for(AbstractModule module : modules){
-                if(module.getModuleType() == ModuleCategory.RENDERS&&module.isEnabled()){
-                    displays.add(module);
+            if(renderList){
+                for(AbstractModule module : modules){
+                    if(module.getModuleType() == ModuleCategory.RENDERS&&module.isEnabled()){
+                        displays.add(module);
+                    }
                 }
             }
-        }
 //        for(AbstractModule module : modules){
 //            if(module.isEnabled()){
 //                displays.add(module);
@@ -71,9 +81,24 @@ public class Hud extends AbstractModule {
 
 
 
-        for(int i=0;i<displays.size();i++){
-            mc.fontRendererObj.drawString(displays.get(i).getDisplayName(),0,i*gap,color.getRGB());
+            for(int i=0;i<displays.size();i++){
+                mc.fontRendererObj.drawString(displays.get(i).getDisplayName(),0,i*gap,color.getRGB());
+            }
+
+
         }
+        int lvt_4_1_ = sc.getScaledWidth() / 2;
+
+        if(toolTip){
+            float x = lvt_4_1_ - 91;
+            float y = sc.getScaledHeight() - 22;
+//            Render2DUtils.drawRect(lvt_4_1_ - 91,y,x+182,sc.getScaledHeight() +22,toolBarColor.getRGB());
+//            Render2DUtils.drawRect(0,y,sc.getScaledWidth(),sc.getScaledHeight() +22,toolBarColor.getRGB());
+//            Render2DUtils.drawRoundedRect2(lvt_4_1_ - 91,y,x+182,sc.getScaledHeight() +22,3,color.getRGB());
+            Render2DUtils.drawRoundedRect2(lvt_4_1_ - 91+50+10,1,x+182-50-10,1 +15,3,toolBarColor.getRGB());
+
+        }
+
 //        mc.displayWidth
         super.onRenderOverLay(event);
     }

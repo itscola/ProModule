@@ -17,7 +17,7 @@ public class MCWrapper {
     public static ResourceLocation cube2 = new ResourceLocation("kateclient","ui/components/cube2.png");
     public static ResourceLocation cube1 = new ResourceLocation("kateclient","ui/components/cube.png");
 
-    public static ResourceLocation bedwars = new ResourceLocation("kateclient","ui/hypixel/bedwars.png");
+    public static ResourceLocation bedwars = new ResourceLocation("promodule","uis/hypixel/bedwars.png");
 
 
 }

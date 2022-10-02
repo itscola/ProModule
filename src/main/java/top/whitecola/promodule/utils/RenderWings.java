@@ -30,7 +30,7 @@ public class RenderWings extends ModelBase
 	public RenderWings()
 	{
 		this.mc = Minecraft.getMinecraft();
-		this.location = new ResourceLocation("kateclient","comestics/wings.png");
+		this.location = new ResourceLocation("promodule","comestics/wings.png");
 		this.playerUsesFullHeight = false;
 
 		// Set texture offsets.

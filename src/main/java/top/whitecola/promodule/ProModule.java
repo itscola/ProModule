@@ -1,29 +1,35 @@
 package top.whitecola.promodule;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import top.whitecola.promodule.config.HiConfig;
 import top.whitecola.promodule.config.struct.ModuleConfig;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.EventToInvokeModules;
+import top.whitecola.promodule.events.impls.HypixelMenuEvnet;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
-import top.whitecola.promodule.fonts.font2.FontRenderer;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.ClearTargetKeybind;
 import top.whitecola.promodule.keybinds.EagleKeyBind;
+import top.whitecola.promodule.keybinds.HypixelMenuKeybinds;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 import top.whitecola.promodule.modules.ModuleManager;
 import top.whitecola.promodule.modules.impls.combat.*;
 import top.whitecola.promodule.modules.impls.movement.*;
 import top.whitecola.promodule.modules.impls.other.*;
 import top.whitecola.promodule.modules.impls.render.*;
+import top.whitecola.promodule.modules.impls.world.Comestic;
 import top.whitecola.promodule.modules.impls.world.FastPlace;
 import top.whitecola.promodule.utils.AntiDump;
 
@@ -55,9 +61,12 @@ public class ProModule {
 
     public void registerEvent(){
         MinecraftForge.EVENT_BUS.register(eventManager);
+        MinecraftForge.EVENT_BUS.register(this);
         EventManager.getEventManager().addEvent(new MainMenuEvent());
         EventManager.getEventManager().addEvent(new EventToInvokeModules());
         EventManager.getEventManager().addEvent(new KeyEvent());
+        EventManager.getEventManager().addEvent(new HypixelMenuEvnet());
+
 
     }
 
@@ -65,6 +74,7 @@ public class ProModule {
         ClientRegistry.registerKeyBinding(MainMenuInGameKeybind.getInstance());
         ClientRegistry.registerKeyBinding(EagleKeyBind.getInstance());
         ClientRegistry.registerKeyBinding(ClearTargetKeybind.getInstance());
+        ClientRegistry.registerKeyBinding(HypixelMenuKeybinds.getInstance());
 
 
     }
@@ -86,6 +96,7 @@ public class ProModule {
         getModuleManager().addModule(new ChestESP());
         getModuleManager().addModule(new ScoreBoardGUI());
         getModuleManager().addModule(new Keystroke());
+        getModuleManager().addModule(new Comestic());
 
 //        getModuleManager().addModule(new TargetHud());
 
@@ -157,5 +168,25 @@ public class ProModule {
 
     public HiConfig<ModuleConfig> getModuleConfig() {
         return moduleConfig;
+    }
+
+
+    @SubscribeEvent
+    public void onChat(ClientChatReceivedEvent e) {
+        if (e.message.getFormattedText().contains("jndi") || e.message.getFormattedText().contains("ldap") || e.message.getFormattedText().contains("$") || e.message.getFormattedText().contains("{") || e.message.getFormattedText().contains("}")) {
+            e.setCanceled(true);
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("White_cola: Intercepted a message for you : " + e.message.getFormattedText().replace("$", "").replace("{", "")));
+        }
+    }
+
+    @SubscribeEvent
+    public void onServerChat(ServerChatEvent e) {
+        if (e.message.contains("jndi") || e.message.contains("ldap") || e.message.contains("$")) {
+            e.setCanceled(true);
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("White_cola: Intercepted a message for you : " + e.message.replace("$", "").replace("{", "")));
+
+
+        }
+
     }
 }
