@@ -104,7 +104,7 @@ public class AutoClicker extends AbstractModule {
 //                mc.thePlayer.swingItem();
 //            }
 
-            
+
             return;
 
         }

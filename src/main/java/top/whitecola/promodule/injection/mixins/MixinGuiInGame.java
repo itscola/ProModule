@@ -85,8 +85,8 @@ public abstract class MixinGuiInGame {
         }
 
 
-        Gui.drawRect(-100, -100, -100, -100, 1342177280);
-        FontLoaders.msFont14.drawString("", -100, -100, 1342177280);
+        Gui.drawRect(-100, -100, -100, -100, 0xffffffff);
+        FontLoaders.msFont14.drawString("", -100, -100, 0xffffffff);
 
 
 
@@ -103,26 +103,17 @@ public abstract class MixinGuiInGame {
             //main
 
 //            if(useScoreBoardModule&&!scoreBoardGUI.isNoBlackBackground()){
-//                Gui.drawRect(lvt_10_2_ - 2, lvt_18_1_, lvt_19_1_, lvt_18_1_ + this.getFontRenderer().FONT_HEIGHT, 1342177280);
+//                Gui.drawRect(lvt_10_2_ - 2, lvt_18_1_, lvt_19_1_, lvt_18_1_ + this.getFontRenderer().FONT_HEIGHT, 0xffffffff);
 //            }
 
-            if(scoreBoardGUI.isEnabled()&&scoreBoardGUI.font){
-                FontLoaders.msFont14.drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 553648127);
-            }else {
-                this.getFontRenderer().drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 553648127);
+            this.getFontRenderer().drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 0xffffffff);
 
-            }
 
 
             if(scoreBoardGUI==null||(scoreBoardGUI.isEnabled()&&!scoreBoardGUI.isNoScore())) {
 
-                if(scoreBoardGUI.isEnabled()&&scoreBoardGUI.font) {
-                    FontLoaders.msFont14.drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 553648127);
+                this.getFontRenderer().drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 0xffffffff);
 
-                }else {
-                    this.getFontRenderer().drawString(lvt_16_1_, lvt_19_1_ - this.getFontRenderer().getStringWidth(lvt_16_1_), lvt_18_1_, 553648127);
-
-                }
 
             }
 
@@ -135,18 +126,18 @@ public abstract class MixinGuiInGame {
 
 //                if(useScoreBoardModule&&!scoreBoardGUI.isNoBlackBackground()) {
 //                    if(scoreBoardGUI.isRoundRect()){
-//                        Render2DUtils.drawRoundedRect2(lvt_10_2_ - 2, lvt_18_1_ - this.getFontRenderer().FONT_HEIGHT - 1, lvt_19_1_, lvt_18_1_ - 1, 2,1342177280 );
-//                        Render2DUtils.drawRoundedRect2(lvt_10_2_ - 2, lvt_18_1_ - 1, lvt_19_1_, lvt_18_1_, 2,1342177280 );
+//                        Render2DUtils.drawRoundedRect2(lvt_10_2_ - 2, lvt_18_1_ - this.getFontRenderer().FONT_HEIGHT - 1, lvt_19_1_, lvt_18_1_ - 1, 2,0xffffffff );
+//                        Render2DUtils.drawRoundedRect2(lvt_10_2_ - 2, lvt_18_1_ - 1, lvt_19_1_, lvt_18_1_, 2,0xffffffff );
 //
 //                    }else{
 //                Gui.drawRect(lvt_10_2_ - 2, lvt_18_1_ - this.getFontRenderer().FONT_HEIGHT - 1, lvt_19_1_, lvt_18_1_ - 1, 1610612736);
-                Gui.drawRect(lvt_10_2_ - 2, lvt_18_1_ - 1, lvt_19_1_, lvt_18_1_, 1342177280);
+                Gui.drawRect(lvt_10_2_ - 2, lvt_18_1_ - 1, lvt_19_1_, lvt_18_1_, 0xffffffff);
 //                    }
 //
 //                }
 
 
-                this.getFontRenderer().drawString(lvt_20_1_, lvt_10_2_ + lvt_6_1_ / 2 - this.getFontRenderer().getStringWidth(lvt_20_1_) / 2, lvt_18_1_ - this.getFontRenderer().FONT_HEIGHT, 553648127);
+                this.getFontRenderer().drawString(lvt_20_1_, lvt_10_2_ + lvt_6_1_ / 2 - this.getFontRenderer().getStringWidth(lvt_20_1_) / 2, lvt_18_1_ - this.getFontRenderer().FONT_HEIGHT, 0xffffffff);
             }
         }
 
