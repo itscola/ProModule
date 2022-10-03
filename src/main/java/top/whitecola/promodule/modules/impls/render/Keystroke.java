@@ -61,7 +61,7 @@ public class Keystroke extends AbstractModule {
         //right
 
         Render2DUtils.drawRoundedRect2(x3,y3,x3+weight,y3+height,2,color.getRGB());
-        fontRenderer.drawString("D",(int)x3+7,(int)y1+6,color3.getRGB());
+        fontRenderer.drawString("D",(int)x3+8,(int)y1+6,color3.getRGB());
 
 
         //space
@@ -96,7 +96,7 @@ public class Keystroke extends AbstractModule {
 
         if(mc.gameSettings.keyBindRight.isKeyDown()){
             Render2DUtils.drawRoundedRect2(x3,y3,x3+weight,y3+height,1,color2.getRGB());
-            fontRenderer.drawString("D",(int)x3+7,(int)y1+6,color.getRGB());
+            fontRenderer.drawString("D",(int)x3+8,(int)y1+6,color.getRGB());
 
         }
 

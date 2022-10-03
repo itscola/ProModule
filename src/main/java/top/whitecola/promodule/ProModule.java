@@ -107,7 +107,6 @@ public class ProModule {
         getModuleManager().addModule(new AutoClicker());
         getModuleManager().addModule(new Reach());
         getModuleManager().addModule(new Velocity());
-        getModuleManager().addModule(new KeepSprint());
         getModuleManager().addModule(new AntiBot());
         getModuleManager().addModule(new AimAssist());
         getModuleManager().addModule(new HitBox());
@@ -120,6 +119,9 @@ public class ProModule {
         //movement
         getModuleManager().addModule(new Eagle());
         getModuleManager().addModule(new WTap());
+        getModuleManager().addModule(new KeepSprint());
+        getModuleManager().addModule(new Sprint());
+
 //        getModuleManager().addModule(new EagleJump());
 
 //        getModuleManager().addModule(new LegitSafeWalk());

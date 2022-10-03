@@ -11,6 +11,8 @@ import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.RandomUtils;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
@@ -22,6 +24,9 @@ public class AutoClicker extends AbstractModule {
 
     @ModuleSetting(name = "MaxCPS",addValue = 1f)
     public Float maxCPS = 11f;
+
+    @ModuleSetting(name = "random",addValue = 1f)
+    public Float random = 25f;
 
     @ModuleSetting(name = "OnlyTools" , type = "select")
     public Boolean onlySwordAndTools = false;
@@ -43,12 +48,16 @@ public class AutoClicker extends AbstractModule {
 
     protected int delay;
 
-//    private Robot robot;
+    private Robot robot;
 
 
     public AutoClicker(){
         super();
-
+        try {
+            robot =new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -72,23 +81,30 @@ public class AutoClicker extends AbstractModule {
             delay = (int) RandomUtils.nextDouble(1000f/minCPS,1000f/maxCPS);
 
             if(randomDelay){
-                delay = delay - (int) RandomUtils.nextDouble(1,25);
+                delay = delay - (int) RandomUtils.nextDouble(1,random);
             }
 
             if(mc==null || mc.objectMouseOver==null){
                 return;
             }
 
-            if (mc.objectMouseOver.entityHit != null) {
+
+//            robot.keyPress(1 << 10);
+//            robot.keyRelease(1 << 10);
+
+//            if (mc.objectMouseOver.entityHit != null) {
                 sendLeftClick(true);
                 sendLeftClick(false);
-            }else {
-                if(onlyPointed) {
-                    swingItemNoPacket();
-                    return;
-                }
-                mc.thePlayer.swingItem();
-            }
+//            KeyEvent
+//            }else {
+//                if(onlyPointed) {
+//                    swingItemNoPacket();
+//                    return;
+//                }
+//                mc.thePlayer.swingItem();
+//            }
+
+            
             return;
 
         }
@@ -115,11 +131,9 @@ public class AutoClicker extends AbstractModule {
 
     private void sendLeftClick(boolean state){
         int keycode = mc.gameSettings.keyBindAttack.getKeyCode();
-
+//        System.out.println(keycode);
         if (state) {
             KeyBinding.onTick(keycode);
-
-            
         }
     }
 
@@ -149,7 +163,7 @@ public class AutoClicker extends AbstractModule {
 
     @Override
     public String getDisplayName() {
-        return super.getDisplayName() + " (AG)";
+        return super.getDisplayName() + " (G)";
 
     }
 
