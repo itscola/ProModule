@@ -42,6 +42,7 @@ public class KeepSprint extends AbstractModule {
 
     @Override
     public void onTick() {
+
         if(Minecraft.getMinecraft()==null||Minecraft.getMinecraft().theWorld==null || mc.thePlayer==null){
             return;
         }

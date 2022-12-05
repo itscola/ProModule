@@ -106,6 +106,8 @@ public abstract class MixinGuiInGame {
 //                Gui.drawRect(lvt_10_2_ - 2, lvt_18_1_, lvt_19_1_, lvt_18_1_ + this.getFontRenderer().FONT_HEIGHT, 0xffffffff);
 //            }
 
+
+            lvt_15_1_ = lvt_15_1_.replace("\247l","");
             this.getFontRenderer().drawString(lvt_15_1_, lvt_10_2_, lvt_18_1_, 0xffffffff);
 
 

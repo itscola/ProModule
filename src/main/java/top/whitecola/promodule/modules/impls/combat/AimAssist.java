@@ -103,6 +103,8 @@ public class AimAssist extends AbstractModule {
         delta = time - lastTime;
         lastTime = time;
 
+
+
         if(whileAttack && !mc.gameSettings.keyBindAttack.isKeyDown()){
             return;
         }

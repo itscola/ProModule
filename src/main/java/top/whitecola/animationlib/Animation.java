@@ -51,6 +51,10 @@ public class Animation {
         if(value >= 1 || value <0){
             return max;
         }
+        if(isFinish()){
+            return getMax();
+        }
+
         return value * (max - min);
     }
 
@@ -60,8 +64,12 @@ public class Animation {
             isFirstUpdate = false;
         }
 
+        if(isFinish()){
+           return getMax();
+        }
 
         setProgressValue(update(System.currentTimeMillis() - getFirstTime()));
+
 
         return getProgressValue();
     }

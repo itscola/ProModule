@@ -29,6 +29,7 @@
     "MixinC03PacketPlayer",
     "MixinGuiMainMenu",
     "MixinGUI",
-    "MixinFontRenderer"
+    "MixinFontRenderer",
+    "MixinGuiPlayerTabOverlay"
   ]
 }

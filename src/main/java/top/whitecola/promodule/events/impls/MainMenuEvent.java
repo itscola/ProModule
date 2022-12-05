@@ -25,7 +25,7 @@ public class MainMenuEvent extends EventAdapter {
 //            }else {
 //                Minecraft.getMinecraft().displayGuiScreen(new MainClickGUIInGameNoFont());
 //            }
-            Minecraft.getMinecraft().displayGuiScreen(new MainClickGUIIngame());
+            Minecraft.getMinecraft().displayGuiScreen(new MainClickGUIInGameNoFont());
 
         }
 

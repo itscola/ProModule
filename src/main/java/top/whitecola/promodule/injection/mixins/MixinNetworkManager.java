@@ -79,6 +79,11 @@ public abstract class MixinNetworkManager implements IMixinNetworkManager {
 
         AntiForge antiForge = (AntiForge) ProModule.getProModule().getModuleManager().getModuleByName("AntiForge");
 
+        if(mc.isSingleplayer() || antiForge==null||!antiForge.isEnabled()){
+            return;
+        }
+
+
 
         if (antiForge!=null&&antiForge.isEnabled() && antiForge.noMods&&packet instanceof FMLProxyPacket) {
             callbackInfo.cancel();

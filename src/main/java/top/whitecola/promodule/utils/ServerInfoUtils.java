@@ -4,6 +4,8 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class ServerInfoUtils {
     public static boolean checkHypixel(){
+        System.out.println(22222222);
+
         if(mc.getCurrentServerData()==null || mc.getCurrentServerData().serverIP==null){
             return false;
         }
@@ -11,6 +13,7 @@ public class ServerInfoUtils {
             return true;
         }
 
+        System.out.println(mc.getCurrentServerData().serverIP+"!!!!");
         return false;
     }
 

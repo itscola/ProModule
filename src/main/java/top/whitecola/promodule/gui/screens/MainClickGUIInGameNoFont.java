@@ -19,6 +19,7 @@ import top.whitecola.promodule.gui.components.clickables.ClickGUIEntry;
 import top.whitecola.promodule.gui.components.clickables.SubEntryCategory;
 import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntry;
 import top.whitecola.promodule.gui.components.clickables.buttons.LabelButton;
+import top.whitecola.promodule.gui.components.clickables.buttons.LabelButtonWithFont;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.other.GUIBlur;

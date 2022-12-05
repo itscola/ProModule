@@ -12,25 +12,26 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import top.whitecola.promodule.config.HiConfig;
+import top.whitecola.promodule.config.struct.HypixelConfig;
 import top.whitecola.promodule.config.struct.ModuleConfig;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.EventToInvokeModules;
 import top.whitecola.promodule.events.impls.HypixelMenuEvnet;
 import top.whitecola.promodule.events.impls.MainMenuEvent;
+import top.whitecola.promodule.events.impls.EventToInvokeHypixelFeatures;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
-import top.whitecola.promodule.keybinds.ClearTargetKeybind;
-import top.whitecola.promodule.keybinds.EagleKeyBind;
-import top.whitecola.promodule.keybinds.HypixelMenuKeybinds;
-import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
+import top.whitecola.promodule.keybinds.*;
 import top.whitecola.promodule.modules.ModuleManager;
 import top.whitecola.promodule.modules.impls.combat.*;
 import top.whitecola.promodule.modules.impls.movement.*;
 import top.whitecola.promodule.modules.impls.other.*;
 import top.whitecola.promodule.modules.impls.render.*;
+import top.whitecola.promodule.modules.impls.world.AutoPlace;
 import top.whitecola.promodule.modules.impls.world.Comestic;
 import top.whitecola.promodule.modules.impls.world.FastPlace;
+import top.whitecola.promodule.services.apis.HypixelAPIWrapper;
 import top.whitecola.promodule.utils.AntiDump;
 
 import java.nio.charset.Charset;
@@ -47,7 +48,9 @@ public class ProModule {
     private ModuleManager moduleManager = new ModuleManager();
 
     private HiConfig<ModuleConfig> moduleConfig = new HiConfig<ModuleConfig>("./ProModule/Modules.json",ModuleConfig.class, Charset.forName("utf8"));
-    
+    private HiConfig<HypixelConfig> hypixelConfig = new HiConfig<HypixelConfig>("./ProModule/HypixelConfig.json",HypixelConfig.class, Charset.forName("utf8"));
+    public HypixelAPIWrapper hypixelAPIWrapper = new HypixelAPIWrapper();
+
     @EventHandler
     public void init(FMLInitializationEvent event) {
         FontLoaders.loadAllFonts();
@@ -66,6 +69,7 @@ public class ProModule {
         EventManager.getEventManager().addEvent(new EventToInvokeModules());
         EventManager.getEventManager().addEvent(new KeyEvent());
         EventManager.getEventManager().addEvent(new HypixelMenuEvnet());
+        EventManager.getEventManager().addEvent(new EventToInvokeHypixelFeatures());
 
 
     }
@@ -75,6 +79,7 @@ public class ProModule {
         ClientRegistry.registerKeyBinding(EagleKeyBind.getInstance());
         ClientRegistry.registerKeyBinding(ClearTargetKeybind.getInstance());
         ClientRegistry.registerKeyBinding(HypixelMenuKeybinds.getInstance());
+        ClientRegistry.registerKeyBinding(AutoPlaceKeyBind.getInstance());
 
 
     }
@@ -104,6 +109,7 @@ public class ProModule {
 
 
         //combat
+//        getModuleManager().addModule(new Killaura());
         getModuleManager().addModule(new AutoClicker());
         getModuleManager().addModule(new Reach());
         getModuleManager().addModule(new Velocity());
@@ -124,7 +130,10 @@ public class ProModule {
 
 //        getModuleManager().addModule(new EagleJump());
 
-//        getModuleManager().addModule(new LegitSafeWalk());
+        getModuleManager().addModule(new LegitSafeWalk());
+        getModuleManager().addModule(new AutoPlace());
+//        getModuleManager().addModule(new Scaffold());
+
 
 
         //world
@@ -139,6 +148,8 @@ public class ProModule {
         getModuleManager().addModule(new Disabler());
         getModuleManager().addModule(new AntiForge());
         getModuleManager().addModule(new GUICloser());
+        getModuleManager().addModule(new HypixelPlus());
+
         getModuleManager().getModuleByName("AntiForge").setEnabled(true);
 
         getModuleManager().addModule(new BetterFont());
@@ -190,5 +201,13 @@ public class ProModule {
 
         }
 
+    }
+
+    public HypixelAPIWrapper getHypixelAPIWrapper() {
+        return hypixelAPIWrapper;
+    }
+
+    public HiConfig<HypixelConfig> getHypixelConfig() {
+        return hypixelConfig;
     }
 }
