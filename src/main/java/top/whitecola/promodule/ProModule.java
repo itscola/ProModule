@@ -170,6 +170,11 @@ public class ProModule {
         return proModule;
     }
 
+
+    public EventManager getEventManager() {
+        return eventManager;
+    }
+
     public WidgetManager getWidgetManager() {
         return widgetManager;
     }

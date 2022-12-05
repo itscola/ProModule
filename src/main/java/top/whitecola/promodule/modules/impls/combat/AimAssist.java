@@ -5,9 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemColored;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -68,6 +66,9 @@ public class AimAssist extends AbstractModule {
     @ModuleSetting(name = "1v1Mode",type = "select")
     public Boolean oneV1Mode = false;
 
+    @ModuleSetting(name = "CheckBreaking",type = "select")
+    public Boolean checkBreaking = true;
+
     public long delta, lastTime;
 
     private EntityLivingBase theTarget;
@@ -103,6 +104,10 @@ public class AimAssist extends AbstractModule {
         delta = time - lastTime;
         lastTime = time;
 
+
+        if(checkBreaking&&mc.thePlayer.isSwingInProgress&&isBreakingBlockTool(mc.thePlayer.inventory.getCurrentItem())){
+            return;
+        }
 
 
         if(whileAttack && !mc.gameSettings.keyBindAttack.isKeyDown()){
@@ -462,5 +467,31 @@ public class AimAssist extends AbstractModule {
             }
         }
         super.onPlayerRespawn(e);
+    }
+
+
+    public boolean isBreakingBlockTool(ItemStack itemStack){
+        if(itemStack==null){
+            return false;
+        }
+
+        Item item = itemStack.getItem();
+
+        if(item==null){
+            return false;
+        }
+
+
+        if(item instanceof ItemPickaxe){
+            return true;
+        }else if(item instanceof ItemAxe){
+            return true;
+        }else if(item instanceof ItemShears){
+            return true;
+        }else if(item instanceof ItemSpade){
+            return true;
+        }
+
+        return false;
     }
 }

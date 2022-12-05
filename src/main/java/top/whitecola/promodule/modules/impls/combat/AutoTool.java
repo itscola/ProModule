@@ -26,7 +26,7 @@ public class AutoTool extends AbstractModule {
         }
 
 
-        if(!isBreakingBlockTool(mc.thePlayer.inventory.getCurrentItem())){
+        if(onlyTools&&!isBreakingBlockTool(mc.thePlayer.inventory.getCurrentItem())){
             return;
         }
 
@@ -48,9 +48,7 @@ public class AutoTool extends AbstractModule {
             }
         }
 
-        if(selectSolt==0) {
-            return;
-        }
+
         mc.thePlayer.inventory.currentItem = selectSolt;
     }
 

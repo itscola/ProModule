@@ -30,6 +30,7 @@
     "MixinGuiMainMenu",
     "MixinGUI",
     "MixinFontRenderer",
-    "MixinGuiPlayerTabOverlay"
+    "MixinGuiPlayerTabOverlay",
+    "MixinPlayerControllerMP"
   ]
 }
