@@ -67,7 +67,10 @@ public class AimAssist extends AbstractModule {
     public Boolean oneV1Mode = false;
 
     @ModuleSetting(name = "CheckBreaking",type = "select")
-    public Boolean checkBreaking = true;
+    public Boolean checkBreaking = false;
+
+    @ModuleSetting(name = "OnlySword",type = "select")
+    public Boolean onlySword = false;
 
     public long delta, lastTime;
 
@@ -105,9 +108,16 @@ public class AimAssist extends AbstractModule {
         lastTime = time;
 
 
+        if(onlySword&&mc.thePlayer.inventory.getCurrentItem()!=null&&!(mc.thePlayer.inventory.getCurrentItem().getItem() instanceof ItemSword)){
+            return;
+        }
+
+
         if(checkBreaking&&mc.thePlayer.isSwingInProgress&&isBreakingBlockTool(mc.thePlayer.inventory.getCurrentItem())){
             return;
         }
+
+
 
 
         if(whileAttack && !mc.gameSettings.keyBindAttack.isKeyDown()){

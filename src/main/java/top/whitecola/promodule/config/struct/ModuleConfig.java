@@ -15,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ModuleConfig {
     protected String ConfigName = "NewConfig";
+    public float uix = 90;
+    public float uiy = 16;
     protected ArrayList<ModuleConfigStruct> moduleConfigs = new ArrayList<ModuleConfigStruct>();
 
     protected void modulesToConfig(List<AbstractModule> modules){

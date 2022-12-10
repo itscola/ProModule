@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
@@ -33,8 +34,11 @@ public class ESP extends AbstractModule {
     @ModuleSetting(name = "InvPlayer" ,type="select")
     Boolean invPlayer = true;
 
-    @ModuleSetting(name = "AllPlaer" ,type="select")
-    Boolean allPlayer = true;
+//    @ModuleSetting(name = "ESP3D" ,type="select")
+//    Boolean eSP3D = false;
+
+//    @ModuleSetting(name = "AllPlaer" ,type="select")
+//    Boolean allPlayer = true;
 
     private Color color = new Color(255, 255, 255);
     private Color hurtColor = new Color(156, 60, 60);
@@ -42,6 +46,9 @@ public class ESP extends AbstractModule {
 
 //    private Vector<EntityLivingBase> inv = new Vector<EntityLivingBase>();
 
+    private boolean direction = true;
+    private float yPos;
+    private long last;
 
     @Override
     public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
@@ -55,7 +62,11 @@ public class ESP extends AbstractModule {
                 EntityLivingBase entity = aimAssist.getTheTarget();
 
                 if(!(entity==null || entity.isDead)){
-                    doRenderESP(entity);
+//                    if(eSP3D){
+//                        do3DESP(entity,partialTicks);
+//                    }else{
+                        doRenderESP(entity);
+//                    }
                 }
             }
 
@@ -64,7 +75,7 @@ public class ESP extends AbstractModule {
 
         }
 
-        if(allPlayer){
+        if(invPlayer){
             for (final EntityPlayer player : mc.theWorld.playerEntities) {
                 if (player != mc.thePlayer) {
                     AntiBot antiBot = (AntiBot) ProModule.getProModule().getModuleManager().getModuleByName("AntiBot");
@@ -74,6 +85,10 @@ public class ESP extends AbstractModule {
                         if(antiBot.entities.contains(player)){
                             return;
                         };
+                    }
+
+                    if(!player.isInvisible()){
+                        return;
                     }
                     doRenderESP(player);
                 }
@@ -115,6 +130,99 @@ public class ESP extends AbstractModule {
     public String getModuleName() {
         return "ESP";
     }
+
+
+
+
+
+
+    private void do3DESP(EntityLivingBase target, float partialTicks){
+        drawShadow(target, partialTicks, yPos, direction);
+        drawCircle(target, partialTicks, yPos);
+    }
+
+
+    @Override
+    public void onRender2D(RenderWorldLastEvent e) {
+        if(System.currentTimeMillis()-last>=10){
+            last = System.currentTimeMillis();
+
+            if (direction) {
+                yPos += 0.03;
+                if (2 - yPos < 0.02) {
+                    direction = false;
+                }
+            } else {
+                yPos -= 0.03;
+                if (yPos < 0.02) {
+                    direction = true;
+                }
+            }
+        }
+        super.onRender2D(e);
+    }
+
+    private void drawShadow(Entity entity, float partialTicks, float pos, boolean direction) {
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glShadeModel((int) 7425);
+        double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks - mc.getRenderManager().viewerPosX;
+        double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks - mc.getRenderManager().viewerPosY + pos;
+        double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks - mc.getRenderManager().viewerPosZ;
+        GL11.glBegin(GL11.GL_QUAD_STRIP);
+        for (int i = 0; i <= 180; i++) {
+            double c1 = i * Math.PI * 2 / 180;
+            double c2 = (i + 1) * Math.PI * 2 / 180;
+            GlStateManager.color(1, 1, 1, 0.3f);
+            GL11.glVertex3d(x + 0.5 * Math.cos(c1), y, z + 0.5 * Math.sin(c1));
+            GL11.glVertex3d(x + 0.5 * Math.cos(c2), y, z + 0.5 * Math.sin(c2));
+            GlStateManager.color(1, 1, 1, 0f);
+
+            GL11.glVertex3d(x + 0.5 * Math.cos(c1), y + (direction ? -0.2 : 0.2), z + 0.5 * Math.sin(c1));
+            GL11.glVertex3d(x + 0.5 * Math.cos(c2), y + (direction ? -0.2 : 0.2), z + 0.5 * Math.sin(c2));
+
+
+        }
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glShadeModel((int) 7424);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+    }
+
+    private void drawCircle(Entity entity, float partialTicks, float pos) {
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glShadeModel((int) 7425);
+        GL11.glLineWidth(1);
+        double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks - mc.getRenderManager().viewerPosX;
+        double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks - mc.getRenderManager().viewerPosY + pos;
+        double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks - mc.getRenderManager().viewerPosZ;
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        for (int i = 0; i <= 180; i++) {
+            double c1 = i * Math.PI * 2 / 180;
+            GlStateManager.color(2, 1, 1, 1);
+            GL11.glVertex3d(x + 0.5 * Math.cos(c1), y, z + 0.5 * Math.sin(c1));
+
+
+        }
+
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glShadeModel((int) 7424);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+    }
+
+
+
+
 
     private void doRenderESP(EntityLivingBase entity){
         if(entity==null){

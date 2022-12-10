@@ -28,9 +28,7 @@ import top.whitecola.promodule.modules.impls.combat.*;
 import top.whitecola.promodule.modules.impls.movement.*;
 import top.whitecola.promodule.modules.impls.other.*;
 import top.whitecola.promodule.modules.impls.render.*;
-import top.whitecola.promodule.modules.impls.world.AutoPlace;
-import top.whitecola.promodule.modules.impls.world.Comestic;
-import top.whitecola.promodule.modules.impls.world.FastPlace;
+import top.whitecola.promodule.modules.impls.world.*;
 import top.whitecola.promodule.services.apis.HypixelAPIWrapper;
 import top.whitecola.promodule.utils.AntiDump;
 
@@ -132,12 +130,14 @@ public class ProModule {
 
         getModuleManager().addModule(new LegitSafeWalk());
         getModuleManager().addModule(new AutoPlace());
-//        getModuleManager().addModule(new Scaffold());
 
 
 
         //world
         getModuleManager().addModule(new FastPlace());
+        getModuleManager().addModule(new Scaffold2());
+
+
 
         //other
         getModuleManager().addModule(new NoClickGUISound());
@@ -153,8 +153,8 @@ public class ProModule {
         getModuleManager().getModuleByName("AntiForge").setEnabled(true);
 
         getModuleManager().addModule(new BetterFont());
-        BetterFont betterFont = (BetterFont) ProModule.getProModule().getModuleManager().getModuleByName("BetterFont");
-        betterFont.enable();
+//        BetterFont betterFont = (BetterFont) ProModule.getProModule().getModuleManager().getModuleByName("BetterFont");
+//        betterFont.enable();
 
 
     }

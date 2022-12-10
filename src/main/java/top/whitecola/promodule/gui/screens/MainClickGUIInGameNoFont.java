@@ -111,6 +111,10 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
         enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
+
+        this.xPosition = ProModule.getProModule().getModuleConfig().getConfig().uix;
+        this.yPosition = ProModule.getProModule().getModuleConfig().getConfig().uiy;
+
     }
 
 
@@ -135,6 +139,9 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
         FontRenderer fontRenderer = mc.fontRendererObj;
+
+
+        fontRenderer.drawStringWithShadow("Copyright by White_cola.",0 ,0,mainColor.getRGB());
 
         if(GUIUtils.isHovered(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20,mouseX,mouseY) && Mouse.isButtonDown(0)){
 
@@ -453,6 +460,9 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     @Override
     public void onGuiClosed() {
         UICache.selectedSubtitle = 0;
+        ProModule.getProModule().getModuleConfig().config.uix = this.xPosition;
+        ProModule.getProModule().getModuleConfig().config.uiy = this.yPosition;
+
         ProModule.getProModule().getModuleConfig().config.modulesToConfig();
         ProModule.getProModule().getModuleConfig().saveConfig();
         super.onGuiClosed();

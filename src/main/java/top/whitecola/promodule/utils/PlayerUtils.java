@@ -1,8 +1,12 @@
 package top.whitecola.promodule.utils;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+import static top.whitecola.promodule.utils.MCWrapper.*;
+
 
 public class PlayerUtils {
     public static float[] getBowAngles(final Entity entity) {
@@ -24,5 +28,13 @@ public class PlayerUtils {
         final float pitch =  (float) - (Math.atan2(y, d1) * 180.0D / Math.PI) + (float)dist*0.11f;
 
         return new float[]{yaw, -pitch};
+    }
+
+    public static Block getBlockRelativeToPlayer(final double offsetX, final double offsetY, final double offsetZ) {
+        return mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + offsetX, mc.thePlayer.posY + offsetY, mc.thePlayer.posZ + offsetZ)).getBlock();
+    }
+
+    public static Block getBlock(final double offsetX, final double offsetY, final double offsetZ) {
+        return mc.theWorld.getBlockState(new BlockPos(offsetX, offsetY, offsetZ)).getBlock();
     }
 }
