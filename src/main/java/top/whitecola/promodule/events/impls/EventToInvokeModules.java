@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.events.EventAdapter;
+import top.whitecola.promodule.events.impls.event.MoveEvent;
 import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
@@ -289,5 +290,15 @@ public class EventToInvokeModules extends EventAdapter {
             module.onPreMotion(e);
         }
         super.onPreMotion(e);
+    }
+
+    @Override
+    public void onMove(MoveEvent e) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.onMove(e);
+        }
+        super.onMove(e);
     }
 }

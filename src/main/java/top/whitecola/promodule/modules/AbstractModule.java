@@ -15,10 +15,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
-import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
-import top.whitecola.promodule.events.impls.event.PacketSendEvent;
-import top.whitecola.promodule.events.impls.event.PreMotionEvent;
-import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
+import top.whitecola.promodule.events.impls.event.*;
 import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntry;
 import top.whitecola.promodule.gui.components.clickables.wrapper.Setting;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
@@ -418,7 +415,12 @@ public class AbstractModule implements IModule{
 
     }
 
-//    public Integer getAddValue(){
+    @Override
+    public void onMove(MoveEvent e) {
+
+    }
+
+    //    public Integer getAddValue(){
 //
 //    }
 }

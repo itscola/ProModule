@@ -1,84 +1,161 @@
 package top.whitecola.promodule.modules.impls.combat;
 
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import top.whitecola.promodule.annotations.ModuleSetting;
+import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.utils.ServerUtils;
+
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class AntiBot extends AbstractModule {
-    public Vector<EntityLivingBase> entities = new Vector<EntityLivingBase>();
 
-    @ModuleSetting(name = "IllegalName" ,type = "select")
-    public Boolean illegalName = true;
+    @ModuleSetting(name = "HealthC",type = "select")
+    public Boolean healthC = true;
 
-    @ModuleSetting(name = "CheckTick" ,type = "select")
-    public Boolean checkTick = true;
+    @ModuleSetting(name = "GroundedC",type = "select")
+    public Boolean groundedC = true;
+//
+//    @ModuleSetting(name = "SpawnC",type = "select")
+//    public Boolean spawnC = true;
+//
+//    @ModuleSetting(name = "NameC",type = "select")
+//    public Boolean nameC = true;
+
+    @ModuleSetting(name = "SwingC",type = "select")
+    public Boolean swingC = false;
+
+    @ModuleSetting(name = "HitBefore",type = "select")
+    public Boolean hitBefore = false;
+
+    @ModuleSetting(name = "TabCheck",type = "select")
+    public Boolean tagCheck = true;
+
+//    @ModuleSetting(name = "PingCheck",type = "select")
+//    public Boolean pingCheck = false;
+//
+//    @ModuleSetting(name = "SkinCheck",type = "select")
+//    public Boolean skinCheck = false;
+//
+//    @ModuleSetting(name = "DulicateC",type = "select")
+//    public Boolean dulicateCheck = false;
+
+    @ModuleSetting(name = "SoundCheck",type = "select")
+    public Boolean soundCheck = true;
+//
+//    @ModuleSetting(name = "IllegalRo",type = "select")
+//    public Boolean illegalRotation = false;
+
+    private final ArrayList<Entity> madeSound = new ArrayList<>();
+    private final ArrayList<Entity> swingEntity = new ArrayList<>();
+    private final ArrayList<Entity> hitBeforeEntity = new ArrayList<>();
+    private final ArrayList<Entity> duplicates = new ArrayList<>();
+    private Vector<Integer> grounded = new Vector<Integer>();
+
+    public boolean isBot(EntityLivingBase entity){
+        if(entity==null){
+            return true;
+        }
 
 
-    @ModuleSetting(name = "PosCheck" ,type = "select")
-    public Boolean posCheck = true;
+        if (healthC && !Float.isNaN(entity.getHealth()))
+            return true;
+        if (soundCheck && !madeSound.contains(entity))
+            return true;
+//        if (swingC && !swingEntity.contains(entity))
+//            return true;
+//        if (hitBefore && !hitBeforeEntity.contains(entity))
+//            return true;
+        if (tagCheck&&!ServerUtils.isInTabList(entity))
+            return true;
+
+        if (groundedC&&!grounded.contains(entity.getEntityId()) )
+            return true;
+//        if (!hasPing(entity) && pingCheck)
+//            return true;
+//        if (rotationEntity.contains(entity) && rotation.getPropertyValue())
+//            return true;
+//        if (groundSpawnCheck.getPropertyValue() && groundSpawnEntity.contains(entity))
+//            return true;
+//        if (period.getPropertyValue() && !periodEntity.contains(entity))
+//            return true;
+
+        return false;
+    }
+
+    public void checkName(EntityLivingBase entityLivingBase){
+
+    }
+
+    @Override
+    public void packetReceivedEvent(PacketReceivedEvent e) {
+        if (e.getPacket() instanceof S29PacketSoundEffect) {
+
+            mc.theWorld.loadedEntityList.forEach(entity->{
+                if (entity != mc.thePlayer && entity.getDistance
+                        (((S29PacketSoundEffect) e.getPacket()).getX(), ((S29PacketSoundEffect) e.getPacket()).getY(), ((S29PacketSoundEffect) e.getPacket()).getZ()) <= 0.8) {
+                    if(!madeSound.contains(entity)) {
+                        madeSound.add(entity);
+                    }
+                }
+            });
+
+        }
+
+
+
+
+        super.packetReceivedEvent(e);
+    }
 
     @Override
     public void onTick() {
-
-        if(mc.theWorld==null||mc.thePlayer==null){
+        if(mc.theWorld==null){
             return;
         }
 
-        for (final EntityPlayer player : mc.theWorld.playerEntities) {
-            if (player != mc.thePlayer) {
-
-                if(checkTick){
-                    if(player.ticksExisted<=0){
-                        this.entities.add(player);
-                        break;
-                    }
-                }
-
-
-
-                if(illegalName){
-                    final String valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_";
-                    final String name = player.getName();
-
-                    for (int i = 0; i < name.length(); i++) {
-                        final String c = String.valueOf(name.charAt(i));
-                        if (!valid.contains(c)) {
-                            entities.add(player);
-                            break;
-                        }
-                    }
-                }
-
-//                if(posCheck&& player.ticksExisted < 20 && player.posX == (int) mc.thePlayer.posX && (int) player.posZ == (int) mc.thePlayer.posZ && player.isInvisible()){
-//                    entities.add(player);
-//                    break;
-//                }
-
-
+        for(EntityLivingBase entity : mc.theWorld.playerEntities){
+            if(entity==null){
+                continue;
             }
+            if(entity.onGround){
+                if(!grounded.contains(entity.getEntityId())){
+                    grounded.add(entity.getEntityId());
+                }
+            }
+
+
+
         }
-
-
         super.onTick();
     }
 
     @Override
     public void onEnable() {
-        this.entities.clear();
+        madeSound.clear();
+        swingEntity.clear();
+        hitBeforeEntity.clear();
+        duplicates.clear();
         super.onEnable();
     }
 
     @Override
     public void onEntityJoinWorld(EntityJoinWorldEvent e) {
         if(e.entity instanceof EntityPlayerSP){
-            this.entities.clear();
+            madeSound.clear();
+            swingEntity.clear();
+            hitBeforeEntity.clear();
+            duplicates.clear();
         }
 
         super.onEntityJoinWorld(e);
@@ -94,4 +171,6 @@ public class AntiBot extends AbstractModule {
         return "AntiBot";
 
     }
+
+
 }

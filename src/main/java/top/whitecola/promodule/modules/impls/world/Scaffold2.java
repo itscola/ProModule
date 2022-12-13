@@ -109,4 +109,9 @@ public class Scaffold2 extends AbstractModule {
         return "Scaffold";
 
     }
+
+    @Override
+    public String getDisplayName() {
+        return super.getDisplayName()+" (NG)";
+    }
 }

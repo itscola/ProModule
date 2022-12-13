@@ -127,14 +127,7 @@ public class Velocity extends AbstractModule {
     public void onEnable() {
 //        whenSprinting = true;
 
-        minHorizontal = 90f;
-        maxHorizontal = 90f;
 
-        minVertical = 100f;
-        maxVertical = 100f;
-
-        noRandom = true;
-        useChance = true;
 
         super.onEnable();
     }

@@ -7,5 +7,6 @@ public interface IMixinEntityPlayerSP {
 
     boolean isServerSneakState();
     void setServerSneakState(boolean state);
+    void setSpeedInAir(float value);
 
 }

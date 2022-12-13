@@ -1,6 +1,7 @@
 package top.whitecola.promodule;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -78,6 +79,9 @@ public class ProModule {
         ClientRegistry.registerKeyBinding(ClearTargetKeybind.getInstance());
         ClientRegistry.registerKeyBinding(HypixelMenuKeybinds.getInstance());
         ClientRegistry.registerKeyBinding(AutoPlaceKeyBind.getInstance());
+        ClientRegistry.registerKeyBinding(KillauraKeyBind.getInstance());
+        ClientRegistry.registerKeyBinding(ScaffoldKeyBind.getInstance());
+        ClientRegistry.registerKeyBinding(SpeedKeyBind.getInstance());
 
 
     }
@@ -107,7 +111,6 @@ public class ProModule {
 
 
         //combat
-//        getModuleManager().addModule(new Killaura());
         getModuleManager().addModule(new AutoClicker());
         getModuleManager().addModule(new Reach());
         getModuleManager().addModule(new Velocity());
@@ -117,6 +120,8 @@ public class ProModule {
         getModuleManager().addModule(new NoClickDelay());
 //        getModuleManager().addModule(new ComboOneHit());
         getModuleManager().addModule(new AutoTool());
+        getModuleManager().addModule(new Killaura());
+
 
 
 
@@ -130,7 +135,7 @@ public class ProModule {
 
         getModuleManager().addModule(new LegitSafeWalk());
         getModuleManager().addModule(new AutoPlace());
-
+        getModuleManager().addModule(new Speed());
 
 
         //world
@@ -155,7 +160,6 @@ public class ProModule {
         getModuleManager().addModule(new BetterFont());
 //        BetterFont betterFont = (BetterFont) ProModule.getProModule().getModuleManager().getModuleByName("BetterFont");
 //        betterFont.enable();
-
 
     }
 

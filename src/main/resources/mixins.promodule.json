@@ -32,6 +32,7 @@
     "MixinFontRenderer",
     "MixinGuiPlayerTabOverlay",
     "MixinPlayerControllerMP",
-    "MixinItemStack"
+    "MixinItemStack",
+    "MixinGuiMultiplayer"
   ]
 }

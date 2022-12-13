@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.events.EventManager;
+import top.whitecola.promodule.events.impls.event.MoveEvent;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.injection.wrappers.IMixinEntityPlayerSP;
 import top.whitecola.promodule.utils.wrapper.RotationPitchHead;
@@ -117,7 +118,15 @@ public abstract class MixinEntityPlayerSP  extends AbstractClientPlayer implemen
     }
 
 
-
+    @Override
+    public void moveEntity(double p_moveEntity_1_, double p_moveEntity_3_, double p_moveEntity_3_2) {
+        MoveEvent moveEvent = new MoveEvent(p_moveEntity_1_,p_moveEntity_3_,p_moveEntity_3_2);
+        EventManager.getEventManager().onMove(moveEvent);
+        if(moveEvent.isCanceled()){
+            return;
+        }
+        super.moveEntity(moveEvent.getX(), moveEvent.getY(), moveEvent.getZ());
+    }
 
     /**
      * @author White_cola
@@ -127,9 +136,10 @@ public abstract class MixinEntityPlayerSP  extends AbstractClientPlayer implemen
     public void onUpdateWalkingPlayer() {
 
         PreMotionEvent preMotionEvent = new PreMotionEvent(this.rotationYaw, this.rotationPitch, this.onGround, this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        preMotionEvent.setPre(true);
         EventManager.getEventManager().onPreMotion(preMotionEvent);
 
-
+//        System.out.println(preMotionEvent.getYaw()+" "+preMotionEvent.getPitch());
 //        float serverPitch = preMotionEvent.getPitch();
 //        float serverYaw = preMotionEvent.getYaw();
 
@@ -191,8 +201,16 @@ public abstract class MixinEntityPlayerSP  extends AbstractClientPlayer implemen
                 this.lastReportedPitch = preMotionEvent.getPitch();
             }
         }
+
+        preMotionEvent.setPre(false);
+        EventManager.getEventManager().onPreMotion(preMotionEvent);
+
         RotationPitchHead.rotationPitchHead = this.rotationPitch;
 
     }
 
+    @Override
+    public void setSpeedInAir(float value) {
+        this.speedInAir = value;
+    }
 }

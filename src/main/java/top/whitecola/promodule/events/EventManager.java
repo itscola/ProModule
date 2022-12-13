@@ -15,10 +15,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
-import top.whitecola.promodule.events.impls.event.PacketSendEvent;
-import top.whitecola.promodule.events.impls.event.PreMotionEvent;
-import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
+import top.whitecola.promodule.events.impls.event.*;
 
 import java.util.Vector;
 
@@ -234,6 +231,12 @@ public class EventManager {
 //        System.out.println(1111112);
         for (EventAdapter eventAdapter : events) {
             eventAdapter.onPreMotion(e);
+        }
+    }
+
+    public void onMove(MoveEvent e){
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.onMove(e);
         }
     }
 }

@@ -335,9 +335,9 @@ public class AimAssist extends AbstractModule {
 
         AntiBot antiBot = (AntiBot) ProModule.getProModule().getModuleManager().getModuleByName("AntiBot");
         if(antiBot!=null&&antiBot.isEnabled()){
-            if(antiBot.entities.contains(entity)){
+            if(antiBot.isBot(entity)){
                 return true;
-            };
+            }
         }
 
         return false;
@@ -440,18 +440,7 @@ public class AimAssist extends AbstractModule {
                 }
             }
 
-            if(checkDead && entity.isDead){
-                if(attackted.contains(entity)) {
-                    attackted.remove(entity);
-                }
 
-                if(this.theTarget!=null&&this.theTarget.equals(entity)){
-                    PlayerSPUtils.sendMsgToSelf("Clear dead target: "+getTheTarget().getDisplayName().getFormattedText());
-                    clearTarget();
-                }
-
-                
-            }
 
         }
         super.onTick();

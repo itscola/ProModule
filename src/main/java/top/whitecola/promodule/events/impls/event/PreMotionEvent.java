@@ -9,6 +9,7 @@ public class PreMotionEvent extends AbstractEvent{
     public float yaw, pitch;
     private boolean ground;
     private double x, y, z;
+    private boolean pre;
 
 
     public PreMotionEvent(float yaw,float pitch,boolean ground,double x,double y,double z){
@@ -18,6 +19,14 @@ public class PreMotionEvent extends AbstractEvent{
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public boolean isPre() {
+        return pre;
+    }
+
+    public void setPre(boolean pre) {
+        this.pre = pre;
     }
 
     public double getX() {
@@ -42,6 +51,10 @@ public class PreMotionEvent extends AbstractEvent{
 
     public boolean isGround() {
         return ground;
+    }
+
+    public void setGround(boolean ground) {
+        this.ground = ground;
     }
 
     public void setYaw(final float yaw) {

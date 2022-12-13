@@ -82,9 +82,9 @@ public class ESP extends AbstractModule {
 //                    System.out.println(11111);
 
                     if(antiBot!=null&&antiBot.isEnabled()){
-                        if(antiBot.entities.contains(player)){
+                        if(antiBot.isBot(player)){
                             return;
-                        };
+                        }
                     }
 
                     if(!player.isInvisible()){

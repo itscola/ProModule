@@ -15,10 +15,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
-import top.whitecola.promodule.events.impls.event.PacketSendEvent;
-import top.whitecola.promodule.events.impls.event.PreMotionEvent;
-import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
+import top.whitecola.promodule.events.impls.event.*;
 
 public abstract class EventAdapter {
     private final String id;
@@ -157,6 +154,10 @@ public abstract class EventAdapter {
     }
 
     public void onPreMotion(PreMotionEvent e){
+
+    }
+
+    public void onMove(MoveEvent e){
 
     }
 }

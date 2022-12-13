@@ -4,6 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.util.MathHelper;
+import top.whitecola.promodule.utils.wrapper.RotationPitchHead;
+
+import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class RotationUtils {
     public static float[] getFacingRotations2(final int paramInt1, final double d, final int paramInt3) {
@@ -46,6 +49,31 @@ public class RotationUtils {
             rotationYaw += 90.0f * n;
         }
         return rotationYaw * 0.017453292f;
+    }
+
+    public static float smoothRotation(float from, float to, float speed) {
+        float f = MathHelper.wrapAngleTo180_float(to - from);
+        if (f > speed) {
+            f = speed;
+        }
+        if (!(f < -speed)) return from + f;
+        f = -speed;
+        return from + f;
+    }
+
+    public static void setRotations(float[] rotations) {
+        RotationUtils.setRotations(rotations[0], rotations[1]);
+    }
+
+    public static void setRotations(float yaw, float pitch) {
+        mc.thePlayer.rotationYawHead = mc.thePlayer.renderYawOffset = yaw;
+//        mc.thePlayer.rotationPitchHead = pitch;
+        RotationPitchHead.rotationPitchHead = pitch;
+    }
+
+    public static float getSensitivityMultiplier() {
+        float SENSITIVITY = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6f + 0.2f;
+        return SENSITIVITY * SENSITIVITY * SENSITIVITY * 8.0f * 0.15f;
     }
 
 }
