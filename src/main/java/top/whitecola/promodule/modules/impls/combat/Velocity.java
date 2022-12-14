@@ -23,6 +23,10 @@ public class Velocity extends AbstractModule {
     @ModuleSetting(name = "maxVertical",addValue = 1)
     public Float maxVertical = 100f;
 
+
+    @ModuleSetting(name = "Cancel",type = "select")
+    public Boolean cancel = false;
+
     @ModuleSetting(name = "UseChance",type = "select")
     public Boolean useChance = true;
 
@@ -50,6 +54,12 @@ public class Velocity extends AbstractModule {
             if(e.getPacket() instanceof S27PacketExplosion) {
                 S27PacketExplosion packet = (S27PacketExplosion) e.getPacket();
             }else if(e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID()== mc.thePlayer.getEntityId()){
+
+
+                if(cancel){
+                    e.setCancel();
+                }
+
 
                 if(mc.thePlayer.onGround && onlyAir){
                     return;
