@@ -1,7 +1,9 @@
 package top.whitecola.promodule.modules.impls.world;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.inventory.ContainerChest;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.modules.AbstractModule;
@@ -21,6 +23,15 @@ public class ChestStealer extends AbstractModule {
 
 
     private final TimerUtils timer = new TimerUtils();
+
+
+
+    @Override
+    public void reset() {
+        timer.reset();
+        super.reset();
+    }
+
 
     @Override
     public void onPreMotion(PreMotionEvent e) {

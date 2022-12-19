@@ -17,6 +17,8 @@ import top.whitecola.promodule.events.impls.event.*;
 import top.whitecola.promodule.gui.widgets.AbstractWidget;
 
 public interface IModule {
+    void reset();
+
     void onTick();
 
     void onRender2D(RenderWorldLastEvent e);

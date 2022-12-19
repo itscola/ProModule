@@ -1,11 +1,13 @@
 package top.whitecola.promodule.modules.impls.world;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.modules.AbstractModule;
@@ -28,23 +30,36 @@ public class AutoArmor extends AbstractModule {
 
     private final TimerUtils timer = new TimerUtils();
 
+
+
+
+    @Override
+    public void reset() {
+        timer.reset();
+        super.reset();
+    }
+
+
+
     @Override
     public void onPreMotion(PreMotionEvent e) {
         if(e.isPre()){
             if ((invOnly && !(mc.currentScreen instanceof GuiInventory)) || (noMoving && PlayerSPUtils.isMoving())) {
                 return;
             }
-        }
-        if (mc.thePlayer.openContainer instanceof ContainerChest) {
-            timer.reset();
-        }
-        if (timer.hasTimeElapsed(delay.longValue())) {
-            for (int armorSlot = 5; armorSlot < 9; armorSlot++) {
-                if (equipBest(armorSlot)) {
-                    timer.reset();
-                    break;
+            if (mc.thePlayer.openContainer instanceof ContainerChest) {
+                timer.reset();
+                return;
+            }
+            if (timer.hasTimeElapsed(delay.longValue())) {
+                for (int armorSlot = 5; armorSlot < 9; armorSlot++) {
+                    if (equipBest(armorSlot)) {
+                        timer.reset();
+                        break;
+                    }
                 }
             }
+
         }
 
         super.onPreMotion(e);

@@ -1,6 +1,7 @@
 package top.whitecola.promodule.modules;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.event.*;
@@ -33,6 +34,11 @@ public class AbstractModule implements IModule{
 
 
     @Override
+    public void reset() {
+
+    }
+
+    @Override
     public void onTick() {
 
     }
@@ -54,7 +60,9 @@ public class AbstractModule implements IModule{
 
     @Override
     public void onEntityJoinWorld(EntityJoinWorldEvent e) {
-
+        if(e.entity instanceof EntityPlayerSP) {
+            reset();
+        }
     }
 
 
@@ -65,6 +73,7 @@ public class AbstractModule implements IModule{
 
     @Override
     public void onDisable() {
+        reset();
         ClientUtils.sendAClientMessage(this.getModuleName(),"");
     }
 

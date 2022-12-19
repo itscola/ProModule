@@ -63,6 +63,9 @@ public class Killaura extends AbstractModule {
     @ModuleSetting(name = "Color4Team",type = "select")
     public Boolean color4Team = false;
 
+    @ModuleSetting(name = "NoInv",type = "select")
+    public Boolean noInv = true;
+
 
 
     @ModuleSetting(name = "NameTags",type = "select")
@@ -70,7 +73,7 @@ public class Killaura extends AbstractModule {
 
 
     @Override
-    public void onDisable() {
+    public void reset() {
         if(mc.thePlayer!=null){
             targets.clear();
             blocking = false;
@@ -79,8 +82,9 @@ public class Killaura extends AbstractModule {
             timer.reset();
             swtichTimer.reset();
         }
-        super.onDisable();
+        super.reset();
     }
+
 
     @Override
     public void onPreMotion(PreMotionEvent e) {
@@ -93,6 +97,10 @@ public class Killaura extends AbstractModule {
         sortTargets();
 
         if(mc.thePlayer.isDead||mc.thePlayer.isSpectator()){
+            return;
+        }
+
+        if(noInv&&mc.thePlayer.isInvisible()){
             return;
         }
 

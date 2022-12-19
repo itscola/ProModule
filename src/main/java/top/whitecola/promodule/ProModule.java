@@ -143,7 +143,9 @@ public class ProModule {
         getModuleManager().addModule(new Scaffold2());
         getModuleManager().addModule(new ChestStealer());
         getModuleManager().addModule(new AutoArmor());
-        getModuleManager().addModule(new BedBreaker());
+        getModuleManager().addModule(new InvCleaner());
+
+//        getModuleManager().addModule(new BedBreaker());
 
 
 
