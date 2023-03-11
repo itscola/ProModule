@@ -222,6 +222,8 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
 
+//        Render2DUtils.drawRoundedRect2(this.xPosition, this.yPosition+height/1.3f+18 -20, this.xPosition + (this.width)/4f +2- 40, this.yPosition + this.height -40, round,this.githubColor.getRGB());
+
 
         //github
         Render2DUtils.drawRoundedRect2(this.xPosition, this.yPosition+height/1.3f+18, this.xPosition + (this.width)/4f, this.yPosition + this.height, round,this.githubColor.getRGB());
@@ -291,6 +293,8 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
         //middle
         Render2DUtils.drawRect(this.xPosition + (this.width)/4f, this.yPosition, this.xPosition+(width/1.4f), this.yPosition + 24,this.backgroundColor.getRGB());
         Render2DUtils.drawRoundedRect2(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20, 8,this.barColor.getRGB());
+
+        Render2DUtils.drawRoundedRect2(this.xPosition + width/3.5f +4 +33, this.yPosition+4, this.xPosition + (this.width)/1.5f+3-40, this.yPosition +10, 0.5f,this.githubColor.getRGB());
 
         //bottom
         Render2DUtils.drawRect(this.xPosition + (this.width)/4f, this.yPosition+this.height-4, this.xPosition+(width/1.4f), this.yPosition + height,this.backgroundColor.getRGB());
@@ -470,6 +474,28 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+
+
+        if(GUIUtils.isHovered(this.xPosition, this.yPosition+height/1.3f+18, this.xPosition + (this.width)/4f, this.yPosition + this.height,mouseX,mouseY)){
+            playButtonSound();
+            if(mouseButton==0&&Math.abs(subEntriesRollingValue) +152 < (subEntries.size() * 28)) {
+                subEntriesRollingValue -=20;
+            }else if(mouseButton==1&& subEntriesRollingValue<0){
+                subEntriesRollingValue +=20;
+            }
+
+        }
+
+        if(GUIUtils.isHovered(this.xPosition + width/3.5f +4 +33, this.yPosition+4, this.xPosition + (this.width)/1.5f+3-40, this.yPosition +10,mouseX,mouseY)){
+            playButtonSound();
+            if(mouseButton==0&& Math.abs(rollingValue) +152 < (entries.size() * 26)+4) {
+                rollingValue -=20;
+            }else if(mouseButton==1&& rollingValue<0){
+                rollingValue +=20;
+            }
+
+        }
+
         //left:0 right:1
 
         for(ClickGUIEntry entry : entries){
