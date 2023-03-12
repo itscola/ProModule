@@ -21,6 +21,7 @@ import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.other.MiddleClick;
 import top.whitecola.promodule.utils.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,16 +30,16 @@ import java.util.Vector;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class Killaura extends AbstractModule {
-
+    private Color color = new Color(246, 246, 246);
 
     protected long lastAttack;
     protected long lastSwitch;
     protected int delay;
 
     public List<EntityLivingBase> targets = new ArrayList<>();
-    public static EntityLivingBase target;
-    public static boolean blocking;
-    public static boolean attacking;
+    public EntityLivingBase target;
+    public boolean blocking;
+    public boolean attacking;
 
     public TimerUtils timer = new TimerUtils(), swtichTimer = new TimerUtils();
 
@@ -53,6 +54,8 @@ public class Killaura extends AbstractModule {
 
     @ModuleSetting(name = "Switch",type = "select")
     public Boolean iswitch = true;
+
+
 
     @ModuleSetting(name = "Smooth",type = "select")
     public Boolean smooth = true;
@@ -70,6 +73,9 @@ public class Killaura extends AbstractModule {
 
     @ModuleSetting(name = "NameTags",type = "select")
     public Boolean nameTags = true;
+
+    @ModuleSetting(name = "ESP",type = "select")
+    public Boolean esp = true;
 
 
     @Override
@@ -416,4 +422,11 @@ public class Killaura extends AbstractModule {
 //        mc.thePlayer.timer
         super.onEnable();
     }
+
+//    @Override
+//    public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
+////        Render3DUtils.drawCircle(target, partialTicks, .75f, color.getRGB(), auraESPAnim.getOutput().floatValue());
+//
+//        super.onRender3D(pass, partialTicks, finishTimeNano);
+//    }
 }

@@ -5,8 +5,26 @@ import java.math.RoundingMode;
 import java.security.SecureRandom;
 
 public class MathUtils {
+
+    private static final int SIN_BITS = 12;
+    private static final int SIN_MASK = 4095;
+    private static final int SIN_COUNT = 4096;
+    private static final int SIN_COUNT_D4 = 1024;
+    public static final float PI = MathUtils.roundToFloat(Math.PI);
+    public static final float PI2 = MathUtils.roundToFloat((Math.PI * 2D));
+    public static final float PId2 = MathUtils.roundToFloat((Math.PI / 2D));
+    private static final float radToIndex = MathUtils.roundToFloat(651.8986469044033D);
+    public static final float deg2Rad = MathUtils.roundToFloat(0.017453292519943295D);
+    private static final float[] SIN_TABLE_FAST = new float[4096];
+    public static boolean fastMath = false;
+
     public static int getRandomInRange(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    public static float roundToFloat(double d)
+    {
+        return (float)((double)Math.round(d * 1.0E8D) / 1.0E8D);
     }
 
     public static float getRandomInRange(float min, float max) {

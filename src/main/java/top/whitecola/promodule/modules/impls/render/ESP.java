@@ -19,6 +19,7 @@ import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.combat.AimAssist;
 import top.whitecola.promodule.modules.impls.combat.AntiBot;
+import top.whitecola.promodule.modules.impls.combat.Killaura;
 import top.whitecola.promodule.utils.Render2DUtils;
 
 import java.awt.*;
@@ -33,6 +34,9 @@ public class ESP extends AbstractModule {
 
     @ModuleSetting(name = "InvPlayer" ,type="select")
     Boolean invPlayer = true;
+
+    @ModuleSetting(name = "AuraESP" ,type="select")
+    Boolean auraESP = true;
 
 //    @ModuleSetting(name = "ESP3D" ,type="select")
 //    Boolean eSP3D = false;
@@ -54,6 +58,17 @@ public class ESP extends AbstractModule {
     public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
         if(Minecraft.getMinecraft()==null||Minecraft.getMinecraft().theWorld==null || mc.thePlayer==null){
             return;
+        }
+
+
+        if(auraESP){
+            Killaura killaura = ProModule.getProModule().getModuleManager().getModuleByClass(Killaura.class);
+            if(killaura!=null&&killaura.isEnabled()){
+                EntityLivingBase target = killaura.target;
+                if(target!=null){
+                    do3DESP(target,partialTicks);
+                }
+            }
         }
 
         if(aimTarget){
