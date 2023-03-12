@@ -4,14 +4,67 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiKeyBindingList;
 import net.minecraft.entity.Entity;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import top.whitecola.promodule.events.impls.event.MoveEvent;
+import top.whitecola.promodule.injection.wrappers.IMixinEntityLivingBase;
+
+import java.util.Map;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class PlayerSPUtils {
+
+    public static Map<Integer, PotionEffect> getActivePotionsMap(){
+        return ((IMixinEntityLivingBase)mc.thePlayer).getActivePotionsMap();
+    }
+
+    public static boolean isPotionActive(int var1) {
+
+        return getActivePotionsMap().containsKey(Integer.valueOf(var1));
+    }
+
+    public static boolean isPotionActive(Potion var1) {
+        return getActivePotionsMap().containsKey(Integer.valueOf(var1.getId()));
+    }
+
+    public static PotionEffect getActivePotionEffect(Potion var1) {
+        return (PotionEffect)getActivePotionsMap().get(Integer.valueOf(var1.getId()));
+    }
+
+    public static double getLastTickDistance() {
+        return Math.hypot(mc.thePlayer.posX - mc.thePlayer.prevPosX, mc.thePlayer.posZ - mc.thePlayer.prevPosZ);
+    }
+
+    public static double getBaseMotionY(double motionY) {
+        return isPotionActive(Potion.jump) ? motionY + 0.1 * (getActivePotionEffect(Potion.jump).getAmplifier() + 1) : motionY;
+    }
+
+
+    public static double getBaseMoveSpeed(double multiplier) {
+        double baseSpeed = getBySprinting();
+        if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+            int amplifier = getActivePotionEffect(Potion.moveSpeed).getAmplifier() +
+                    1 - (mc.thePlayer.isPotionActive(Potion.moveSlowdown) ? getActivePotionEffect(Potion.moveSlowdown).getAmplifier() + 1 : 0);
+            baseSpeed *= 1.0 + multiplier * amplifier;
+        }
+
+        return baseSpeed;
+    }
+
+    public static double getBySprinting() {
+        return mc.thePlayer.isSprinting() ? 0.28700000047683716 : 0.22300000488758087;
+    }
+
+
+    public static double getBaseMotionY() {
+        return isPotionActive(Potion.jump) ? 0.419999986886978 + 0.1 * (getActivePotionEffect(Potion.jump).getAmplifier() + 1) : 0.419999986886978;
+    }
+
+
+
 
     public static double getBaseMoveSpeed() {
         double baseSpeed = mc.thePlayer.capabilities.getWalkSpeed() * 2.873;

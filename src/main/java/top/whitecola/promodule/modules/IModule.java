@@ -102,4 +102,6 @@ public interface IModule {
     void onPreMotion(PreMotionEvent e);
 
     void onMove(MoveEvent e);
+
+    void onJump(JumpEvent e);
 }

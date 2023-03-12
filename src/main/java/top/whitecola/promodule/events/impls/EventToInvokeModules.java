@@ -17,10 +17,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.events.EventAdapter;
-import top.whitecola.promodule.events.impls.event.MoveEvent;
-import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
-import top.whitecola.promodule.events.impls.event.PreMotionEvent;
-import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
+import top.whitecola.promodule.events.impls.event.*;
 import top.whitecola.promodule.modules.AbstractModule;
 
 import java.util.Vector;
@@ -33,6 +30,17 @@ public class EventToInvokeModules extends EventAdapter {
     public EventToInvokeModules() {
         super(MainMenuEvent.class.getSimpleName());
         modules = ProModule.getProModule().getModuleManager().getModules();
+    }
+
+    @Override
+    public void onJump(JumpEvent e) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.onJump(e);
+        }
+
+        super.onJump(e);
     }
 
     @Override

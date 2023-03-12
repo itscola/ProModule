@@ -429,6 +429,11 @@ public class AbstractModule implements IModule{
 
     }
 
+    @Override
+    public void onJump(JumpEvent e) {
+
+    }
+
     //    public Integer getAddValue(){
 //
 //    }

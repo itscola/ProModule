@@ -239,4 +239,10 @@ public class EventManager {
             eventAdapter.onMove(e);
         }
     }
+
+    public void onJump(JumpEvent e){
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.onJump(e);
+        }
+    }
 }

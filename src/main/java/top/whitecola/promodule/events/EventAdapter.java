@@ -24,6 +24,10 @@ public abstract class EventAdapter {
         this.id = id;
     }
 
+    public void onJump(JumpEvent e){
+
+    }
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent e){
 

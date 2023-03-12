@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityLivingBase;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class ServerUtils {
-    //skid : temp
     public static boolean isInTabList(EntityLivingBase entity){
         for (NetworkPlayerInfo item : mc.getNetHandler().getPlayerInfoMap()) {
 
@@ -15,4 +14,6 @@ public class ServerUtils {
         }
         return false;
     }
+
+
 }

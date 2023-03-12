@@ -166,9 +166,9 @@ public abstract class MixinEntityPlayerSP  extends AbstractClientPlayer implemen
         }
 
         if (this.isCurrentViewEntity()) {
-            double d0 = this.posX - this.lastReportedPosX;
-            double d1 = this.getEntityBoundingBox().minY - this.lastReportedPosY;
-            double d2 = this.posZ - this.lastReportedPosZ;
+            double d0 = preMotionEvent.getX() - this.lastReportedPosX;
+            double d1 = preMotionEvent.getZ() - this.lastReportedPosY;
+            double d2 = preMotionEvent.getZ() - this.lastReportedPosZ;
             double d3 = (double)(preMotionEvent.getYaw() - this.lastReportedYaw);
             double d4 = (double)(preMotionEvent.getPitch() - this.lastReportedPitch);
             boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
