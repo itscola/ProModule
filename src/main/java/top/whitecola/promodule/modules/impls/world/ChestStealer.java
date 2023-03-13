@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.modules.AbstractModule;
@@ -35,6 +36,7 @@ public class ChestStealer extends AbstractModule {
 
     @Override
     public void onPreMotion(PreMotionEvent e) {
+        InvCleaner invCleaner = ProModule.getProModule().getModuleManager().getModuleByClass(InvCleaner.class);
         if(e.isPre()&& mc.thePlayer.openContainer instanceof ContainerChest){
             ContainerChest chest = (ContainerChest) mc.thePlayer.openContainer;
             String chestName = chest.getLowerChestInventory().getName();
@@ -44,6 +46,11 @@ public class ChestStealer extends AbstractModule {
             List<Integer> slots = Lists.newArrayList();
             for (int i = 0; i < chest.getLowerChestInventory().getSizeInventory(); i++) {
                 if (chest.getLowerChestInventory().getStackInSlot(i) != null) {
+
+                    if(invCleaner.isEnabled()&&invCleaner.isBadItem(chest.getLowerChestInventory().getStackInSlot(i),i,true)){
+                        continue;
+                    }
+
                     slots.add(i);
                 }
             }

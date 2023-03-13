@@ -65,7 +65,7 @@ public class ESP extends AbstractModule {
             Killaura killaura = ProModule.getProModule().getModuleManager().getModuleByClass(Killaura.class);
             if(killaura!=null&&killaura.isEnabled()){
                 EntityLivingBase target = killaura.target;
-                if(target!=null){
+                if(target!=null&&!target.isDead){
                     do3DESP(target,partialTicks);
                 }
             }

@@ -16,7 +16,8 @@ public class PacketUtils {
     }
 
     public static void sendPacketWithoutEvent(final Packet<?> packet) {
-        ((IMixinNetworkManager)mc.getNetHandler()).addToSendQueueWithoutEvent(packet);
+//        ((IMixinNetworkManager)mc.getNetHandler()).addToSendQueueWithoutEvent(packet);
+        sendPacket(packet);
     }
 
     public static void receivePacket(final Packet<?> packet) {
