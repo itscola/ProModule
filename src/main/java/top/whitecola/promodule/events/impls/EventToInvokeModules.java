@@ -43,6 +43,18 @@ public class EventToInvokeModules extends EventAdapter {
         super.onJump(e);
     }
 
+
+    @Override
+    public void onRender2D(float partialTicks) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.onRender2D(partialTicks);
+        }
+
+        super.onRender2D(partialTicks);
+    }
+
     @Override
     public void onRender2D(RenderWorldLastEvent event) {
         for (AbstractModule module : modules) {

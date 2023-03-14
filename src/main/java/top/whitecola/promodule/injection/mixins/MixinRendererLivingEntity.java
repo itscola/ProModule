@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.modules.impls.render.DamageColor;
+import top.whitecola.promodule.modules.impls.render.ESP;
 import top.whitecola.promodule.utils.wrapper.RotationPitchHead;
 
 import java.nio.FloatBuffer;
@@ -290,6 +291,12 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
             GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
             return true;
         }
+    }
+
+    @Inject(method = "renderName(Lnet/minecraft/entity/EntityLivingBase;DDD)V", at = @At("HEAD"), cancellable = true)
+    public void renderName(EntityLivingBase entity, double x, double y, double z, CallbackInfo ci) {
+        if (ProModule.getProModule().getModuleManager().getModuleByClass(ESP.class).nametags && entity instanceof EntityPlayer)
+            ci.cancel();
     }
 
 }

@@ -23,6 +23,8 @@ public interface IModule {
 
     void onRender2D(RenderWorldLastEvent e);
 
+    void onRender2D(float partialTicks);
+
     void onRender(TickEvent.RenderTickEvent e);
 
     void onRenderOverLay(RenderGameOverlayEvent event);

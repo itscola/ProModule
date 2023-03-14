@@ -9,6 +9,18 @@ import top.whitecola.promodule.utils.wrapper.RotationPitchHead;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class RotationUtils {
+
+    public static float[] getRotationFromPosition(double x, double z, double y) {
+        double xDiff = x - Minecraft.getMinecraft().thePlayer.posX;
+        double zDiff = z - Minecraft.getMinecraft().thePlayer.posZ;
+        double yDiff = y - Minecraft.getMinecraft().thePlayer.posY - 1.2;
+        double dist = MathHelper.sqrt_double(xDiff * xDiff + zDiff * zDiff);
+        float yaw = (float) (Math.atan2(zDiff, xDiff) * 180.0 / Math.PI) - 90.0f;
+        float pitch = (float) (-Math.atan2(yDiff, dist) * 180.0 / Math.PI);
+        return new float[]{yaw, pitch};
+    }
+
+
     public static float[] getFacingRotations2(final int paramInt1, final double d, final int paramInt3) {
         final EntitySnowball localEntityPig = new EntitySnowball(Minecraft.getMinecraft().theWorld);
         localEntityPig.posX = paramInt1 + 0.5;

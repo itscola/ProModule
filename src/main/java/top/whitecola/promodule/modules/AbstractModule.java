@@ -49,6 +49,11 @@ public class AbstractModule implements IModule{
     }
 
     @Override
+    public void onRender2D(float partialTicks) {
+
+    }
+
+    @Override
     public void onRender(TickEvent.RenderTickEvent e) {
 
     }

@@ -22,6 +22,72 @@ public class Render2DUtils {
     public static final float PI2 = 6.2831855F;
     public static final float PId2 = 1.5707964F;
 
+
+    public static int getColor(final Color color) {
+        return getColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+    }
+
+    public static int getColor(final int brightness) {
+        return getColor(brightness, brightness, brightness, 255);
+    }
+
+    public static int getColor(final int brightness, final int alpha) {
+        return getColor(brightness, brightness, brightness, alpha);
+    }
+
+    public static int getColor(final int red, final int green, final int blue) {
+        return getColor(red, green, blue, 255);
+    }
+
+    public static int getColor(final int red, final int green, final int blue, final int alpha) {
+        int color = 0;
+        color |= alpha << 24;
+        color |= red << 16;
+        color |= green << 8;
+        color |= blue;
+        return color;
+    }
+
+
+    public static void drawRect2(float x1, float y1, float x2, float y2, int color) {
+        GL11.glPushMatrix();
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(2848);
+        GL11.glPushMatrix();
+        color(color);
+        GL11.glBegin(7);
+        GL11.glVertex2d(x2, y1);
+        GL11.glVertex2d(x1, y1);
+        GL11.glVertex2d(x1, y2);
+        GL11.glVertex2d(x2, y2);
+        GL11.glEnd();
+        GL11.glPopMatrix();
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glDisable(2848);
+        GL11.glPopMatrix();
+        Gui.drawRect(0, 0, 0, 0, 0);
+    }
+
+    public static void color(int color) {
+        float f = (float) (color >> 24 & 255) / 255.0f;
+        float f1 = (float) (color >> 16 & 255) / 255.0f;
+        float f2 = (float) (color >> 8 & 255) / 255.0f;
+        float f3 = (float) (color & 255) / 255.0f;
+        GL11.glColor4f(f1, f2, f3, f);
+    }
+
+    public static int reAlpha(int color, float alpha) {
+        Color c = new Color(color);
+        float r = ((float) 1 / 255) * c.getRed();
+        float g = ((float) 1 / 255) * c.getGreen();
+        float b = ((float) 1 / 255) * c.getBlue();
+        return new Color(r, g, b, alpha).getRGB();
+
+    }
+
     public static void drawRect(float x1,float y1,float x2,float y2,int RGBColor){
         GL11.glEnable(3042);
         GL11.glDisable(3553);
@@ -128,14 +194,6 @@ public class Render2DUtils {
         GL11.glColor4f(f1,f2,f3,f);
     }
 
-    public static int getColor(int red, int green, int blue, int alpha) {
-        int color = 0;
-        color |= alpha << 24;
-        color |= red << 16;
-        color |= green << 8;
-        color |= blue;
-        return color;
-    }
 
     public static void enableGL2D() {
         GL11.glDisable(2929);

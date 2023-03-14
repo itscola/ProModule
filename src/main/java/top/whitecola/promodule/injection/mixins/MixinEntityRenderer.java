@@ -3,6 +3,7 @@ package top.whitecola.promodule.injection.mixins;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
@@ -11,29 +12,39 @@ import net.minecraft.client.renderer.culling.ClippingHelperImpl;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.*;
 import net.minecraftforge.client.ForgeHooksClient;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
 import top.whitecola.promodule.injection.wrappers.CanBeCollidedWith;
+import top.whitecola.promodule.injection.wrappers.IMxinEntityRenderer;
 import top.whitecola.promodule.modules.impls.combat.Reach;
+import top.whitecola.promodule.modules.impls.render.NoHurtCam;
 import top.whitecola.promodule.utils.RandomUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
 @Mixin(EntityRenderer.class)
-public abstract class MixinEntityRenderer {
+public abstract class MixinEntityRenderer implements IMxinEntityRenderer {
 
     @Shadow
     private Minecraft mc;
@@ -47,7 +58,6 @@ public abstract class MixinEntityRenderer {
 
     @Shadow protected abstract void updateFogColor(float p_updateFogColor_1_);
 
-    @Shadow protected abstract void setupCameraTransform(float p_setupCameraTransform_1_, int p_setupCameraTransform_2_);
 
     @Shadow protected abstract void setupFog(int p_setupFog_1_, float p_setupFog_2_);
 
@@ -72,6 +82,20 @@ public abstract class MixinEntityRenderer {
     @Shadow protected abstract void renderWorldDirections(float p_renderWorldDirections_1_);
 
     @Shadow protected abstract void renderHand(float p_renderHand_1_, int p_renderHand_2_);
+
+    @Shadow protected abstract void setupCameraTransform(float p_setupCameraTransform_1_, int p_setupCameraTransform_2_);
+
+    @Shadow private ShaderGroup theShaderGroup;
+
+    @Shadow private boolean useShader;
+
+    @Shadow @Final private static Logger logger;
+
+    @Shadow private int shaderIndex;
+
+    @Shadow @Final public static int shaderCount;
+
+    @Shadow @Final private IResourceManager resourceManager;
 
     /**
      * @author white_cola
@@ -459,5 +483,40 @@ public abstract class MixinEntityRenderer {
             this.renderWorldDirections(partialTicks);
         }
 
+    }
+
+
+    @Inject(method = "hurtCameraEffect", at = @At("HEAD"), cancellable = true)
+    public void hurtCamEffect(float p_hurtCameraEffect_1_, CallbackInfo ci){
+        if(ProModule.getProModule().getModuleManager().getModuleByClass(NoHurtCam.class).isEnabled()){
+            ci.cancel();
+            return;
+        }
+    }
+
+    @Override
+    public void setupCameraTransform1(float partialTicks, int pass) {
+        this.setupCameraTransform(partialTicks,pass);
+    }
+
+    @Override
+    public void runSetupCameraTransform(float partialTicks, int pass) {
+        this.setupCameraTransform1(partialTicks,pass);
+    }
+
+    @Override
+    public void loadShader2(ResourceLocation resourceLocationIn) {
+        if (OpenGlHelper.isFramebufferEnabled()) {
+            try {
+                this.theShaderGroup = new ShaderGroup(this.mc.getTextureManager(), this.resourceManager,
+                        this.mc.getFramebuffer(), resourceLocationIn);
+                this.theShaderGroup.createBindFramebuffers(this.mc.displayWidth, this.mc.displayHeight);
+                this.useShader = true;
+            } catch (IOException | JsonSyntaxException ioexception) {
+                logger.warn("Failed to load shader: " + resourceLocationIn, ioexception);
+                this.shaderIndex = shaderCount;
+                this.useShader = false;
+            }
+        }
     }
 }

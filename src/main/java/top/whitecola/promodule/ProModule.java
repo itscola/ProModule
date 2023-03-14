@@ -104,6 +104,7 @@ public class ProModule {
         getModuleManager().addModule(new ScoreBoardGUI());
         getModuleManager().addModule(new Keystroke());
         getModuleManager().addModule(new Comestic());
+        getModuleManager().addModule(new NoHurtCam());
 
 //        getModuleManager().addModule(new TargetHud());
 

@@ -28,6 +28,10 @@ public abstract class EventAdapter {
 
     }
 
+    public void onRender2D(float partialTicks){
+
+    }
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent e){
 

@@ -227,6 +227,12 @@ public class EventManager {
     }
 
 
+    public void onRender2D(float partialTicks){
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.onRender2D(partialTicks);
+        }
+    }
+
     public void onPreMotion(PreMotionEvent e){
 //        System.out.println(1111112);
         for (EventAdapter eventAdapter : events) {
