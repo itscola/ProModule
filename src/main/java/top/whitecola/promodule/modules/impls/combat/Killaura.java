@@ -8,6 +8,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -16,6 +17,7 @@ import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
+import top.whitecola.promodule.injection.wrappers.IMixinEntityPlayer;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.other.MiddleClick;
@@ -38,7 +40,7 @@ public class Killaura extends AbstractModule {
 
     public List<EntityLivingBase> targets = new ArrayList<>();
     public EntityLivingBase target;
-    public boolean blocking;
+    public boolean isBlocking;
     public boolean attacking;
 
     public TimerUtils timer = new TimerUtils(), swtichTimer = new TimerUtils();
@@ -78,11 +80,17 @@ public class Killaura extends AbstractModule {
     public Boolean esp = true;
 
 
+
+
     @Override
     public void reset() {
+        if(isBlocking){
+            unBlock(true);
+        }
+
         if(mc.thePlayer!=null){
             targets.clear();
-            blocking = false;
+            isBlocking = false;
             attacking = false;
             target = null;
             timer.reset();
@@ -208,6 +216,8 @@ public class Killaura extends AbstractModule {
 
 
             if (e.isPre()) {
+                doBlock(true);
+                isBlocking = true;
                 attacking = true;
                 if (timer.hasTimeElapsed((1000 / (long)MathUtils.getRandomInRange(minCPS.floatValue(), maxCPS.floatValue())), true)) {
                     mc.thePlayer.swingItem();
@@ -218,8 +228,9 @@ public class Killaura extends AbstractModule {
             }
         }
         if (targets.isEmpty()) {
+            unBlock(true);
             attacking = false;
-            blocking = false;
+            isBlocking = false;
         }
 
 
@@ -423,10 +434,40 @@ public class Killaura extends AbstractModule {
         super.onEnable();
     }
 
+
+
+    private void doBlock(boolean setItemUseInCount) {
+        if (setItemUseInCount&&mc.thePlayer!=null&&mc.thePlayer.getHeldItem()!=null)
+            ((IMixinEntityPlayer) mc.thePlayer).setItemInUseCount(mc.thePlayer.getHeldItem().getMaxItemUseDuration());
+
+//        mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+
+        isBlocking = true;
+    }
+
+    private void unBlock(boolean setItemUseInCount) {
+        if (setItemUseInCount&&mc.thePlayer!=null&&mc.thePlayer.getHeldItem()!=null)
+            ((IMixinEntityPlayer) mc.thePlayer).setItemInUseCount(0);
+
+//        double blockvalue = -1;
+//
+//        if (!PlayerUtil.isMoving2() && dynamic.getValue())
+//            blockvalue = ThreadLocalRandom.current().nextDouble(-1.0, -0.2);
+//
+//        if (!blockMode.isCurrentMode("Always")) {
+//
+//            if (!blockMode.isCurrentMode("Exploit"))
+//                mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(blockvalue, blockvalue, blockvalue), EnumFacing.DOWN));
+
+        isBlocking = false;
+    }
+}
+
 //    @Override
 //    public void onRender3D(int pass, float partialTicks, long finishTimeNano) {
 ////        Render3DUtils.drawCircle(target, partialTicks, .75f, color.getRGB(), auraESPAnim.getOutput().floatValue());
 //
 //        super.onRender3D(pass, partialTicks, finishTimeNano);
 //    }
-}
+
+

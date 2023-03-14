@@ -33,6 +33,7 @@
     "MixinGuiPlayerTabOverlay",
     "MixinPlayerControllerMP",
     "MixinItemStack",
-    "MixinGuiMultiplayer"
+    "MixinGuiMultiplayer",
+    "MixinEntityPlayer"
   ]
 }

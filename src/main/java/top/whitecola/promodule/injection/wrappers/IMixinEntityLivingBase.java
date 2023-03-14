@@ -7,4 +7,5 @@ import java.util.Map;
 public interface IMixinEntityLivingBase {
     int runGetArmSwingAnimationEnd();
     Map<Integer, PotionEffect> getActivePotionsMap();
+
 }

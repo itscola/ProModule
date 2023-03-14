@@ -213,4 +213,6 @@ public abstract class MixinEntityPlayerSP  extends AbstractClientPlayer implemen
     public void setSpeedInAir(float value) {
         this.speedInAir = value;
     }
+
+
 }
