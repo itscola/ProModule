@@ -251,4 +251,10 @@ public class EventManager {
             eventAdapter.onJump(e);
         }
     }
+
+    public void BlockPlaceableEvent() {
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.BlockPlaceableEvent();
+        }
+    }
 }

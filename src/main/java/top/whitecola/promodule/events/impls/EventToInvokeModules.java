@@ -56,6 +56,16 @@ public class EventToInvokeModules extends EventAdapter {
     }
 
     @Override
+    public void BlockPlaceableEvent() {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.BlockPlaceableEvent();
+        }
+        super.BlockPlaceableEvent();
+    }
+
+    @Override
     public void onRender2D(RenderWorldLastEvent event) {
         for (AbstractModule module : modules) {
             if (!module.isEnabled())

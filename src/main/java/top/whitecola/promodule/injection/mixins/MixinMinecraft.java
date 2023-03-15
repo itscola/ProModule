@@ -52,6 +52,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.injection.wrappers.IMixinMinecraft;
 import top.whitecola.promodule.modules.impls.combat.NoClickDelay;
 import top.whitecola.promodule.utils.Render2DUtils;
@@ -142,6 +143,11 @@ public abstract class MixinMinecraft implements IMixinMinecraft {
         }
     }
 
+
+    @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;sendClickBlockToController()V", shift = At.Shift.BEFORE))
+    public void runTickSendClickBlockToController(CallbackInfo ci){
+        EventManager.getEventManager().BlockPlaceableEvent();
+    }
 
     /**
      * @author White_cola

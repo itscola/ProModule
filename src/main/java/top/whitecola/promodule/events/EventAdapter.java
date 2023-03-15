@@ -32,6 +32,10 @@ public abstract class EventAdapter {
 
     }
 
+    public void BlockPlaceableEvent() {
+
+    }
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent e){
 

@@ -11,11 +11,25 @@ import net.minecraft.util.MathHelper;
 import top.whitecola.promodule.events.impls.event.MoveEvent;
 import top.whitecola.promodule.injection.wrappers.IMixinEntityLivingBase;
 
+import javax.vecmath.Vector2f;
 import java.util.Map;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class PlayerSPUtils {
+
+
+    public static float getMoveYaw(float yaw) {
+        Vector2f from = new Vector2f((float) mc.thePlayer.lastTickPosX, (float) mc.thePlayer.lastTickPosZ),
+                to = new Vector2f((float) mc.thePlayer.posX, (float) mc.thePlayer.posZ),
+                diff = new Vector2f(to.x - from.x, to.y - from.y);
+
+        double x = diff.x, z = diff.y;
+        if (x != 0 && z != 0) {
+            yaw = (float) Math.toDegrees((Math.atan2(-x, z) + MathUtils.PI2) % MathUtils.PI2);
+        }
+        return yaw;
+    }
 
     public static Map<Integer, PotionEffect> getActivePotionsMap(){
         return ((IMixinEntityLivingBase)mc.thePlayer).getActivePotionsMap();
@@ -131,9 +145,14 @@ public class PlayerSPUtils {
         moveEvent.setZ(forward * moveSpeed * mz - strafe * moveSpeed * mx);
     }
 
+
+
+
+
     public static void setSpeed(MoveEvent moveEvent, double moveSpeed) {
         setSpeed(moveEvent, moveSpeed, mc.thePlayer.rotationYaw, mc.thePlayer.movementInput.moveStrafe, mc.thePlayer.movementInput.moveForward);
     }
+
 
 
     public static boolean isMoving() {

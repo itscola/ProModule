@@ -137,6 +137,7 @@ public class ProModule {
         getModuleManager().addModule(new LegitSafeWalk());
         getModuleManager().addModule(new AutoPlace());
         getModuleManager().addModule(new Speed());
+        getModuleManager().addModule(new Scaffold3());
 
 
         //world

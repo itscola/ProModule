@@ -1,6 +1,7 @@
 package top.whitecola.promodule.injection.mixins;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,7 +12,7 @@ import top.whitecola.promodule.injection.wrappers.IMixinEntity;
 import top.whitecola.promodule.modules.impls.combat.HitBox;
 
 @Mixin(Entity.class)
-public class MixinEntity implements IMixinEntity {
+public abstract class MixinEntity implements IMixinEntity {
 
 
     @Shadow public float rotationYaw;
@@ -22,6 +23,8 @@ public class MixinEntity implements IMixinEntity {
 
     @Shadow public float prevRotationPitch;
 
+
+    @Shadow protected abstract Vec3 getVectorForRotation(float p_getVectorForRotation_1_, float p_getVectorForRotation_2_);
 
     @Override
     public void setRotationYaw(float rotationYaw) {
@@ -61,6 +64,11 @@ public class MixinEntity implements IMixinEntity {
     @Override
     public float getRotationYaw() {
         return this.rotationYaw;
+    }
+
+    @Override
+    public Vec3 getVectorForRotation1(float pitch, float yaw) {
+        return this.getVectorForRotation(pitch,yaw);
     }
 
 

@@ -439,6 +439,12 @@ public class AbstractModule implements IModule{
 
     }
 
+    @Override
+    public void BlockPlaceableEvent() {
+
+    }
+
+
     //    public Integer getAddValue(){
 //
 //    }

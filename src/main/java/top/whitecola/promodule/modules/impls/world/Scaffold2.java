@@ -36,13 +36,16 @@ public class Scaffold2 extends AbstractModule {
         // Rotations
         if(lastBlockCache != null) {
             rotations = RotationUtils.getFacingRotations2(lastBlockCache.getPosition().getX(), lastBlockCache.getPosition().getY(), lastBlockCache.getPosition().getZ());
+//            rotations = RotationUtils.getRotations(lastBlockCache.getPosition(),lastBlockCache.getFacing());
+
             mc.thePlayer.renderYawOffset = rotations[0];
             mc.thePlayer.rotationYawHead = rotations[0];
             e.setYaw(rotations[0]);
-            e.setPitch(81);
+            e.setPitch((float) RandomUtils.nextDouble(81,83));
 //            mc.thePlayer.rotationPitchHead = 81;
-        } else {
-            e.setPitch(81);
+        }
+        else {
+            e.setPitch((float) RandomUtils.nextDouble(81,83));
             e.setYaw(mc.thePlayer.rotationYaw + 180);
 //            mc.thePlayer.rotationPitchHead = 81;
             mc.thePlayer.renderYawOffset = mc.thePlayer.rotationYaw + 180;
@@ -51,8 +54,8 @@ public class Scaffold2 extends AbstractModule {
 
         // Speed 2 Slowdown
 //        if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id)){
-            mc.thePlayer.motionX *= speed;
-            mc.thePlayer.motionZ *= speed;
+        mc.thePlayer.motionX *= speed;
+        mc.thePlayer.motionZ *= speed;
 //        }
 
         // Setting Block Cache
@@ -108,7 +111,7 @@ public class Scaffold2 extends AbstractModule {
         long n = System.currentTimeMillis();
         if (n - this.last >= 25L) {
             this.last = n;
-            if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getStackInSlot(slot), lastBlockCache.position, lastBlockCache.facing, ScaffoldUtils.getHypixelVec3(lastBlockCache))) {
+            if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getStackInSlot(slot), lastBlockCache.getPosition(), lastBlockCache.getFacing(), ScaffoldUtils.getHypixelVec3(lastBlockCache))) {
 //                sendRightClick(true);
                 mc.thePlayer.swingItem();
                 mc.getItemRenderer().resetEquippedProgress();

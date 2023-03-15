@@ -22,6 +22,7 @@ import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.other.MiddleClick;
 import top.whitecola.promodule.utils.AimUtils;
 import top.whitecola.promodule.utils.PlayerSPUtils;
+import top.whitecola.promodule.utils.RotationUtils;
 import top.whitecola.promodule.utils.ServerUtils;
 
 import java.util.Vector;
@@ -71,6 +72,9 @@ public class AimAssist extends AbstractModule {
 
     @ModuleSetting(name = "OnlySword",type = "select")
     public Boolean onlySword = false;
+
+    @ModuleSetting(name = "Safer",type = "select")
+    public Boolean safer = true;
 
     public long delta, lastTime;
 
@@ -168,11 +172,16 @@ public class AimAssist extends AbstractModule {
             float addYaw = (-targetYaw / speed);
             float addPitch = (-targetPitch / speed);
 
-            if(vertical){
+            IMixinEntity playerEntity = (IMixinEntity)mc.thePlayer;
+
+
+
+
+            if(vertical || (safer&&RotationUtils.isMouseOver(playerEntity.getRotationYaw(),playerEntity.getRotationPitch(),theTarget,range))){
                 addPitch = 0;
+//                System.out.println(targetYaw+" "+playerEntity.getRotationYaw());
             }
 
-            IMixinEntity playerEntity = (IMixinEntity)mc.thePlayer;
 
 
             playerEntity.setRotationYaw(playerEntity.getRotationYaw() + addYaw);

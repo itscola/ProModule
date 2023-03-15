@@ -106,4 +106,6 @@ public interface IModule {
     void onMove(MoveEvent e);
 
     void onJump(JumpEvent e);
+
+    void BlockPlaceableEvent();
 }

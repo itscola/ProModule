@@ -1,7 +1,9 @@
 package top.whitecola.promodule.utils;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -11,13 +13,16 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import top.whitecola.promodule.ProModule;
+import top.whitecola.promodule.modules.impls.world.Scaffold3;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class ScaffoldUtils {
     public static class BlockCache {
-        public BlockPos position;
-        public EnumFacing facing;
+
+        private final BlockPos position;
+        private final EnumFacing facing;
 
         public BlockCache(final BlockPos position, final EnumFacing facing) {
             this.position = position;
@@ -28,13 +33,75 @@ public class ScaffoldUtils {
             return this.position;
         }
 
-        private EnumFacing getFacing() {
+        public EnumFacing getFacing() {
             return this.facing;
         }
-
     }
 
 
+    public static BlockCache getBlockInfo() {
+        final BlockPos belowBlockPos = new BlockPos(mc.thePlayer.posX, getYLevel() - (Scaffold3.isDownwards() ? 1 : 0), mc.thePlayer.posZ);
+        if (mc.theWorld.getBlockState(belowBlockPos).getBlock() instanceof BlockAir) {
+            for (int x = 0; x < 4; x++) {
+                for (int z = 0; z < 4; z++) {
+                    for (int i = 1; i > -3; i -= 2) {
+                        final BlockPos blockPos = belowBlockPos.add(x * i, 0, z * i);
+                        if (mc.theWorld.getBlockState(blockPos).getBlock() instanceof BlockAir) {
+                            for (EnumFacing direction : EnumFacing.values()) {
+                                final BlockPos block = blockPos.offset(direction);
+                                final Material material = mc.theWorld.getBlockState(block).getBlock().getMaterial();
+                                if (material.isSolid() && !material.isLiquid()) {
+                                    return new BlockCache(block, direction.getOpposite());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public static double getYLevel() {
+        Scaffold3 scaffold3 = ProModule.getProModule().getModuleManager().getModuleByClass(Scaffold3.class);
+
+//        if (!scaffold3.keepY || scaffold3.keepYMode.is("Speed toggled") && !Tenacity.INSTANCE.isEnabled(Speed.class)) {
+//            return mc.thePlayer.posY - 1.0;
+//        }
+        return mc.thePlayer.posY - 1.0 >= Scaffold3.keepYCoord && Math.max(mc.thePlayer.posY, Scaffold3.keepYCoord)
+                - Math.min(mc.thePlayer.posY, Scaffold3.keepYCoord) <= 3.0 && !mc.gameSettings.keyBindJump.isKeyDown()
+                ? Scaffold3.keepYCoord
+                : mc.thePlayer.posY - 1.0;
+    }
+
+    public static int getBlockSlot() {
+        for (int i = 0; i < 9; i++) {
+            final ItemStack itemStack = mc.thePlayer.inventory.mainInventory[i];
+            if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > 0) {
+                final ItemBlock itemBlock = (ItemBlock) itemStack.getItem();
+                if (isBlockValid(itemBlock.getBlock())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+
+    private static boolean isBlockValid(final Block block) {
+        return (block.isFullBlock() || block == Blocks.glass) &&
+                block != Blocks.sand &&
+                block != Blocks.gravel &&
+                block != Blocks.dispenser &&
+                block != Blocks.command_block &&
+                block != Blocks.noteblock &&
+                block != Blocks.furnace &&
+                block != Blocks.crafting_table &&
+                block != Blocks.tnt &&
+                block != Blocks.dropper &&
+                block != Blocks.beacon;
+    }
 
     public static Vec3 getHypixelVec3(BlockCache data) {
         BlockPos pos = data.position;

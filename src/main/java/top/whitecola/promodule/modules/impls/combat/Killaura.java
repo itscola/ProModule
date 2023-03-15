@@ -7,16 +7,17 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.*;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import org.lwjgl.Sys;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
+import top.whitecola.promodule.events.impls.event.PacketSendEvent;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
+import top.whitecola.promodule.injection.wrappers.IMixinEntity;
 import top.whitecola.promodule.injection.wrappers.IMixinEntityPlayer;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
@@ -43,6 +44,11 @@ public class Killaura extends AbstractModule {
     public boolean isBlocking;
     public boolean attacking;
 
+    public boolean noAttack;
+
+    private double lastTargetYaw;
+    private double lasttargetPitch;
+
     public TimerUtils timer = new TimerUtils(), swtichTimer = new TimerUtils();
 
     @ModuleSetting(name = "MinCPS",addValue = 1f)
@@ -53,6 +59,9 @@ public class Killaura extends AbstractModule {
 
     @ModuleSetting(name = "Reach",addValue = 1f)
     public Float reach = 4f;
+
+    @ModuleSetting(name = "mistake",addValue = 1f)
+    public Float mistake = 15f;
 
     @ModuleSetting(name = "Switch",type = "select")
     public Boolean iswitch = true;
@@ -79,7 +88,8 @@ public class Killaura extends AbstractModule {
     @ModuleSetting(name = "ESP",type = "select")
     public Boolean esp = true;
 
-
+    @ModuleSetting(name = "Safer",type = "select")
+    public Boolean safer = true;
 
 
     @Override
@@ -132,7 +142,13 @@ public class Killaura extends AbstractModule {
 //                    rotations[1] += MathUtils.getRandomInRange(1, 5);
 //                }
 //                if (rotationsSetting.getSetting("Prediction").isEnabled()) {
-                rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+                if(safer) {
+                    if(!RotationUtils.isMouseOver(e.getYaw(),e.getPitch(),target,reach)){
+                        rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+                    }
+                }else {
+                    rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+                }
                 rotations[1] = (float) (rotations[1] + ((Math.abs(target.posY - target.lastTickPosY) - Math.abs(target.getEntityBoundingBox().minY - target.lastTickPosY)) * (2 / 3)) * 2);
 //                }
 
@@ -167,6 +183,10 @@ public class Killaura extends AbstractModule {
 //                }
                 e.setYaw(rotations[0]);
                 e.setPitch(rotations[1]);
+                this.lastTargetYaw = rotations[0];
+                this.lasttargetPitch = rotations[1];
+
+
                 RotationUtils.setRotations(rotations);
 //            }
 
@@ -219,19 +239,40 @@ public class Killaura extends AbstractModule {
                 doBlock(true);
                 isBlocking = true;
                 attacking = true;
-                if (timer.hasTimeElapsed((1000 / (long)MathUtils.getRandomInRange(minCPS.floatValue(), maxCPS.floatValue())), true)) {
-                    mc.thePlayer.swingItem();
-//                    sendLeftClick(true);
-//                    sendLeftClick(false);
-                    mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+
+
+
+                if(safer&&RotationUtils.isMouseOver(e.getYaw(),e.getPitch(),target,reach) || !safer) {
+                    if (timer.hasTimeElapsed((1000 / (long) MathUtils.getRandomInRange(minCPS.floatValue(), maxCPS.floatValue())), true)) {
+                        if(RandomUtils.nextDouble(0,100)<mistake){
+                            mc.getNetHandler().getNetworkManager().sendPacket(new C0APacketAnimation());
+                        }else {
+                            mc.thePlayer.swingItem();
+                            mc.thePlayer.sendQueue.addToSendQueue(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+//                            if(RandomUtils.nextDouble(0,100)<50) {
+//                                ParticleUtils.spawnBloodParticle(target);
+//                            }
+
+                        }
+
+                    }
                 }
             }
+
+
         }
+
+
         if (targets.isEmpty()) {
+
+
             unBlock(true);
             attacking = false;
             isBlocking = false;
+
         }
+
+//        System.out.println(lasttargetPitch+" "+mc.thePlayer.renderArmPitch);
 
 
 
@@ -246,7 +287,7 @@ public class Killaura extends AbstractModule {
             if (entity instanceof EntityLivingBase) {
                 EntityLivingBase entLiving = (EntityLivingBase) entity;
                 if (mc.thePlayer.getDistanceToEntity(entLiving) < reach && entLiving != mc.thePlayer && !entLiving.isDead && shouldAttack(entLiving)) {
-                    System.out.println(entLiving.getDisplayName().getFormattedText());
+//                    System.out.println(entLiving.getDisplayName().getFormattedText());
                     targets.add(entLiving);
                 }
             }
@@ -376,8 +417,17 @@ public class Killaura extends AbstractModule {
 //    }
 
 
+    @Override
+    public void onSendPacket(PacketSendEvent e) {
+        if (e.getPacket() instanceof C16PacketClientStatus ) {
+            noAttack = true;
+        }
 
-
+        if (e.getPacket() instanceof C0DPacketCloseWindow ) {
+            noAttack = false;
+        }
+        super.onSendPacket(e);
+    }
 
     private float[] getRotationsToEnt(Entity ent) {
         final double differenceX = ent.posX - mc.thePlayer.posX;
@@ -431,6 +481,9 @@ public class Killaura extends AbstractModule {
     @Override
     public void onEnable() {
 //        mc.thePlayer.timer
+        if(noAttack){
+            noAttack = false;
+        }
         super.onEnable();
     }
 
