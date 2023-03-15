@@ -21,7 +21,7 @@ public class Scaffold3 extends AbstractModule {
 
     private ScaffoldUtils.BlockCache blockCache, lastBlockCache;
     private float y;
-    private float speed;
+//    private float speed;
     private final MouseFilter pitchMouseFilter = new MouseFilter();
     private final TimerUtils delayTimer = new TimerUtils();
     private final TimerUtils timerUtil = new TimerUtils();
@@ -51,11 +51,14 @@ public class Scaffold3 extends AbstractModule {
     @ModuleSetting(name = "timer",addValue = 0.01f)
     public Float timer = 1f;
 
+    @ModuleSetting(name = "speed",addValue = 0.01f)
+    public Float speed = 1f;
+
     @ModuleSetting(name = "swing",type = "select")
     public Boolean swing = true;
 
     @ModuleSetting(name = "tower",type = "select")
-    public Boolean tower = true;
+    public Boolean tower = false;
 
     @ModuleSetting(name = "towerTimer",addValue = 0.1f)
     public Float towerTimer = 1.2f;
@@ -83,6 +86,10 @@ public class Scaffold3 extends AbstractModule {
 
 
         if(e.isPre()){
+
+
+            mc.thePlayer.motionX *= speed;
+            mc.thePlayer.motionZ *= speed;
 
             mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(slot));
 
