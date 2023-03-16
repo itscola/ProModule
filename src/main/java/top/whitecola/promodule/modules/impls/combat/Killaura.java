@@ -4,20 +4,16 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.client.event.RenderWorldEvent;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import org.lwjgl.Sys;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PacketSendEvent;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
-import top.whitecola.promodule.events.impls.event.WorldRenderEvent;
-import top.whitecola.promodule.injection.wrappers.IMixinEntity;
 import top.whitecola.promodule.injection.wrappers.IMixinEntityPlayer;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
@@ -28,7 +24,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Vector;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
@@ -66,7 +61,11 @@ public class Killaura extends AbstractModule {
     @ModuleSetting(name = "Switch",type = "select")
     public Boolean iswitch = true;
 
+    @ModuleSetting(name = "prediction",type = "select")
+    public Boolean prediction = true;
 
+    @ModuleSetting(name = "dynamic",type = "select")
+    public Boolean dynamic = true;
 
     @ModuleSetting(name = "Smooth",type = "select")
     public Boolean smooth = true;
@@ -88,8 +87,8 @@ public class Killaura extends AbstractModule {
     @ModuleSetting(name = "ESP",type = "select")
     public Boolean esp = true;
 
-    @ModuleSetting(name = "Safer",type = "select")
-    public Boolean safer = true;
+    @ModuleSetting(name = "raycast",type = "select")
+    public Boolean raycast = true;
 
 
     @Override
@@ -115,7 +114,10 @@ public class Killaura extends AbstractModule {
         if(ProModule.getProModule().getModuleManager().getModuleByName("Scaffold").isEnabled()){
             return;
         }
-
+//
+//        if(mc.thePlayer.isEating()){
+//            return;
+//        }
 
 
         sortTargets();
@@ -137,18 +139,26 @@ public class Killaura extends AbstractModule {
             if (e.isPre()) {
                 target = targets.get(0);
                 float[] rotations = getRotationsToEnt(target);
-//                if (rotationsSetting.getSetting("Dynamic").isEnabled()) {
-//                    rotations[0] += MathUtils.getRandomInRange(1, 5);
-//                    rotations[1] += MathUtils.getRandomInRange(1, 5);
-//                }
-//                if (rotationsSetting.getSetting("Prediction").isEnabled()) {
-                if(safer) {
-                    if(!RotationUtils.isMouseOver(e.getYaw(),e.getPitch(),target,reach)){
-                        rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
-                    }
-                }else {
-                    rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+
+//                rotations[1] -= 20;
+
+
+                if (dynamic) {
+                    rotations[0] += MathUtils.getRandomInRange(1, 5);
+                    rotations[1] += MathUtils.getRandomInRange(1, 5);
                 }
+                if(prediction){
+                    rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+                    rotations[1] = (float) (rotations[1] + ((Math.abs(target.posY - target.lastTickPosY) - Math.abs(target.getEntityBoundingBox().minY - target.lastTickPosY)) * (2 / 3)) * 2);
+                }
+
+//                if(raycast) {
+//                    if(!RotationUtils.isMouseOver(e.getYaw(),e.getPitch(),target,reach)){
+//                        rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+//                    }
+//                }else {
+                rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
+//                }
                 rotations[1] = (float) (rotations[1] + ((Math.abs(target.posY - target.lastTickPosY) - Math.abs(target.getEntityBoundingBox().minY - target.lastTickPosY)) * (2 / 3)) * 2);
 //                }
 
@@ -181,11 +191,15 @@ public class Killaura extends AbstractModule {
 //                if (matrix.isEnabled()) {
 //                    rotations[0] = rotations[0] + MathUtils.getRandomFloat(1.98f, -1.98f);
 //                }
+
+
+
+
                 e.setYaw(rotations[0]);
                 e.setPitch(rotations[1]);
+
                 this.lastTargetYaw = rotations[0];
                 this.lasttargetPitch = rotations[1];
-
 
                 RotationUtils.setRotations(rotations);
 //            }
@@ -237,13 +251,19 @@ public class Killaura extends AbstractModule {
 
             if (e.isPre()) {
                 doBlock(true);
-                isBlocking = true;
+//                isBlocking = true;
                 attacking = true;
 
+//                final MovingObjectPosition movingObjectPosition = mc.objectMouseOver;
 
 
-                if(safer&&RotationUtils.isMouseOver(e.getYaw(),e.getPitch(),target,reach) || !safer) {
+                if((raycast &&RotationUtils.isMouseOver(e.getYaw(),e.getPitch(),target,reach) /*&& movingObjectPosition != null && movingObjectPosition.entityHit == target*/ || !raycast)) {
+
+
+
                     if (timer.hasTimeElapsed((1000 / (long) MathUtils.getRandomInRange(minCPS.floatValue(), maxCPS.floatValue())), true)) {
+
+
                         if(RandomUtils.nextDouble(0,100)<mistake){
                             mc.getNetHandler().getNetworkManager().sendPacket(new C0APacketAnimation());
                         }else {
@@ -264,7 +284,6 @@ public class Killaura extends AbstractModule {
 
 
         if (targets.isEmpty()) {
-
 
             unBlock(true);
             attacking = false;
@@ -490,18 +509,24 @@ public class Killaura extends AbstractModule {
 
 
     private void doBlock(boolean setItemUseInCount) {
-        if (setItemUseInCount&&mc.thePlayer!=null&&mc.thePlayer.getHeldItem()!=null)
+        if (setItemUseInCount&&mc.thePlayer!=null&&mc.thePlayer.getHeldItem()!=null&&mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
             ((IMixinEntityPlayer) mc.thePlayer).setItemInUseCount(mc.thePlayer.getHeldItem().getMaxItemUseDuration());
 
 //        mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
 
-        isBlocking = true;
+            isBlocking = true;
+        }else{
+            if(isBlocking){
+                unBlock(true);
+                isBlocking = false;
+            }
+        }
     }
 
     private void unBlock(boolean setItemUseInCount) {
-        if (setItemUseInCount&&mc.thePlayer!=null&&mc.thePlayer.getHeldItem()!=null)
+        if (setItemUseInCount&&mc.thePlayer!=null&&mc.thePlayer.getHeldItem()!=null) {
             ((IMixinEntityPlayer) mc.thePlayer).setItemInUseCount(0);
-
+//            System.out.println(111111);
 //        double blockvalue = -1;
 //
 //        if (!PlayerUtil.isMoving2() && dynamic.getValue())
@@ -512,9 +537,21 @@ public class Killaura extends AbstractModule {
 //            if (!blockMode.isCurrentMode("Exploit"))
 //                mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(blockvalue, blockvalue, blockvalue), EnumFacing.DOWN));
 
-        isBlocking = false;
+            isBlocking = false;
+        }
+    }
+
+
+
+
+
+    public void rotations(){
+
     }
 }
+
+
+
 
 //    @Override
 //    public void onRender3D(int pass, float partialTicks, long finishTimeNano) {

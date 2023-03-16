@@ -34,12 +34,12 @@ public class KeyEvent extends EventAdapter{
         }
 
         if(ScaffoldKeyBind.getInstance().isPressed()){
-//            Scaffold2 scaffold2 = (Scaffold2) ProModule.getProModule().getModuleManager().getModuleByName("Scaffold");
-//            scaffold2.setEnabled(!scaffold2.isEnabled());
+            Scaffold2 scaffold2 = (Scaffold2) ProModule.getProModule().getModuleManager().getModuleByName("Scaffold");
+            scaffold2.setEnabled(!scaffold2.isEnabled());
 
-            Scaffold3 scaffold3 = ProModule.getProModule().getModuleManager().getModuleByClass(Scaffold3.class);
-            scaffold3.setEnabled(!scaffold3.isEnabled());
-            PlayerSPUtils.sendMsgToSelf("scaffold3: "+scaffold3.isEnabled());
+//            Scaffold3 scaffold3 = ProModule.getProModule().getModuleManager().getModuleByClass(Scaffold3.class);
+//            scaffold3.setEnabled(!scaffold3.isEnabled());
+            PlayerSPUtils.sendMsgToSelf("scaffold3: "+scaffold2.isEnabled());
         }
 
         if(AutoPlaceKeyBind.getInstance().isPressed()){

@@ -14,9 +14,7 @@ import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
-import top.whitecola.promodule.utils.RandomUtils;
-import top.whitecola.promodule.utils.RotationUtils;
-import top.whitecola.promodule.utils.ScaffoldUtils;
+import top.whitecola.promodule.utils.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -26,20 +24,24 @@ public class Scaffold2 extends AbstractModule {
     private ScaffoldUtils.BlockCache blockCache, lastBlockCache;
     private float rotations[];
     private long last = 0;
+    private float y;
+
 
     @ModuleSetting(name = "Speed" ,type = "value",addValue = 0.01f)
     public Float speed = 0.82f;
 
     @Override
     public void onPreMotion(PreMotionEvent e) {
-        mc.thePlayer.setSprinting(false);
+//        mc.thePlayer.setSprinting(false);
         // Rotations
         if(lastBlockCache != null) {
-            rotations = RotationUtils.getFacingRotations2(lastBlockCache.getPosition().getX(), lastBlockCache.getPosition().getY(), lastBlockCache.getPosition().getZ());
-//            rotations = RotationUtils.getRotations(lastBlockCache.getPosition(),lastBlockCache.getFacing());
 
-            mc.thePlayer.renderYawOffset = rotations[0];
-            mc.thePlayer.rotationYawHead = rotations[0];
+//            rotations = new float[]{PlayerSPUtils.getMoveYaw(e.getYaw()) - 180, y};
+
+
+
+//            rotations = RotationUtils.getRotations(lastBlockCache.getPosition(),lastBlockCache.getFacing());
+            rotations = RotationUtils.getFacingRotations2(lastBlockCache.getPosition().getX(), lastBlockCache.getPosition().getY(), lastBlockCache.getPosition().getZ());
             e.setYaw(rotations[0]);
             e.setPitch((float) RandomUtils.nextDouble(81,83));
 //            mc.thePlayer.rotationPitchHead = 81;
@@ -48,8 +50,8 @@ public class Scaffold2 extends AbstractModule {
             e.setPitch((float) RandomUtils.nextDouble(81,83));
             e.setYaw(mc.thePlayer.rotationYaw + 180);
 //            mc.thePlayer.rotationPitchHead = 81;
-            mc.thePlayer.renderYawOffset = mc.thePlayer.rotationYaw + 180;
-            mc.thePlayer.rotationYawHead = mc.thePlayer.rotationYaw + 180;
+//            mc.thePlayer.renderYawOffset = mc.thePlayer.rotationYaw + 180;
+//            mc.thePlayer.rotationYawHead = mc.thePlayer.rotationYaw + 180;
         }
 
         // Speed 2 Slowdown
@@ -60,6 +62,7 @@ public class Scaffold2 extends AbstractModule {
 
         // Setting Block Cache
         blockCache = ScaffoldUtils.grab();
+
         if (blockCache != null) {
             lastBlockCache = ScaffoldUtils.grab();
         }else{
@@ -109,13 +112,11 @@ public class Scaffold2 extends AbstractModule {
 //        mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
 
         long n = System.currentTimeMillis();
-        if (n - this.last >= 25L) {
+        if (n - this.last >= 25L && RayCastUtils.overBlock(new Vector2f(e.getYaw(), e.getPitch()),lastBlockCache.getFacing(),lastBlockCache.getPosition(),false)) {
             this.last = n;
             if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getStackInSlot(slot), lastBlockCache.getPosition(), lastBlockCache.getFacing(), ScaffoldUtils.getHypixelVec3(lastBlockCache))) {
-//                sendRightClick(true);
                 mc.thePlayer.swingItem();
                 mc.getItemRenderer().resetEquippedProgress();
-//                sendRightClick(false);
                 blockCache = null;
             }
 

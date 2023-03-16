@@ -17,10 +17,7 @@ import top.whitecola.promodule.config.struct.HypixelConfig;
 import top.whitecola.promodule.config.struct.ModuleConfig;
 import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.KeyEvent;
-import top.whitecola.promodule.events.impls.EventToInvokeModules;
-import top.whitecola.promodule.events.impls.HypixelMenuEvnet;
-import top.whitecola.promodule.events.impls.MainMenuEvent;
-import top.whitecola.promodule.events.impls.EventToInvokeHypixelFeatures;
+import top.whitecola.promodule.events.impls.*;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.*;
@@ -69,6 +66,7 @@ public class ProModule {
         EventManager.getEventManager().addEvent(new KeyEvent());
         EventManager.getEventManager().addEvent(new HypixelMenuEvnet());
         EventManager.getEventManager().addEvent(new EventToInvokeHypixelFeatures());
+        EventManager.getEventManager().addEvent(new RotationEvent());
 
 
     }
@@ -117,6 +115,8 @@ public class ProModule {
         getModuleManager().addModule(new Velocity());
         getModuleManager().addModule(new AntiBot());
         getModuleManager().addModule(new AimAssist());
+//        getModuleManager().addModule(new AimAssist2());
+
         getModuleManager().addModule(new HitBox());
         getModuleManager().addModule(new NoClickDelay());
 //        getModuleManager().addModule(new ComboOneHit());

@@ -1,7 +1,9 @@
 package top.whitecola.promodule.injection.mixins;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.injection.wrappers.IMixinEntity;
 import top.whitecola.promodule.modules.impls.combat.HitBox;
+import top.whitecola.promodule.utils.Vector3d;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity implements IMixinEntity {
@@ -25,6 +28,16 @@ public abstract class MixinEntity implements IMixinEntity {
 
 
     @Shadow protected abstract Vec3 getVectorForRotation(float p_getVectorForRotation_1_, float p_getVectorForRotation_2_);
+
+    @Shadow public abstract Vec3 getPositionEyes(float p_getPositionEyes_1_);
+
+    @Shadow public World worldObj;
+
+    @Shadow public double posX;
+
+    @Shadow public double posY;
+
+    @Shadow public double posZ;
 
     @Override
     public void setRotationYaw(float rotationYaw) {
@@ -80,5 +93,21 @@ public abstract class MixinEntity implements IMixinEntity {
             cir.cancel();
         }
     }
+    @Override
+    public MovingObjectPosition rayTraceCustom(double blockReachDistance, float yaw, float pitch) {
+        final Vec3 vec3 = this.getPositionEyes(1.0F);
+        final Vec3 vec31 = this.getLookCustom(yaw, pitch);
+        final Vec3 vec32 = vec3.addVector(vec31.xCoord * blockReachDistance, vec31.yCoord * blockReachDistance, vec31.zCoord * blockReachDistance);
+        return this.worldObj.rayTraceBlocks(vec3, vec32, false, false, true);
+    }
 
+    @Override
+    public Vec3 getLookCustom(float yaw, float pitch) {
+        return this.getVectorForRotation(pitch, yaw);
+    }
+
+    @Override
+    public Vector3d getCustomPositionVector() {
+        return new Vector3d(this.posX, this.posY, this.posZ);
+    }
 }
