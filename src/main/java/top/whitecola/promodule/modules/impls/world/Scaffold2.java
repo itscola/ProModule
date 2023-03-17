@@ -26,9 +26,23 @@ public class Scaffold2 extends AbstractModule {
     private long last = 0;
     private float y;
 
+    private long towerTicks;
+    private long speedTicks;
 
     @ModuleSetting(name = "Speed" ,type = "value",addValue = 0.01f)
     public Float speed = 0.82f;
+
+    @ModuleSetting(name = "speedWait",type = "select")
+    public Boolean speedWait = false;
+
+    @ModuleSetting(name = "speedWaitingTick" ,addValue = 1f)
+    public Float speedWaitingTick = 1f;
+
+    @ModuleSetting(name = "tower",type = "select")
+    public Boolean tower = true;
+
+    @ModuleSetting(name = "towerWaitingTick" ,type = "value",addValue = 1f)
+    public Float towerWaitingTick = 10f;
 
     @Override
     public void onPreMotion(PreMotionEvent e) {
@@ -37,8 +51,6 @@ public class Scaffold2 extends AbstractModule {
         if(lastBlockCache != null) {
 
 //            rotations = new float[]{PlayerSPUtils.getMoveYaw(e.getYaw()) - 180, y};
-
-
 
 //            rotations = RotationUtils.getRotations(lastBlockCache.getPosition(),lastBlockCache.getFacing());
             rotations = RotationUtils.getFacingRotations2(lastBlockCache.getPosition().getX(), lastBlockCache.getPosition().getY(), lastBlockCache.getPosition().getZ());
@@ -56,8 +68,27 @@ public class Scaffold2 extends AbstractModule {
 
         // Speed 2 Slowdown
 //        if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id)){
-        mc.thePlayer.motionX *= speed;
-        mc.thePlayer.motionZ *= speed;
+
+
+
+//        if(speedWait){
+//            if(speedTicks<speedWaitingTick) {
+//                mc.thePlayer.motionX *= speed;
+//                mc.thePlayer.motionZ *= speed;
+//                speedTicks++;
+//            }else {
+//                mc.thePlayer.motionX = 0;
+//                mc.thePlayer.motionZ = 0;
+//                speedTicks = 0;
+//                System.out.println(speedTicks);
+//            }
+//        }else {
+            mc.thePlayer.motionX *= speed;
+            mc.thePlayer.motionZ *= speed;
+//        }
+
+
+
 //        }
 
         // Setting Block Cache
@@ -86,16 +117,21 @@ public class Scaffold2 extends AbstractModule {
 //        }
 
         // Tower
-//        if(tower.isEnabled()) {
-//            if(mc.gameSettings.keyBindJump.isKeyDown()) {
-//                mc.timer.timerSpeed = towerTimer.getValue().floatValue();
+        if(tower) {
+            if(mc.gameSettings.keyBindJump.isKeyDown() && !PlayerSPUtils.isMoving()) {
+                if(towerTicks<towerWaitingTick) {
+                    mc.thePlayer.motionY = 0.42;
+                    mc.thePlayer.jump();
+                    towerTicks++;
+                }else{
+//                    mc.thePlayer.motionY = 0.28;
+                    towerTicks = 0;
+//                    System.out.println(towerTicks);
+                }
 //                if(mc.thePlayer.motionY < 0) {
-//                    mc.thePlayer.jump();
 //                }
-//            }else{
-//                mc.timer.timerSpeed = 1;
-//            }
-//        }
+            }
+        }
 
         // Setting Item Slot (Post)
         slot = ScaffoldUtils.grabBlockSlot();
@@ -167,6 +203,9 @@ public class Scaffold2 extends AbstractModule {
         if(mc.theWorld==null||mc.thePlayer==null){
             return;
         }
+
+        this.towerTicks = 0;
+
         mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
         super.onDisable();
     }

@@ -99,7 +99,6 @@ public class Killaura extends AbstractModule {
 
         if(mc.thePlayer!=null){
             targets.clear();
-            isBlocking = false;
             attacking = false;
             target = null;
             timer.reset();
@@ -119,6 +118,9 @@ public class Killaura extends AbstractModule {
 //            return;
 //        }
 
+        if(noAttack){
+            return;
+        }
 
         sortTargets();
 
@@ -144,8 +146,8 @@ public class Killaura extends AbstractModule {
 
 
                 if (dynamic) {
-                    rotations[0] += MathUtils.getRandomInRange(1, 5);
-                    rotations[1] += MathUtils.getRandomInRange(1, 5);
+                    rotations[0] += MathUtils.getRandomInRange(1, 3);
+                    rotations[1] += MathUtils.getRandomInRange(1, 3);
                 }
                 if(prediction){
                     rotations[0] = (float) (rotations[0] + ((Math.abs(target.posX - target.lastTickPosX) - Math.abs(target.posZ - target.lastTickPosZ)) * (2 / 3)) * 2);
@@ -261,7 +263,7 @@ public class Killaura extends AbstractModule {
 
 
 
-                    if (timer.hasTimeElapsed((1000 / (long) MathUtils.getRandomInRange(minCPS.floatValue(), maxCPS.floatValue())), true)) {
+                    if (!mc.thePlayer.isEating()&&timer.hasTimeElapsed((1000 / (long) MathUtils.getRandomInRange(minCPS.floatValue(), maxCPS.floatValue())), true)) {
 
 
                         if(RandomUtils.nextDouble(0,100)<mistake){
@@ -284,10 +286,10 @@ public class Killaura extends AbstractModule {
 
 
         if (targets.isEmpty()) {
-
-            unBlock(true);
+            if(isBlocking) {
+                unBlock(true);
+            }
             attacking = false;
-            isBlocking = false;
 
         }
 
@@ -438,13 +440,15 @@ public class Killaura extends AbstractModule {
 
     @Override
     public void onSendPacket(PacketSendEvent e) {
-        if (e.getPacket() instanceof C16PacketClientStatus ) {
+        if (e.getPacket() instanceof C16PacketClientStatus&&((C16PacketClientStatus) e.getPacket()).getStatus()==  C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
             noAttack = true;
         }
 
         if (e.getPacket() instanceof C0DPacketCloseWindow ) {
             noAttack = false;
         }
+
+
         super.onSendPacket(e);
     }
 
