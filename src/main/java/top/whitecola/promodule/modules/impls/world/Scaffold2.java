@@ -14,6 +14,7 @@ import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.modules.impls.movement.Sprint;
 import top.whitecola.promodule.utils.*;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -28,6 +29,7 @@ public class Scaffold2 extends AbstractModule {
 
     private long towerTicks;
     private long speedTicks;
+    private boolean isSprint;
 
     @ModuleSetting(name = "Speed" ,type = "value",addValue = 0.01f)
     public Float speed = 0.82f;
@@ -47,7 +49,16 @@ public class Scaffold2 extends AbstractModule {
     @Override
     public void onPreMotion(PreMotionEvent e) {
 //        mc.thePlayer.setSprinting(false);
+        Sprint sprint = ProModule.getProModule().getModuleManager().getModuleByClass(Sprint.class);
+        if(sprint.isEnabled()){
+            isSprint = true;
+            sprint.disable();
+        }
+//        if(){
+//
+//        }
         // Rotations
+
         if(lastBlockCache != null) {
 
 //            rotations = new float[]{PlayerSPUtils.getMoveYaw(e.getYaw()) - 180, y};
@@ -207,6 +218,17 @@ public class Scaffold2 extends AbstractModule {
         this.towerTicks = 0;
 
         mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+
+
+        Sprint sprint = ProModule.getProModule().getModuleManager().getModuleByClass(Sprint.class);
+
+
+        if(isSprint&&!sprint.isEnabled()){
+            System.out.println(00000);
+            sprint.enable();
+            isSprint = false;
+        }
+
         super.onDisable();
     }
 }

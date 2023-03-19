@@ -55,6 +55,9 @@ public class Killaura extends AbstractModule {
     @ModuleSetting(name = "Reach",addValue = 1f)
     public Float reach = 4f;
 
+    @ModuleSetting(name = "doMistake",type = "select")
+    public Boolean doMistake = false;
+
     @ModuleSetting(name = "mistake",addValue = 1f)
     public Float mistake = 15f;
 
@@ -266,7 +269,7 @@ public class Killaura extends AbstractModule {
                     if (!mc.thePlayer.isEating()&&timer.hasTimeElapsed((1000 / (long) MathUtils.getRandomInRange(minCPS.floatValue(), maxCPS.floatValue())), true)) {
 
 
-                        if(RandomUtils.nextDouble(0,100)<mistake){
+                        if(doMistake&&RandomUtils.nextDouble(0,100)<mistake){
                             mc.getNetHandler().getNetworkManager().sendPacket(new C0APacketAnimation());
                         }else {
                             mc.thePlayer.swingItem();
