@@ -2,24 +2,38 @@ package top.whitecola.animationlib;
 
 import top.whitecola.animationlib.functions.AbstractAnimationFunction;
 
-public class Animation {
-    private float max,min, progressValue;
+import java.math.BigDecimal;
+
+public strictfp class Animation {
+
+
+//
+//    {
+//        new Throwable().printStackTrace();
+//
+//    }
+
+
+    private volatile float max,min, progressValue;
     private long time;
     private boolean isFirstUpdate = true;
     private boolean reverse;
     private AbstractAnimationFunction function;
     private long firstTime;
-    private boolean lock;
+    private volatile boolean lock;
+    private volatile float theMax,theMin;
 
 
-    public Animation setMax(float max) {
+
+
+    public strictfp Animation setMax(float max) {
         if(!lock) {
             this.max = max;
         }
         return this;
     }
 
-    public Animation setMin(float min) {
+    public strictfp Animation setMin(float min) {
         if(!lock) {
             this.progressValue = min;
             this.min = min;
@@ -54,19 +68,25 @@ public class Animation {
         if(isFinish()){
             return getMax();
         }
+//        System.out.println(value+"*"+getMax()+"-"+getMin()+"     "+this.hashCode());
+//
+//        System.out.println((value * getMax()+"     "+this.hashCode()));
 
-        return value * (max - min);
+        return value * getMax();
     }
 
     public float update(){
         if(isFirstUpdate){
             firstTime = System.currentTimeMillis();
             isFirstUpdate = false;
+            this.theMax = getMax();
+            this.theMin = getMin();
         }
 
         if(isFinish()){
            return getMax();
         }
+
 
         setProgressValue(update(System.currentTimeMillis() - getFirstTime()));
 
@@ -136,5 +156,8 @@ public class Animation {
         return firstTime;
     }
 
-
+    private float absoluteAdd(float a,float b){
+        BigDecimal a1 = new BigDecimal(a+"");
+        return a1.add(new BigDecimal(b+"")).floatValue();
+    }
 }

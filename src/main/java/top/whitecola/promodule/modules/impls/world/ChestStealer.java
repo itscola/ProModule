@@ -17,7 +17,7 @@ import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class ChestStealer extends AbstractModule {
     @ModuleSetting(name = "Delay",addValue = 1)
-    public Float delay = 80f;
+    public Float delay = 120f;
 
     @ModuleSetting(name = "Title",type = "select")
     public Boolean title = true;
@@ -36,6 +36,9 @@ public class ChestStealer extends AbstractModule {
 
     @Override
     public void onPreMotion(PreMotionEvent e) {
+
+
+
         InvCleaner invCleaner = ProModule.getProModule().getModuleManager().getModuleByClass(InvCleaner.class);
         if(e.isPre()&& mc.thePlayer.openContainer instanceof ContainerChest){
             ContainerChest chest = (ContainerChest) mc.thePlayer.openContainer;

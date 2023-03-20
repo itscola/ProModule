@@ -14,6 +14,7 @@ import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.events.impls.event.PreMotionEvent;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.modules.impls.movement.KeepSprint;
 import top.whitecola.promodule.modules.impls.movement.Sprint;
 import top.whitecola.promodule.utils.*;
 
@@ -30,6 +31,7 @@ public class Scaffold2 extends AbstractModule {
     private long towerTicks;
     private long speedTicks;
     private boolean isSprint;
+    private boolean isKeepSprint;
 
     @ModuleSetting(name = "Speed" ,type = "value",addValue = 0.01f)
     public Float speed = 0.82f;
@@ -49,14 +51,27 @@ public class Scaffold2 extends AbstractModule {
     @Override
     public void onPreMotion(PreMotionEvent e) {
 //        mc.thePlayer.setSprinting(false);
+
+//        if(){
+//
+//        }
+
+
         Sprint sprint = ProModule.getProModule().getModuleManager().getModuleByClass(Sprint.class);
         if(sprint.isEnabled()){
             isSprint = true;
             sprint.disable();
         }
-//        if(){
-//
-//        }
+
+        KeepSprint keepSprint = ProModule.getProModule().getModuleManager().getModuleByClass(KeepSprint.class);
+        if(keepSprint.isEnabled()){
+            isKeepSprint = true;
+            keepSprint.disable();
+        }
+
+        mc.thePlayer.setSprinting(false);
+
+
         // Rotations
 
         if(lastBlockCache != null) {
@@ -206,6 +221,7 @@ public class Scaffold2 extends AbstractModule {
     public void onEnable() {
         lastBlockCache = null;
         this.last = 0;
+
         super.onEnable();
     }
 
@@ -224,9 +240,16 @@ public class Scaffold2 extends AbstractModule {
 
 
         if(isSprint&&!sprint.isEnabled()){
-            System.out.println(00000);
+//            System.out.println(00000);
             sprint.enable();
             isSprint = false;
+        }
+
+
+        KeepSprint keepSprint = ProModule.getProModule().getModuleManager().getModuleByClass(KeepSprint.class);
+        if(isKeepSprint&&!keepSprint.isEnabled()){
+            keepSprint.enable();
+            isKeepSprint = false;
         }
 
         super.onDisable();

@@ -23,6 +23,29 @@ public class Render2DUtils {
     public static final float PId2 = 1.5707964F;
 
 
+
+    public void start() {
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableCull();
+        GlStateManager.disableAlpha();
+        GlStateManager.disableDepth();
+    }
+
+    public void stop() {
+        GlStateManager.enableDepth();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableCull();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.resetColor();
+    }
+
+
+
+
+
     public static int getColor(final Color color) {
         return getColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
     }

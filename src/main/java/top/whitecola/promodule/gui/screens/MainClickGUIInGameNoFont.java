@@ -6,11 +6,13 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import top.whitecola.animationlib.Animation;
+import top.whitecola.animationlib.functions.type.CubicInFunction;
 import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
@@ -83,6 +85,8 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
     protected Animation enableAnimation = new Animation();
     protected Animation closeAnimation = new Animation();
+    protected Animation startScaleAnimation = new Animation();
+
 
 
 
@@ -111,6 +115,8 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
         enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
+        startScaleAnimation.setMin(0.9f).setMax(1).setTotalTime(280).setFunction(new CubicInFunction()).setLock(true);
+//        System.out.println(startScaleAnimation.getMin()+"   "+startScaleAnimation.getMax());
 
         this.xPosition = ProModule.getProModule().getModuleConfig().getConfig().uix;
         this.yPosition = ProModule.getProModule().getModuleConfig().getConfig().uiy;
@@ -124,11 +130,20 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        BlurUtils.doBlur(6);
 
+//        float scale = startScaleAnimation.update();
+//        if(!startScaleAnimation.isFinish()) {
+//            GlStateManager.scale(scale, scale, scale);
+////            System.out.println(scale);
+//        }
+
+//        GlStateManager.scale(1, 1, 1);
+
+
         float value = enableAnimation.update();
         if(!enableAnimation.isFinish()){
             yPosition = 16 + value;
         }
-
+//        Minecraft
 
 
 
@@ -140,8 +155,10 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
         FontRenderer fontRenderer = mc.fontRendererObj;
 
-
-        fontRenderer.drawStringWithShadow("Copyright by White_cola.",0 ,0,mainColor.getRGB());
+//        GlStateManager.scale(1,1,1);
+//
+//        fontRenderer.drawStringWithShadow("Copyright by White_cola.",0 ,0,mainColor.getRGB());
+//        GlStateManager.scale(scale, scale, scale);
 
         if(GUIUtils.isHovered(this.xPosition + width/3.5f, this.yPosition+3, this.xPosition + (this.width)/1.5f+3, this.yPosition + 20,mouseX,mouseY) && Mouse.isButtonDown(0)){
 
