@@ -21,12 +21,13 @@ public strictfp class Animation {
     private AbstractAnimationFunction function;
     private long firstTime;
     private volatile boolean lock;
-    private volatile float theMax,theMin;
 
 
     public Animation setReverse(boolean reverse) {
         if(!lock) {
             this.reverse = reverse;
+//            setFirstTime(System.currentTimeMillis() - (((long)getTotalTime()) - Math.min(((long)getTotalTime()), System.currentTimeMillis()-getFirstTime())));
+//            setFirstTime(System.currentTimeMillis()-getFirstTime());
         }
         return this;
     }
@@ -93,8 +94,6 @@ public strictfp class Animation {
         if(isFirstUpdate){
             firstTime = System.currentTimeMillis();
             isFirstUpdate = false;
-            this.theMax = getMax();
-            this.theMin = getMin();
         }
 
         if(isFinish()){
@@ -134,11 +133,32 @@ public strictfp class Animation {
     }
 
     public boolean isFinish(){
-        if(getProgressValue() >= (getMax())){
+//        if(getProgressValue() >= (getMax())){
+//            return true;
+//        }
+
+        if(System.currentTimeMillis()-firstTime>=time){
             return true;
         }
         return false;
     }
+
+
+    /**
+     * if noReverse is true , the time go forward.
+     * if noReverse is false, the time go backward.
+     * @param noReverse
+     * @return
+     */
+    public boolean isFinish(boolean noReverse){
+        if(isFinish()&&(this.isReverse()==!noReverse)){
+            return true;
+        }
+        return false;
+    }
+
+
+
 
     public Animation reset(){
         setProgressValue(getMin());
@@ -170,7 +190,12 @@ public strictfp class Animation {
         return firstTime;
     }
 
-    private float absoluteAdd(float a,float b){
+
+    public void setFirstTime(long firstTime) {
+        this.firstTime = firstTime;
+    }
+
+    private float absoluteAdd(float a, float b){
         BigDecimal a1 = new BigDecimal(a+"");
         return a1.add(new BigDecimal(b+"")).floatValue();
     }

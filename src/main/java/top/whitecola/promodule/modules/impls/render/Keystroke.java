@@ -15,6 +15,7 @@ import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.*;
 import top.whitecola.promodule.utils.RoundedUtils;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.*;
 
@@ -37,6 +38,7 @@ public class Keystroke extends AbstractModule {
 
     @ModuleSetting(name = "Y",max = 0,min = 255,addValue = 1)
     protected Float y = 14f;
+
 //
 //    @Override
 //    public void onRenderOverLay(RenderGameOverlayEvent event) {
@@ -167,10 +169,11 @@ public class Keystroke extends AbstractModule {
 
 
     public static class Button {
+        protected float radius = 3;
 
         private static FontRenderer font = mc.fontRendererObj;
         private final KeyBinding binding;
-        private final Animation clickAnimation = new Animation().setMin(0).setMax(1).setFunction(new CubicOutFunction());
+        private final Animation clickAnimation = new Animation().setMin(0).setMax(1).setTotalTime(200).setFunction(new CubicOutFunction());
 
         public Button(KeyBinding binding) {
             this.binding = binding;
@@ -185,7 +188,7 @@ public class Keystroke extends AbstractModule {
 //            if (event.getBloomOptions().getSetting("Keystrokes").isEnabled()) {
             color = ColorUtils.interpolateColorC(Color.BLACK, Color.WHITE, (float) clickAnimation.update());
 //            }
-            RoundedUtils.drawRound(x, y, width, height, 3, color);
+            RoundedUtils.drawRound(x, y, width, height, radius, color);
         }
 
         public void render(float x, float y, float size) {
@@ -195,20 +198,25 @@ public class Keystroke extends AbstractModule {
         public void render(float x, float y, float width, float height) {
             Color color = ColorUtils.applyOpacity(Color.BLACK, 0.4f);
 //            clickAnimation.setDirection(binding.isKeyDown() ? Direction.FORWARDS : Direction.BACKWARDS);
-
-            RoundedUtils.drawRound(x, y, width, height, 4, color);
+            clickAnimation.setReverse(!binding.isKeyDown());
+            RoundedUtils.drawRound(x, y, width, height, this.radius, color);
             float offsetX =  .2f;
             int offsetY =  1;
 
             FontUtils.drawCenteredString("", x + width / 2 + offsetX, y + height / 2 - font.FONT_HEIGHT / 2f + offsetY, Color.WHITE.getRGB());
 
-            if (!clickAnimation.isFinish()) {
+            if (!clickAnimation.isFinish(false)) {
                 float animation = (float) clickAnimation.update();
                 Color color2 = ColorUtils.applyOpacity(Color.WHITE, (0.5f * animation));
+
+                glPushMatrix();
                 GLUtils.scaleStart(x + width / 2f, y + height / 2f, animation);
-                float diff = (height / 2f) - 4;
+                float diff = (height / 2f) - this.radius;
                 RoundedUtils.drawRound(x, y, width, height, ((height / 2f) - (diff * animation)), color2);
                 GLUtils.scaleEnd();
+
+            }else {
+                clickAnimation.reset();
             }
 
 

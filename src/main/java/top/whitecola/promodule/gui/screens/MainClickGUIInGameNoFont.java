@@ -490,7 +490,7 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
         }
 
-
+//        GLUtils.scaleEnd();
         super.drawScreen(mouseX,mouseY,partialTicks);
     }
 
