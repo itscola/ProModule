@@ -21,7 +21,7 @@ public class PacketSendEvent extends AbstractEvent{
     }
 
     @Override
-    public boolean isCanceled() {
-        return super.isCanceled();
+    public boolean isCancelled() {
+        return super.isCancelled();
     }
 }

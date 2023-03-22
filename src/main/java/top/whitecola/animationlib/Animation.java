@@ -24,7 +24,16 @@ public strictfp class Animation {
     private volatile float theMax,theMin;
 
 
+    public Animation setReverse(boolean reverse) {
+        if(!lock) {
+            this.reverse = reverse;
+        }
+        return this;
+    }
 
+    public boolean isReverse() {
+        return reverse;
+    }
 
     public strictfp Animation setMax(float max) {
         if(!lock) {
@@ -72,7 +81,12 @@ public strictfp class Animation {
 //
 //        System.out.println((value * getMax()+"     "+this.hashCode()));
 
-        return value * getMax();
+        if(!isReverse()){
+            return value * (getMax()-getMin())+ getMin();
+        }else {
+            return max - (value * (getMax()-getMin())+ getMin());
+
+        }
     }
 
     public float update(){
@@ -160,4 +174,5 @@ public strictfp class Animation {
         BigDecimal a1 = new BigDecimal(a+"");
         return a1.add(new BigDecimal(b+"")).floatValue();
     }
+
 }

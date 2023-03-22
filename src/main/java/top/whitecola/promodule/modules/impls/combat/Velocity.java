@@ -50,7 +50,7 @@ public class Velocity extends AbstractModule {
 
     @Override
     public void packetReceivedEvent(PacketReceivedEvent e) {
-        if(!e.isCanceled() ){
+        if(!e.isCancelled() ){
             if(e.getPacket() instanceof S27PacketExplosion) {
                 S27PacketExplosion packet = (S27PacketExplosion) e.getPacket();
             }else if(e.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) e.getPacket()).getEntityID()== mc.thePlayer.getEntityId()){

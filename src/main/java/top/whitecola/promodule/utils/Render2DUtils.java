@@ -24,6 +24,7 @@ public class Render2DUtils {
 
 
 
+
     public void start() {
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

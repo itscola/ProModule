@@ -51,6 +51,13 @@ public class EventManager {
         return null;
     }
 
+
+    public void onRenderChest(RenderChestEvent e){
+        for (EventAdapter eventAdapter : events) {
+            eventAdapter.onRenderChest(e);
+        }
+    }
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent e) {
         for (EventAdapter eventAdapter : events) {

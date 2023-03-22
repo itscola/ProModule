@@ -83,9 +83,12 @@ public class ModuleConfig {
 
                     if(moduleSetting.type().equalsIgnoreCase("select")){
                         module.setBooleanSetting(struct.getSettingName(),Boolean.valueOf(struct.getValue()));
+//                        System.out.println(struct.getSettingName());
                         continue;
                     }else if(moduleSetting.type().equalsIgnoreCase("value")){
                         module.setFloatSetting(struct.getSettingName(),Float.valueOf(struct.getValue()));
+//                        System.out.println(struct.getSettingName());
+
 //                        module.setFloatSetting(struct.getSettingName(),Float.valueOf(struct.getAddValue()));
                     }
 

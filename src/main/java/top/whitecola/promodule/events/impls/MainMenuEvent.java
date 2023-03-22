@@ -19,12 +19,6 @@ public class MainMenuEvent extends EventAdapter {
     @Override
     public void onKeyInput(InputEvent.KeyInputEvent e) {
         if(MainMenuInGameKeybind.getInstance().isPressed()){
-//            Minecraft.getMinecraft().displayGuiScreen(new MainClickGUIInGameNoFont());
-//            if(ProModule.getProModule().getModuleManager().getModuleByName("DarkMode").isEnabled()){
-//                Minecraft.getMinecraft().displayGuiScreen(new MainClickGUIInGame2());
-//            }else {
-//                Minecraft.getMinecraft().displayGuiScreen(new MainClickGUIInGameNoFont());
-//            }
             Minecraft.getMinecraft().displayGuiScreen(new MainClickGUIInGameNoFont());
 
         }

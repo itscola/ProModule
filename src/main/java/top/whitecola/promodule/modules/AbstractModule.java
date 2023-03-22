@@ -34,6 +34,11 @@ public class AbstractModule implements IModule{
 
 
     @Override
+    public void onRenderChest(RenderChestEvent e) {
+
+    }
+
+    @Override
     public void reset() {
 
     }

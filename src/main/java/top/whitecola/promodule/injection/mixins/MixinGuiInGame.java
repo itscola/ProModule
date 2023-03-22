@@ -24,6 +24,7 @@ import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.injection.wrappers.HasNameTag;
 import top.whitecola.promodule.modules.impls.other.ScoreBoardGUI;
 import top.whitecola.promodule.utils.Render2DUtils;
+import top.whitecola.promodule.utils.RoundedUtils;
 
 import java.awt.*;
 import java.util.Collection;
@@ -35,7 +36,7 @@ public abstract class MixinGuiInGame {
     @Shadow public abstract FontRenderer getFontRenderer();
 
     private HasNameTag hasNameTag = new HasNameTag();
-    private Color color = new Color(1,1,1, 34);
+    private Color color = new Color(1,1,1, 67);
 
     /**
      * @author White_cola
@@ -85,8 +86,8 @@ public abstract class MixinGuiInGame {
 //            GlStateManager.enableBlend();
 //            GlStateManager.enableDepth();
 
-            Render2DUtils.drawRect(x1, y1, x2, y2, color.getRGB());
-
+//            Render2DUtils.drawRect(x1, y1, x2, y2, color.getRGB());
+            RoundedUtils.drawRound(x1,y1,x2-x1,y2-y1,4, color);
         }
 
 

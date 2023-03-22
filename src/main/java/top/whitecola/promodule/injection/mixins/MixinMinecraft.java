@@ -6,11 +6,10 @@ import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.achievement.GuiAchievement;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -34,6 +33,8 @@ import net.minecraft.world.chunk.storage.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.SplashProgress;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -53,6 +54,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.events.EventManager;
+import top.whitecola.promodule.gui.screens.MainClickGUIInGameNoFont;
 import top.whitecola.promodule.injection.wrappers.IMixinMinecraft;
 import top.whitecola.promodule.modules.impls.combat.NoClickDelay;
 import top.whitecola.promodule.utils.Render2DUtils;
@@ -117,6 +119,16 @@ public abstract class MixinMinecraft implements IMixinMinecraft {
     @Shadow private SkinManager skinManager;
     @Shadow private ISaveFormat saveLoader;
     @Shadow private SoundHandler mcSoundHandler;
+    @Shadow public GuiScreen currentScreen;
+    @Shadow public WorldClient theWorld;
+    @Shadow public EntityPlayerSP thePlayer;
+    @Shadow public GuiIngame ingameGUI;
+
+    @Shadow public abstract void setIngameFocus();
+
+    @Shadow public abstract void setIngameNotInFocus();
+
+    @Shadow public boolean skipRenderWorld;
     protected ResourceLocation background = new ResourceLocation("promodule","uis/tbg.png");
 
 
@@ -239,6 +251,68 @@ public abstract class MixinMinecraft implements IMixinMinecraft {
     @Inject(method = "startGame", at = { @At("HEAD") }, cancellable = true)
     public void startGame(CallbackInfo ci){
 //        SplashProgress.start();
+    }
+
+
+
+
+    /**
+     * @author White_cola
+     * @reason for some GUI close animation.
+     */
+    @Overwrite
+    public void displayGuiScreen(GuiScreen p_displayGuiScreen_1_) {
+
+        GuiScreen old = this.currentScreen;
+
+        // GUIHandler here later
+        if(old instanceof MainClickGUIInGameNoFont){
+            MainClickGUIInGameNoFont mainClickUIIngame = (MainClickGUIInGameNoFont) old;
+            if(!mainClickUIIngame.isClosed()){
+                mainClickUIIngame.setNeedClose(true);
+                return;
+            }
+        }
+
+
+        if (p_displayGuiScreen_1_ == null && this.theWorld == null) {
+            p_displayGuiScreen_1_ = new GuiMainMenu();
+        } else if (p_displayGuiScreen_1_ == null && this.thePlayer.getHealth() <= 0.0F) {
+            p_displayGuiScreen_1_ = new GuiGameOver();
+        }
+
+
+        GuiOpenEvent event = new GuiOpenEvent((GuiScreen)p_displayGuiScreen_1_);
+        if (!MinecraftForge.EVENT_BUS.post(event)) {
+            p_displayGuiScreen_1_ = event.gui;
+            if (old != null && p_displayGuiScreen_1_ != old) {
+                old.onGuiClosed();
+            }
+
+            if (p_displayGuiScreen_1_ instanceof GuiMainMenu) {
+                this.gameSettings.showDebugInfo = false;
+                this.ingameGUI.getChatGUI().clearChatMessages();
+            }
+
+
+            this.currentScreen = p_displayGuiScreen_1_;
+            if (p_displayGuiScreen_1_ != null) {
+                this.setIngameNotInFocus();
+                ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
+                int i = scaledresolution.getScaledWidth();
+                int j = scaledresolution.getScaledHeight();
+                p_displayGuiScreen_1_.setWorldAndResolution(Minecraft.getMinecraft(), i, j);
+                this.skipRenderWorld = false;
+            } else {
+
+
+
+
+                this.mcSoundHandler.resumeSounds();
+                this.setIngameFocus();
+            }
+
+        }
     }
 
 

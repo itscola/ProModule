@@ -21,11 +21,8 @@ import top.whitecola.promodule.events.impls.event.PacketReceivedEvent;
 import top.whitecola.promodule.events.impls.event.PacketSendEvent;
 import top.whitecola.promodule.injection.wrappers.IMixinNetworkManager;
 import top.whitecola.promodule.modules.impls.other.AntiForge;
-import top.whitecola.promodule.utils.PacketUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
@@ -64,7 +61,7 @@ public abstract class MixinNetworkManager implements IMixinNetworkManager {
                 PacketReceivedEvent event =  new PacketReceivedEvent(p_channelRead0_2_);
                 EventManager.getEventManager().packetReceivedEvent(event);
 
-                if(event.isCanceled()){
+                if(event.isCancelled()){
                     return;
                 }
                 p_channelRead0_2_.processPacket(this.packetListener);
@@ -125,7 +122,7 @@ public abstract class MixinNetworkManager implements IMixinNetworkManager {
 
         PacketSendEvent packetSendEvent = new PacketSendEvent(packet);
         EventManager.getEventManager().onPacketSend(packetSendEvent);
-        if(packetSendEvent.isCanceled()){
+        if(packetSendEvent.isCancelled()){
             callbackInfo.cancel();
         }
 

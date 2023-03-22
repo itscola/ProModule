@@ -32,6 +32,17 @@ public class EventToInvokeModules extends EventAdapter {
         modules = ProModule.getProModule().getModuleManager().getModules();
     }
 
+
+    @Override
+    public void onRenderChest(RenderChestEvent e) {
+        for (AbstractModule module : modules) {
+            if (!module.isEnabled())
+                continue;
+            module.onRenderChest(e);
+        }
+        super.onRenderChest(e);
+    }
+
     @Override
     public void onJump(JumpEvent e) {
         for (AbstractModule module : modules) {

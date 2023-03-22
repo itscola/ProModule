@@ -122,7 +122,7 @@ public abstract class MixinEntityPlayerSP  extends AbstractClientPlayer implemen
     public void moveEntity(double p_moveEntity_1_, double p_moveEntity_3_, double p_moveEntity_3_2) {
         MoveEvent moveEvent = new MoveEvent(p_moveEntity_1_,p_moveEntity_3_,p_moveEntity_3_2);
         EventManager.getEventManager().onMove(moveEvent);
-        if(moveEvent.isCanceled()){
+        if(moveEvent.isCancelled()){
             return;
         }
         super.moveEntity(moveEvent.getX(), moveEvent.getY(), moveEvent.getZ());

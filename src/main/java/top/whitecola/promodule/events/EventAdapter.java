@@ -24,6 +24,10 @@ public abstract class EventAdapter {
         this.id = id;
     }
 
+    public void onRenderChest(RenderChestEvent e){
+
+    }
+
     public void onJump(JumpEvent e){
 
     }

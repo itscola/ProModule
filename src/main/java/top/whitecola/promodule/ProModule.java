@@ -104,7 +104,7 @@ public class ProModule {
         getModuleManager().addModule(new Comestic());
         getModuleManager().addModule(new NoHurtCam());
 
-//        getModuleManager().addModule(new TargetHud());
+        getModuleManager().addModule(new TargetHud());
 
 
 

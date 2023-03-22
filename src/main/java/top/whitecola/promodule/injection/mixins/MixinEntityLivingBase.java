@@ -1,17 +1,12 @@
 package top.whitecola.promodule.injection.mixins;
 
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -74,7 +69,7 @@ public abstract class MixinEntityLivingBase  extends Entity implements IMixinEnt
     public void onJump(CallbackInfo ci) {
         JumpEvent jumpEvent = new JumpEvent();
         EventManager.getEventManager().onJump(jumpEvent);
-        if (jumpEvent.isCanceled()) {
+        if (jumpEvent.isCancelled()) {
             ci.cancel();
         }
     }

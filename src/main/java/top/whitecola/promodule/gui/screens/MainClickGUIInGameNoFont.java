@@ -2,10 +2,8 @@ package top.whitecola.promodule.gui.screens;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiLabel;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -26,10 +24,7 @@ import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.modules.impls.other.GUIBlur;
 import top.whitecola.promodule.modules.impls.other.NoClickGUISound;
-import top.whitecola.promodule.utils.BlurUtils;
-import top.whitecola.promodule.utils.GUIUtils;
-import top.whitecola.promodule.utils.ModuleUtils;
-import top.whitecola.promodule.utils.Render2DUtils;
+import top.whitecola.promodule.utils.*;
 
 import java.awt.*;
 import java.io.IOException;
@@ -91,10 +86,9 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
 
-
     @Override
     public void initGui() {
-        super.initGui();
+
         ProModule.getProModule().getModuleConfig().config.loadConfigForModules();
 
         combatLabel = new LabelButton(91,0,0,"Combat",titleColor);
@@ -114,13 +108,15 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
         highlightSubtitle(UICache.selectedSubtitle);
 
 
-        enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
-        startScaleAnimation.setMin(0.9f).setMax(1).setTotalTime(280).setFunction(new CubicInFunction()).setLock(true);
+//        enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
+        startScaleAnimation.setMin(0.5f).setMax(1).setTotalTime(340).setFunction(new CubicOutFunction()).setLock(true);
 //        System.out.println(startScaleAnimation.getMin()+"   "+startScaleAnimation.getMax());
+
+        closeAnimation.setMin(0.5f).setMax(1).setTotalTime(200).setFunction(new CubicOutFunction()).setReverse(true).setLock(true);
 
         this.xPosition = ProModule.getProModule().getModuleConfig().getConfig().uix;
         this.yPosition = ProModule.getProModule().getModuleConfig().getConfig().uiy;
-
+        super.initGui();
     }
 
 
@@ -130,21 +126,43 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        BlurUtils.doBlur(6);
 
-//        float scale = startScaleAnimation.update();
-//        if(!startScaleAnimation.isFinish()) {
+
+
+        if(isClosed()){
+            return;
+        }
+
+        if(isNeedClose()&&startScaleAnimation.isFinish()){
+            float scale = closeAnimation.update();
+            ScaledResolution sr = new ScaledResolution(mc);
+            GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
+            if(closeAnimation.isFinish()){
+                super.onGuiClosed();
+                setClosed(true);
+                Minecraft.getMinecraft().displayGuiScreen(null);
+                return;
+            }
+        }else{
+            float scale = startScaleAnimation.update();
+
+            if(!startScaleAnimation.isFinish()) {
 //            GlStateManager.scale(scale, scale, scale);
-////            System.out.println(scale);
-//        }
+//            System.out.println(scale);
+                ScaledResolution sr = new ScaledResolution(mc);
+
+                GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
+            }
+        }
 
 //        GlStateManager.scale(1, 1, 1);
 
 
-        float value = enableAnimation.update();
-        if(!enableAnimation.isFinish()){
-            yPosition = 16 + value;
-        }
+//        float value = enableAnimation.update();
+//        if(!enableAnimation.isFinish()){
+//            yPosition = 16 + value;
+//        }
 //        Minecraft
-
+//        WorldClient
 
 
         GUIBlur guiBlur = (GUIBlur) ProModule.getProModule().getModuleManager().getModuleByName("GUIBlur");
@@ -670,4 +688,22 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
         BigDecimal a1 = new BigDecimal(a+"");
         return a1.add(new BigDecimal(b+"")).floatValue();
     }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public boolean isNeedClose() {
+        return needClose;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
+    public void setNeedClose(boolean needClose) {
+        this.needClose = needClose;
+    }
+
+
 }

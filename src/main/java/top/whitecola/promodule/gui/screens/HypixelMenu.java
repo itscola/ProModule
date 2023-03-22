@@ -2,7 +2,12 @@ package top.whitecola.promodule.gui.screens;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import top.whitecola.animationlib.Animation;
+import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.gui.components.clickables.buttons.IconButton;
+import top.whitecola.promodule.utils.GLUtils;
+
 import static top.whitecola.promodule.utils.MCWrapper.*;
 import java.awt.*;
 import java.io.IOException;
@@ -15,9 +20,11 @@ public class HypixelMenu extends GuiScreen{
     protected IconButton bedwars81;
     protected IconButton bedwars82;
     protected Color fontColor = new Color(217, 217, 217);
+    protected Animation startScaleAnimation = new Animation();
 
     @Override
     public void initGui() {
+        startScaleAnimation.setMin(0.5f).setMax(1).setTotalTime(340).setFunction(new CubicOutFunction()).setLock(true);
 
         int range = 60;
 
@@ -47,7 +54,14 @@ public class HypixelMenu extends GuiScreen{
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
+
+        float scale = startScaleAnimation.update();
+
+        if(!startScaleAnimation.isFinish()) {
+            ScaledResolution sr = new ScaledResolution(mc);
+
+            GLUtils.scaleStart(-5,-5,scale);
+        }
 
         if(bedwars24.isHovered(mouseX,mouseY)){
             mc.fontRendererObj.drawStringWithShadow("bedwars 4v4",0,10,fontColor.getRGB());

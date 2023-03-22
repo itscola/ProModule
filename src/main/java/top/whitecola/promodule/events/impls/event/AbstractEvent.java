@@ -1,12 +1,12 @@
 package top.whitecola.promodule.events.impls.event;
 
 public abstract class AbstractEvent {
-    private boolean canceled;
+    private boolean cancelled;
     public void setCancel(){
-        canceled = true;
+        cancelled = true;
     }
 
-    public boolean isCanceled() {
-        return canceled;
+    public boolean isCancelled() {
+        return cancelled;
     }
 }

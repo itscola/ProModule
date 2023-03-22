@@ -79,7 +79,7 @@ public class BedESP extends AbstractModule {
 
     @Override
     public void onEnable() {
-        mc.renderGlobal.loadRenderers();
+//        mc.renderGlobal.loadRenderers();
         this.bedBlocks.clear();
         super.onEnable();
     }

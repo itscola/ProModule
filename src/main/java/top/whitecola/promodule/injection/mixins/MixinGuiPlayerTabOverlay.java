@@ -26,8 +26,11 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import top.whitecola.animationlib.Animation;
+import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.modules.impls.other.HypixelPlus;
+import top.whitecola.promodule.utils.GLUtils;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
@@ -54,6 +57,12 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui{
 
     @Shadow protected abstract void drawScoreboardValues(ScoreObjective p_drawScoreboardValues_1_, int p_drawScoreboardValues_2_, String p_drawScoreboardValues_3_, int p_drawScoreboardValues_4_, int p_drawScoreboardValues_5_, NetworkPlayerInfo p_drawScoreboardValues_6_);
 
+    protected Animation enableAnimation = new Animation()
+            .setMin(0).setMax(1).setTotalTime(250).setFunction(new CubicOutFunction()).setLock(true);
+
+
+    private long lastOpen;
+
     /**
      * @author White_cola
      */
@@ -61,7 +70,28 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui{
     public void renderPlayerlist(int p_renderPlayerlist_1_, Scoreboard p_renderPlayerlist_2_, ScoreObjective p_renderPlayerlist_3_) {
 
         if(System.currentTimeMillis() - this.lastTimeOpened < 1000){
+//            enableAnimation.reset();
             return;
+        }
+
+
+        if(System.currentTimeMillis()-lastOpen>100){
+            lastOpen = System.currentTimeMillis();
+            enableAnimation.reset();
+
+        }
+
+
+
+
+        float scale = enableAnimation.update();
+        if(!enableAnimation.isFinish()) {
+//            GlStateManager.scale(scale, scale, scale);
+//            System.out.println(scale);
+            ScaledResolution sr = new ScaledResolution(mc);
+
+            GLUtils.scaleStart(sr.getScaledWidth()/2f,0,scale);
+//            needReset = false;
         }
 
 
@@ -240,6 +270,8 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui{
                 mc.fontRendererObj.drawStringWithShadow(lvt_20_5_, (float)(p_renderPlayerlist_1_ / 2 - i5 / 2 -8), (float)lvt_15_1_, -1);
             }
         }
+
+        lastOpen = System.currentTimeMillis();
 
     }
 
