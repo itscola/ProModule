@@ -10,6 +10,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import org.lwjgl.input.Keyboard;
 import top.whitecola.animationlib.Animation;
 import top.whitecola.animationlib.functions.type.CubicOutFunction;
+import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
@@ -173,7 +174,7 @@ public class Keystroke extends AbstractModule {
 
         private static FontRenderer font = mc.fontRendererObj;
         private final KeyBinding binding;
-        private final Animation clickAnimation = new Animation().setMin(0).setMax(1).setTotalTime(200).setFunction(new CubicOutFunction());
+        private final Animation clickAnimation = new Animation().setMin(0).setMax(1).setTotalTime(250).setFunction(new CubicOutFunction());
 
         public Button(KeyBinding binding) {
             this.binding = binding;
@@ -204,6 +205,8 @@ public class Keystroke extends AbstractModule {
             int offsetY =  1;
 
             FontUtils.drawCenteredString("", x + width / 2 + offsetX, y + height / 2 - font.FONT_HEIGHT / 2f + offsetY, Color.WHITE.getRGB());
+
+//            ProModule.getProModule().font.size20.drawCenteredString(Keyboard.getKeyName(binding.getKeyCode()), x + width / 2 + offsetX, y + height / 2 - font.FONT_HEIGHT / 2f + offsetY, Color.WHITE.getRGB());
 
             if (!clickAnimation.isFinish(false)) {
                 float animation = (float) clickAnimation.update();

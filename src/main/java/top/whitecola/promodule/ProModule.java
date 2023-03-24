@@ -19,6 +19,7 @@ import top.whitecola.promodule.events.EventManager;
 import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.*;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
+import top.whitecola.promodule.fonts.font3.FontHelper;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.*;
 import top.whitecola.promodule.modules.ModuleManager;
@@ -46,6 +47,8 @@ public class ProModule {
     private HiConfig<ModuleConfig> moduleConfig = new HiConfig<ModuleConfig>("./ProModule/Modules.json",ModuleConfig.class, Charset.forName("utf8"));
     private HiConfig<HypixelConfig> hypixelConfig = new HiConfig<HypixelConfig>("./ProModule/HypixelConfig.json",HypixelConfig.class, Charset.forName("utf8"));
     public HypixelAPIWrapper hypixelAPIWrapper = new HypixelAPIWrapper();
+//    public FontHelper font = new FontHelper();
+
 
     @EventHandler
     public void init(FMLInitializationEvent event) {

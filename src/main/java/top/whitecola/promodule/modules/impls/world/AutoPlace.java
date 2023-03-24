@@ -39,10 +39,10 @@ public class AutoPlace extends AbstractModule {
                                         this.last = n;
                                         if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, item, pos, movingObjectPosition.sideHit, movingObjectPosition.hitVec)) {
 
-                                            sendRightClick(true);
+//                                            sendRightClick(true);
                                             mc.thePlayer.swingItem();
                                             mc.getItemRenderer().resetEquippedProgress();
-                                            sendRightClick(false);
+//                                            sendRightClick(false);
                                             this.lastBlockPos = pos;
                                         }
 
