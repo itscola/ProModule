@@ -6,6 +6,7 @@ import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.utils.ColorUtils;
 import top.whitecola.promodule.utils.Render2DUtils;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
@@ -14,7 +15,7 @@ import java.util.Vector;
 
 public class Hud extends AbstractModule {
     @ModuleSetting(name = "List", type = "select")
-    protected Boolean list = false;
+    protected Boolean list = true;
 
     @ModuleSetting(name = "CombatList", type = "select")
     protected Boolean combatList = true;
@@ -23,7 +24,7 @@ public class Hud extends AbstractModule {
     protected Boolean movementList = true;
 
     @ModuleSetting(name = "RenderList", type = "select")
-    protected Boolean renderList = true;
+    protected Boolean renderList = false;
 
     @ModuleSetting(name = "OtherList", type = "select")
     protected Boolean othrList = false;
@@ -32,14 +33,28 @@ public class Hud extends AbstractModule {
     @ModuleSetting(name = "ToolTip", type = "select")
     protected Boolean toolTip = false;
 
-    protected Color color = new Color(236, 236, 236);
+    protected Color color = new Color(49, 179, 236);
+    protected Color color2 = new Color(38, 149, 245);
+
     protected Color toolBarColor = new Color(0, 0, 0);
 
+    @ModuleSetting(name = "X",max = 0,min = 255,addValue = 1)
+    protected Float x = 4f;
+
+    @ModuleSetting(name = "Y",max = 0,min = 255,addValue = 1)
+    protected Float y = 86f;
+
+
+//    @Override
+//    public void onRenderOverLay(RenderGameOverlayEvent event) {
+//
+//
+//        super.onRenderOverLay(event);
+//    }
 
 
     @Override
-    public void onRenderOverLay(RenderGameOverlayEvent event) {
-
+    public void onRender2D(float partialTicks) {
         ScaledResolution sc = new ScaledResolution(mc);
 
         if(list){
@@ -80,9 +95,16 @@ public class Hud extends AbstractModule {
 
 
 
-
             for(int i=0;i<displays.size();i++){
-                mc.fontRendererObj.drawString(displays.get(i).getDisplayName(),0,i*gap,color.getRGB());
+                Color theColor = ColorUtils.interpolateColorsBackAndForth(15,i,this.color,this.color2,false);
+
+                mc.fontRendererObj.drawStringWithShadow(displays.get(i).getDisplayName(),0+x,i*gap+y+i*2,theColor.getRGB());
+//                char[] rchars = displays.get(i).getDisplayName().toCharArray();
+//                for(int j=0;j<chars.length;j++){
+//                    long theGap = j*mc.fontRendererObj.getCharWidth(chars[j]);
+//                    mc.fontRendererObj.drawStringWithShadow(chars[j]+"",theGap,i*gap,theColor.getRGB());
+//
+//                }
             }
 
 
@@ -100,7 +122,7 @@ public class Hud extends AbstractModule {
         }
 
 //        mc.displayWidth
-        super.onRenderOverLay(event);
+        super.onRender2D(partialTicks);
     }
 
     @Override

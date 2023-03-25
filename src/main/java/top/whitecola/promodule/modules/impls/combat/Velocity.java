@@ -11,16 +11,16 @@ import top.whitecola.promodule.utils.RandomUtils;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 public class Velocity extends AbstractModule {
-    @ModuleSetting(name = "minHorizontal",addValue = 1)
-    public Float minHorizontal = 90f;
+    @ModuleSetting(name = "minHorizontal",addValue = 5)
+    public Float minHorizontal = 65f;
 
-    @ModuleSetting(name = "minHorizontal",addValue = 1)
+    @ModuleSetting(name = "maxHorizontal",addValue = 5)
     public Float maxHorizontal = 100f;
 
-    @ModuleSetting(name = "minVertical",addValue = 1)
+    @ModuleSetting(name = "minVertical",addValue = 5)
     public Float minVertical = 90f;
 
-    @ModuleSetting(name = "maxVertical",addValue = 1)
+    @ModuleSetting(name = "maxVertical",addValue = 5)
     public Float maxVertical = 100f;
 
 

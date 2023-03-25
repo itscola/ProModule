@@ -35,10 +35,10 @@ public class Keystroke extends AbstractModule {
     private Button keyBindJump;
 
     @ModuleSetting(name = "X",max = 0,min = 255,addValue = 1)
-    protected Float x = 26f;
+    protected Float x = 5f;
 
     @ModuleSetting(name = "Y",max = 0,min = 255,addValue = 1)
-    protected Float y = 14f;
+    protected Float y = 6f;
 
 //
 //    @Override
