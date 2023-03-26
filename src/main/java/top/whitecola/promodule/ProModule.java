@@ -20,6 +20,8 @@ import top.whitecola.promodule.events.KeyEvent;
 import top.whitecola.promodule.events.impls.*;
 import top.whitecola.promodule.fonts.font2.FontLoaders;
 import top.whitecola.promodule.fonts.font3.FontHelper;
+import top.whitecola.promodule.fonts.font4.FontUtil;
+import top.whitecola.promodule.fonts.font4.Fonts;
 import top.whitecola.promodule.gui.widgets.WidgetManager;
 import top.whitecola.promodule.keybinds.*;
 import top.whitecola.promodule.modules.ModuleManager;
@@ -48,17 +50,20 @@ public class ProModule {
     private HiConfig<HypixelConfig> hypixelConfig = new HiConfig<HypixelConfig>("./ProModule/HypixelConfig.json",HypixelConfig.class, Charset.forName("utf8"));
     public HypixelAPIWrapper hypixelAPIWrapper = new HypixelAPIWrapper();
 //    public FontHelper font = new FontHelper();
+    public Fonts fonts;
 
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        FontLoaders.loadAllFonts();
+//        FontLoaders.loadAllFonts();
+        fonts = new Fonts();
         registerEvent();
         registerKeyBinds();
         registerModules();
         ProModule.getProModule().getModuleConfig().config.loadConfigForModules();
 
     }
+
 
 
     public void registerEvent(){
@@ -167,7 +172,7 @@ public class ProModule {
         getModuleManager().addModule(new HypixelPlus());
 
         getModuleManager().getModuleByName("AntiForge").setEnabled(true);
-
+        getModuleManager().getModuleByClass(Hud.class).setEnabled(true);
         getModuleManager().addModule(new BetterFont());
 //        BetterFont betterFont = (BetterFont) ProModule.getProModule().getModuleManager().getModuleByName("BetterFont");
 //        betterFont.enable();

@@ -4,10 +4,13 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
+import top.whitecola.promodule.fonts.font4.CustomFont;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
-import top.whitecola.promodule.utils.ColorUtils;
-import top.whitecola.promodule.utils.Render2DUtils;
+import top.whitecola.promodule.utils.*;
+import static top.whitecola.promodule.fonts.font4.Fonts.*;
+
+import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
 import java.awt.*;
@@ -34,32 +37,38 @@ public class Hud extends AbstractModule {
     protected Boolean toolTip = false;
 
     protected Color color = new Color(49, 179, 236);
-    protected Color color2 = new Color(38, 149, 245);
+    protected Color color2 = new Color(214, 38, 245);
 
     protected Color toolBarColor = new Color(0, 0, 0);
 
     @ModuleSetting(name = "X",max = 0,min = 255,addValue = 1)
-    protected Float x = 4f;
+    protected Float x = 3f;
 
     @ModuleSetting(name = "Y",max = 0,min = 255,addValue = 1)
-    protected Float y = 86f;
+    protected Float y = 21f;
 
+    @ModuleSetting(name = "logoX",max = 0,min = 255,addValue = 1)
+    protected Float logoX = 3f;
 
-//    @Override
-//    public void onRenderOverLay(RenderGameOverlayEvent event) {
-//
-//
-//        super.onRenderOverLay(event);
-//    }
+    @ModuleSetting(name = "logoY",max = 0,min = 255,addValue = 1)
+    protected Float logoY = 2f;
 
 
     @Override
-    public void onRender2D(float partialTicks) {
+    public void onRenderOverLay(RenderGameOverlayEvent event) {
+//        GLUtils.scaleEnd();
+//        GLUtils.scaleStart(0,0,1);
+//        glPushMatrix();
+
+
+        renderLogo(event);
+
+
         ScaledResolution sc = new ScaledResolution(mc);
 
         if(list){
 
-            int gap = 8;
+            int gap = 10;
             Vector<AbstractModule> modules = ProModule.getProModule().getModuleManager().getModules();
 
             Vector<AbstractModule> displays = new Vector<AbstractModule>();
@@ -96,9 +105,10 @@ public class Hud extends AbstractModule {
 
 
             for(int i=0;i<displays.size();i++){
-                Color theColor = ColorUtils.interpolateColorsBackAndForth(15,i,this.color,this.color2,false);
+                Color theColor = ColorUtils.interpolateColorsBackAndForth(10,i*20,this.color,this.color2,false);
 
-                mc.fontRendererObj.drawStringWithShadow(displays.get(i).getDisplayName(),0+x,i*gap+y+i*2,theColor.getRGB());
+                getFont().getBoldFont().drawSmoothStringWithShadow(displays.get(i).getDisplayName(),0+x,i*gap+y+i*2,theColor.getRGB());
+//                mc.fontRendererObj.drawStringWithShadow(displays.get(i).getDisplayName(),0+x,i*gap+y+i*2,theColor.getRGB());
 //                char[] rchars = displays.get(i).getDisplayName().toCharArray();
 //                for(int j=0;j<chars.length;j++){
 //                    long theGap = j*mc.fontRendererObj.getCharWidth(chars[j]);
@@ -122,8 +132,41 @@ public class Hud extends AbstractModule {
         }
 
 //        mc.displayWidth
-        super.onRender2D(partialTicks);
+//        GLUtils.scaleEnd();
+        super.onRenderOverLay(event);
     }
+
+
+//    @Override
+//    public void onRender2D(float partialTicks) {
+//
+//        super.onRender2D(partialTicks);
+//    }
+
+
+    public void renderLogo(RenderGameOverlayEvent event){
+        float xVal = logoX;
+        float yVal = logoY;
+//        float versionWidth = mc.fontRendererObj.getStringWidth("2.0");
+        String finalName = "ProModule";
+//        float versionX = xVal + mc.fontRendererObj.getStringWidth(finalName);
+        float width = mc.fontRendererObj.getStringWidth(finalName);
+//        float width = (versionX + versionWidth) - xVal ;
+
+
+        Render3DUtils.resetColor();
+//        glPushMatrix();
+//        GLUtils.scaleStart(0,0,1.2f);
+        GradientUtil.applyGradientHorizontal(xVal, yVal, width, 20, 1, color, color2, () -> {
+            Render3DUtils.setAlphaLimit(0);
+//            getLogoFont().getBoldFont().drawSmoothString(finalName, xVal, yVal, 0);
+
+            getLogoFont().getBoldFont().drawSmoothStringWithShadow(finalName, xVal, yVal, 0);
+//            mc.fontRendererObj.drawStringWithShadow("2.0", (int)versionX, (int)yVal, 0);
+        });
+//        GLUtils.scaleEnd();
+    }
+
 
     @Override
     public ModuleCategory getModuleType() {
@@ -134,5 +177,13 @@ public class Hud extends AbstractModule {
     public String getModuleName() {
         return "Hud";
 
+    }
+
+    public CustomFont getFont(){
+        return ProModule.getProModule().fonts.tenacityFont20;
+    }
+
+    public CustomFont getLogoFont(){
+        return ProModule.getProModule().fonts.tenacityFont32;
     }
 }

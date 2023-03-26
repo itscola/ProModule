@@ -39,7 +39,7 @@ public class Killaura extends AbstractModule {
     public boolean isBlocking;
     public boolean attacking;
 
-    public boolean noAttack;
+//    public boolean noAttack;
 
     private double lastTargetYaw;
     private double lasttargetPitch;
@@ -116,14 +116,16 @@ public class Killaura extends AbstractModule {
         if(ProModule.getProModule().getModuleManager().getModuleByName("Scaffold").isEnabled()){
             return;
         }
+
+
 //
 //        if(mc.thePlayer.isEating()){
 //            return;
 //        }
 
-        if(noAttack){
-            return;
-        }
+//        if(noAttack){
+//            return;
+//        }
 
         sortTargets();
 
@@ -137,6 +139,10 @@ public class Killaura extends AbstractModule {
 
 
         if (!targets.isEmpty()) {
+
+//            System.out.println(22222);
+
+
             if (iswitch && swtichTimer.hasTimeElapsed(switchDelay.longValue())) {
 
                 swtichTimer.reset();
@@ -323,6 +329,9 @@ public class Killaura extends AbstractModule {
 
     private boolean shouldAttack(EntityLivingBase entity){
 
+
+//        System.out.println(444444444);
+
         MiddleClick middleClick = (MiddleClick) ProModule.getProModule().getModuleManager().getModuleByName("MiddleClick");
         if(middleClick!=null&&middleClick.isEnabled()){
             if(middleClick.getFriends().contains(entity)){
@@ -352,13 +361,15 @@ public class Killaura extends AbstractModule {
             }
         }
 
+//                System.out.println(555555);
+
 
         if(isBot(entity)){
             return false;
         }
 
 
-
+//        System.out.println(555555);
         return true;
     }
 
@@ -443,13 +454,13 @@ public class Killaura extends AbstractModule {
 
     @Override
     public void onSendPacket(PacketSendEvent e) {
-        if (e.getPacket() instanceof C16PacketClientStatus&&((C16PacketClientStatus) e.getPacket()).getStatus()==  C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
-            noAttack = true;
-        }
-
-        if (e.getPacket() instanceof C0DPacketCloseWindow ) {
-            noAttack = false;
-        }
+//        if (e.getPacket() instanceof C16PacketClientStatus&&((C16PacketClientStatus) e.getPacket()).getStatus()==  C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
+//            noAttack = true;
+//        }
+//
+//        if (e.getPacket() instanceof C0DPacketCloseWindow ) {
+//            noAttack = false;
+//        }
 
 
         super.onSendPacket(e);
@@ -507,9 +518,9 @@ public class Killaura extends AbstractModule {
     @Override
     public void onEnable() {
 //        mc.thePlayer.timer
-        if(noAttack){
-            noAttack = false;
-        }
+//        if(noAttack){
+//            noAttack = false;
+//        }
         super.onEnable();
     }
 

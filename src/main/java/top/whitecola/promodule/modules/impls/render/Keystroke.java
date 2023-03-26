@@ -34,11 +34,11 @@ public class Keystroke extends AbstractModule {
     private Button keyBindRight;
     private Button keyBindJump;
 
-    @ModuleSetting(name = "X",max = 0,min = 255,addValue = 1)
-    protected Float x = 5f;
+    @ModuleSetting(name = "X",max = 0,min = 255,addValue = 5)
+    protected Float x = 568f;
 
-    @ModuleSetting(name = "Y",max = 0,min = 255,addValue = 1)
-    protected Float y = 6f;
+    @ModuleSetting(name = "Y",max = 0,min = 255,addValue = 5)
+    protected Float y = 5f;
 
 //
 //    @Override

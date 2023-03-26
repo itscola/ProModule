@@ -31,6 +31,7 @@ import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.modules.impls.other.HypixelPlus;
 import top.whitecola.promodule.utils.GLUtils;
+import static org.lwjgl.opengl.GL11.*;
 
 import static top.whitecola.promodule.utils.MCWrapper.*;
 
@@ -85,11 +86,12 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui{
 
 
         float scale = enableAnimation.update();
+        glPushMatrix();
         if(!enableAnimation.isFinish()) {
 //            GlStateManager.scale(scale, scale, scale);
 //            System.out.println(scale);
             ScaledResolution sr = new ScaledResolution(mc);
-
+//            glPushMatrix();
             GLUtils.scaleStart(sr.getScaledWidth()/2f,0,scale);
 //            needReset = false;
         }
@@ -272,7 +274,8 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui{
         }
 
         lastOpen = System.currentTimeMillis();
-
+//        GLUtils.scaleEnd();
+        glPopMatrix();
     }
 
 

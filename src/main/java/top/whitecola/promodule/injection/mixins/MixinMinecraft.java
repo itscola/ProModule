@@ -54,6 +54,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.events.EventManager;
+import top.whitecola.promodule.fonts.font4.FontUtil;
 import top.whitecola.promodule.gui.screens.MainClickGUIInGameNoFont;
 import top.whitecola.promodule.injection.wrappers.IMixinMinecraft;
 import top.whitecola.promodule.modules.impls.combat.NoClickDelay;

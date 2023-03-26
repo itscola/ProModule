@@ -122,7 +122,7 @@ public class ESP extends AbstractModule {
 
                         GlStateManager.translate(renderPositions[0] / scaledRes.getScaleFactor()+3, renderPositions[1] / scaledRes.getScaleFactor()+3, 0.0D);
 
-                        GlStateManager.scale(0.5, 0.5, 0.5);
+                        GlStateManager.scale(0.7, 0.7, 0.7);
                         GlStateManager.translate(0.0D, -2.5D, 0.0D);
 
                         String str = ent.getName();
@@ -133,6 +133,8 @@ public class ESP extends AbstractModule {
                         Render2DUtils.drawRoundedRect2(-allWidth / 2, -14.0f, allWidth / 2, 0, 1,Render2DUtils.getColor(0, 150));
 
                         font.drawString(str.replaceAll("\247.", ""), (int)(-allWidth / 2 + 5.5f), -13, color.getRGB());
+
+//                        ProModule.getProModule().fonts.tenacityFont16.
 
                         float nowhealth = (float) Math.ceil(ent.getHealth() + ent.getAbsorptionAmount());
                         float maxHealth = ent.getMaxHealth() + ent.getAbsorptionAmount();

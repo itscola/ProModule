@@ -109,10 +109,10 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
 //        enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
-        startScaleAnimation.setMin(0.5f).setMax(1).setTotalTime(340).setFunction(new CubicOutFunction()).setLock(true);
+        startScaleAnimation.setMin(0.5f).setMax(1f).setTotalTime(340).setFunction(new CubicOutFunction()).setLock(true);
 //        System.out.println(startScaleAnimation.getMin()+"   "+startScaleAnimation.getMax());
 
-        closeAnimation.setMin(0.5f).setMax(1).setTotalTime(200).setFunction(new CubicOutFunction()).setReverse(true).setLock(true);
+        closeAnimation.setMin(0.5f).setMax(1f).setTotalTime(200).setFunction(new CubicOutFunction()).setReverse(true).setLock(true);
 
         this.xPosition = ProModule.getProModule().getModuleConfig().getConfig().uix;
         this.yPosition = ProModule.getProModule().getModuleConfig().getConfig().uiy;

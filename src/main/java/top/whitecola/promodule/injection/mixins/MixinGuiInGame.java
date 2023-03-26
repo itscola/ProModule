@@ -92,7 +92,7 @@ public abstract class MixinGuiInGame {
 
 
         Gui.drawRect(-100, -100, -100, -100, 0xffffffff);
-        FontLoaders.msFont14.drawString("", -100, -100, 0xffffffff);
+//        FontLoaders.msFont14.drawString("", -100, -100, 0xffffffff);
 
 
 
