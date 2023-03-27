@@ -1,4 +1,4 @@
-package top.whitecola.promodule.gui.screens;
+package top.whitecola.promodule.gui.screens.simple;
 
 import net.minecraft.client.gui.GuiScreen;
 import top.whitecola.promodule.fonts.font2.Config;

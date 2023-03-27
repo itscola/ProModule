@@ -1,14 +1,11 @@
-package top.whitecola.promodule.gui.screens;
+package top.whitecola.promodule.gui.screens.simple;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.Sys;
 import org.lwjgl.input.Mouse;
 import top.whitecola.animationlib.Animation;
 import top.whitecola.animationlib.functions.type.CubicOutFunction;
@@ -18,7 +15,6 @@ import top.whitecola.promodule.gui.UICache;
 import top.whitecola.promodule.gui.components.clickables.ClickGUIEntry;
 import top.whitecola.promodule.gui.components.clickables.SubEntryCategory;
 import top.whitecola.promodule.gui.components.clickables.buttons.ClickGUISubEntry;
-import top.whitecola.promodule.gui.components.clickables.buttons.LabelButton;
 import top.whitecola.promodule.gui.components.clickables.buttons.LabelButtonWithFont;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;

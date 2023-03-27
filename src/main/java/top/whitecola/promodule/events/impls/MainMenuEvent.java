@@ -2,11 +2,8 @@ package top.whitecola.promodule.events.impls;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.events.EventAdapter;
-import top.whitecola.promodule.gui.screens.MainClickGUIInGame2;
-import top.whitecola.promodule.gui.screens.MainClickGUIInGameNoFont;
-import top.whitecola.promodule.gui.screens.MainClickGUIIngame;
+import top.whitecola.promodule.gui.screens.simple.MainClickGUIInGameNoFont;
 import top.whitecola.promodule.keybinds.MainMenuInGameKeybind;
 
 public class MainMenuEvent extends EventAdapter {

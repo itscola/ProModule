@@ -1,4 +1,4 @@
-package top.whitecola.promodule.gui.screens;
+package top.whitecola.promodule.gui.screens.simple;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

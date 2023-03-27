@@ -12,6 +12,7 @@ import top.whitecola.animationlib.Animation;
 import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
 import top.whitecola.promodule.annotations.ModuleSetting;
+import top.whitecola.promodule.fonts.font4.CustomFont;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 import top.whitecola.promodule.utils.*;
@@ -38,7 +39,7 @@ public class Keystroke extends AbstractModule {
     protected Float x = 568f;
 
     @ModuleSetting(name = "Y",max = 0,min = 255,addValue = 5)
-    protected Float y = 5f;
+    protected Float y = 260f;
 
 //
 //    @Override
@@ -147,7 +148,7 @@ public class Keystroke extends AbstractModule {
 
         float x = this.x, y = this.y;
 
-        Button.font = mc.fontRendererObj;
+//        Button.font = mc.fontRendererObj;
 
         float increment = size + offset;
         keyBindForward.render(x + width / 2f - size / 2f, y, size);
@@ -172,7 +173,7 @@ public class Keystroke extends AbstractModule {
     public static class Button {
         protected float radius = 3;
 
-        private static FontRenderer font = mc.fontRendererObj;
+        private static CustomFont font = ProModule.getProModule().fonts.tenacityFont20;
         private final KeyBinding binding;
         private final Animation clickAnimation = new Animation().setMin(0).setMax(1).setTotalTime(250).setFunction(new CubicOutFunction());
 
@@ -204,9 +205,9 @@ public class Keystroke extends AbstractModule {
             float offsetX =  .2f;
             int offsetY =  1;
 
-            FontUtils.drawCenteredString("", x + width / 2 + offsetX, y + height / 2 - font.FONT_HEIGHT / 2f + offsetY, Color.WHITE.getRGB());
+            FontUtils.drawCenteredString("", x + width / 2 + offsetX, y + height / 2 - font.getHeight() / 2f + offsetY, Color.WHITE.getRGB());
 
-//            ProModule.getProModule().font.size20.drawCenteredString(Keyboard.getKeyName(binding.getKeyCode()), x + width / 2 + offsetX, y + height / 2 - font.FONT_HEIGHT / 2f + offsetY, Color.WHITE.getRGB());
+//            font.drawCenteredString(Keyboard.getKeyName(binding.getKeyCode()), x + width / 2 + offsetX, y + height / 2 - font.getHeight() / 2f + offsetY, Color.WHITE.getRGB());
 
             if (!clickAnimation.isFinish(false)) {
                 float animation = (float) clickAnimation.update();

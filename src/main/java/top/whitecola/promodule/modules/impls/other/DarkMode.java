@@ -1,8 +1,5 @@
 package top.whitecola.promodule.modules.impls.other;
 
-import net.minecraft.client.Minecraft;
-import top.whitecola.promodule.gui.screens.MainClickGUIInGame2;
-import top.whitecola.promodule.gui.screens.MainClickGUIInGameNoFont;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
 
