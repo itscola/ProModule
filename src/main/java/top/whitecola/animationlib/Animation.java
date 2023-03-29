@@ -28,6 +28,8 @@ public strictfp class Animation {
             this.reverse = reverse;
 //            setFirstTime(System.currentTimeMillis() - (((long)getTotalTime()) - Math.min(((long)getTotalTime()), System.currentTimeMillis()-getFirstTime())));
 //            setFirstTime(System.currentTimeMillis()-getFirstTime());
+//            setFirstTime((long) (System.currentTimeMillis() - (getTotalTime() - Math.min(getTotalTime(), System.currentTimeMillis()-getFirstTime()))));
+//            setTotalTime((long) (getTotalTime()*2));
         }
         return this;
     }
@@ -161,8 +163,10 @@ public strictfp class Animation {
 
 
     public Animation reset(){
-        setProgressValue(getMin());
-        this.isFirstUpdate = true;
+        if(!lock) {
+//            setProgressValue(getMin());
+            this.isFirstUpdate = true;
+        }
         return this;
     }
 

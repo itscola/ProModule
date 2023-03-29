@@ -1,6 +1,7 @@
 package top.whitecola.promodule.gui.screens.dropdown;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import top.whitecola.animationlib.Animation;
 import top.whitecola.animationlib.functions.type.CubicOutFunction;
 import top.whitecola.promodule.ProModule;
@@ -8,6 +9,7 @@ import top.whitecola.promodule.fonts.font4.CustomFont;
 import top.whitecola.promodule.gui.screens.simple.IMainClickGUIIngame;
 import top.whitecola.promodule.modules.AbstractModule;
 import top.whitecola.promodule.modules.ModuleCategory;
+import top.whitecola.promodule.utils.GLUtils;
 import top.whitecola.promodule.utils.GUIUtils;
 
 import java.io.IOException;
@@ -18,6 +20,9 @@ public class NewClickGUI extends GuiScreen implements IMainClickGUIIngame {
     protected Animation enableAnim = new Animation();
     protected Animation closeAnim = new Animation();
     protected CustomFont font;
+    protected boolean closed;
+    protected boolean close;
+
 
     @Override
     public void initGui() {
@@ -51,6 +56,12 @@ public class NewClickGUI extends GuiScreen implements IMainClickGUIIngame {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        if (!enableAnim.isFinish(false)) {
+            ScaledResolution sr = new ScaledResolution(mc);
+            enableAnim.setReverse(!close);
+            GLUtils.scaleStart(sr.getScaledWidth()/2,sr.getScaledHeight()/2,enableAnim.update());
+        }
+
         panels.forEach(i->{
             i.drawScreen(mouseX,mouseY,partialTicks);
         });
@@ -73,5 +84,21 @@ public class NewClickGUI extends GuiScreen implements IMainClickGUIIngame {
     @Override
     public void drawString(String text, float x, int y, int color) {
 
+    }
+
+    public void setClose(boolean close) {
+        this.close = close;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public boolean isClose() {
+        return close;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 }

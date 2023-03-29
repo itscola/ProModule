@@ -171,18 +171,12 @@ public class AimAssist extends AbstractModule {
         if(speed > 0) {
             float addYaw = (-targetYaw / speed);
             float addPitch = (-targetPitch / speed);
-
             IMixinEntity playerEntity = (IMixinEntity)mc.thePlayer;
-
-
-
 
             if(vertical || (safer&&RotationUtils.isMouseOver(playerEntity.getRotationYaw(),playerEntity.getRotationPitch(),theTarget,range))){
                 addPitch = 0;
 //                System.out.println(targetYaw+" "+playerEntity.getRotationYaw());
             }
-
-
 
             playerEntity.setRotationYaw(playerEntity.getRotationYaw() + addYaw);
             playerEntity.setPrevRotationYaw(playerEntity.getRotationYaw());

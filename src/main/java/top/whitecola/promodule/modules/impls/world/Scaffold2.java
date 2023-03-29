@@ -47,6 +47,9 @@ public class Scaffold2 extends AbstractModule {
 
     @ModuleSetting(name = "towerWaitingTick" ,type = "value",addValue = 1f)
     public Float towerWaitingTick = 10f;
+//
+//    @ModuleSetting(name = "opposite",type = "select")
+//    public Boolean opposite = false;
 
     @Override
     public void onPreMotion(PreMotionEvent e) {
@@ -91,6 +94,8 @@ public class Scaffold2 extends AbstractModule {
 //            mc.thePlayer.renderYawOffset = mc.thePlayer.rotationYaw + 180;
 //            mc.thePlayer.rotationYawHead = mc.thePlayer.rotationYaw + 180;
         }
+
+
 
         // Speed 2 Slowdown
 //        if(mc.thePlayer.isPotionActive(Potion.moveSpeed.id)){
@@ -145,6 +150,7 @@ public class Scaffold2 extends AbstractModule {
         // Tower
         if(tower) {
             if(mc.gameSettings.keyBindJump.isKeyDown() && !PlayerSPUtils.isMoving()) {
+                e.setPitch(90);
                 if(towerTicks<towerWaitingTick) {
                     mc.thePlayer.motionY = 0.42;
                     mc.thePlayer.jump();
@@ -253,5 +259,20 @@ public class Scaffold2 extends AbstractModule {
         }
 
         super.onDisable();
+    }
+
+
+    private float getFacingYaw(){
+        switch (mc.thePlayer.getHorizontalFacing()) {
+            case EAST:
+                return 90;
+            case WEST:
+                return -90;
+            case SOUTH:
+                return 180;
+            case NORTH:
+                return 0;
+        }
+        return 0;
     }
 }

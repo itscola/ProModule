@@ -21,6 +21,7 @@ public class CategoryPanel implements IPanel{
     protected float entryHeight;
     protected float entryWidth;
 
+    protected float scroll = 0;
 
 
     public Vector<AbstractModule> getModules() {

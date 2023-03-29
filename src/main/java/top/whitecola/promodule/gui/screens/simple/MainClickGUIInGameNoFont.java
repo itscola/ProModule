@@ -102,10 +102,10 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
 
 
 //        enableAnimation.setMin(0).setMax(8).setTotalTime(200).setFunction(new CubicOutFunction());
-        startScaleAnimation.setMin(0.5f).setMax(1f).setTotalTime(340).setFunction(new CubicOutFunction()).setLock(true);
+        startScaleAnimation.setMin(0.5f).setMax(1f).setTotalTime((long) (340+yPosition)).setFunction(new CubicOutFunction()).setLock(true);
 //        System.out.println(startScaleAnimation.getMin()+"   "+startScaleAnimation.getMax());
 
-        closeAnimation.setMin(0.5f).setMax(1f).setTotalTime(200).setFunction(new CubicOutFunction()).setReverse(true).setLock(true);
+        closeAnimation.setMin(0.5f).setMax(1f).setTotalTime((long) (200+yPosition)).setFunction(new CubicOutFunction()).setReverse(true);
 
         this.xPosition = ProModule.getProModule().getModuleConfig().getConfig().uix;
         this.yPosition = ProModule.getProModule().getModuleConfig().getConfig().uiy;
@@ -125,10 +125,35 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
             return;
         }
 
-        if(isNeedClose()&&startScaleAnimation.isFinish()){
-            float scale = closeAnimation.update();
-            ScaledResolution sr = new ScaledResolution(mc);
-            GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
+//        if(isNeedClose()&&startScaleAnimation.isFinish()){
+//            float scale = closeAnimation.update();
+//            ScaledResolution sr = new ScaledResolution(mc);
+//            GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
+//            if(closeAnimation.isFinish()){
+//                super.onGuiClosed();
+//                setClosed(true);
+//                Minecraft.getMinecraft().displayGuiScreen(null);
+//                return;
+//            }
+//        }else{
+//            float scale = startScaleAnimation.update();
+//
+//            if(!startScaleAnimation.isFinish()) {
+////            GlStateManager.scale(scale, scale, scale);
+////            System.out.println(scale);
+//                ScaledResolution sr = new ScaledResolution(mc);
+//
+//                GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
+//            }
+//        }
+
+        ScaledResolution sr = new ScaledResolution(mc);
+        float scale = 0;
+//        System.out.println(startScaleAnimation.isFinish(false));
+
+        if(isNeedClose()){
+            closeAnimation.setMax(scale).setReverse(false).setLock(true);
+            scale = closeAnimation.update();
             if(closeAnimation.isFinish()){
                 super.onGuiClosed();
                 setClosed(true);
@@ -136,16 +161,30 @@ public class MainClickGUIInGameNoFont extends GuiScreen implements IMainClickGUI
                 return;
             }
         }else{
-            float scale = startScaleAnimation.update();
-
-            if(!startScaleAnimation.isFinish()) {
-//            GlStateManager.scale(scale, scale, scale);
-//            System.out.println(scale);
-                ScaledResolution sr = new ScaledResolution(mc);
-
-                GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
-            }
+             scale = startScaleAnimation.update();
         }
+
+        GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
+
+
+//        startScaleAnimation.setReverse(isNeedClose());
+
+//        System.out.println();
+
+//            if(!startScaleAnimation.isFinish(false)) {
+//                float scale = startScaleAnimation.update();
+//                GLUtils.scaleStart(sr.getScaledWidth()/2f,-1,scale);
+//                System.out.println(startScaleAnimation.isFinish(false));
+//
+//
+//            }else{
+//                super.onGuiClosed();
+//                setClosed(true);
+//                Minecraft.getMinecraft().displayGuiScreen(null);
+//                return;
+//            }
+
+
 
 //        GlStateManager.scale(1, 1, 1);
 
