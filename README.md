@@ -7,5 +7,4 @@ A Powerful Minecraft ghost client implement in Forge mod.
 
 ![background-2](https://github.com/user-attachments/assets/3c21a4a0-56dc-482d-8824-3eea02fdb5cf)
 
-![background-2](https://github.com/user-attachments/assets/dbc970e9-cab9-46d9-9574-52b731dc2843)
 
