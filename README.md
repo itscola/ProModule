@@ -1,7 +1,8 @@
 # ProModule-Client
 A Powerful Minecraft ghost client implement in Forge mod.
 
-![background-2](https://github.com/user-attachments/assets/3c21a4a0-56dc-482d-8824-3eea02fdb5cf)
+<img width="1468" alt="image" src="https://github.com/user-attachments/assets/8406bab6-df0d-45a1-8f4e-6dcac1f70656">
+
 
 ![1](https://user-images.githubusercontent.com/47351250/186875057-91d7a2d8-64ea-4115-bf0f-aa347cea8433.png)    
 
